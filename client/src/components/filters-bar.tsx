@@ -26,6 +26,7 @@ export default function FiltersBar({
       <div className="flex items-center space-x-2">
         <Switch 
           id="view-mode" 
+          className="bg-[#fee600]"
           checked={viewMode === 'list'}
           onCheckedChange={(checked) => onViewModeChange(checked ? 'list' : 'card')}
         />
