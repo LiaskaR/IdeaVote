@@ -39,10 +39,7 @@ export default function Home() {
             <h1 className="text-2xl font-semibold text-gray-900">Банк идей</h1>
 
           </div>
-          <Button 
-            onClick={() => setIsCreateModalOpen(true)}
-            className="hover:bg-yellow-500 text-black font-medium bg-[#fee600]"
-          >
+          <Button onClick={() => setIsCreateModalOpen(true)}>
             <Plus className="w-4 h-4 mr-2" />
             Добавить идею
           </Button>
@@ -81,7 +78,10 @@ export default function Home() {
           <div className="text-center py-12">
             <div className="text-gray-500 text-lg mb-4">Идеи не найдены</div>
             <p className="text-gray-400 mb-6">Будьте первым, кто предложит идею!</p>
-            <Button onClick={() => setIsCreateModalOpen(true)}>
+            <Button 
+              onClick={() => setIsCreateModalOpen(true)}
+              className="bg-[#fee600] hover:bg-[#fdd600] text-black font-medium"
+            >
               Предложить идею
             </Button>
           </div>
