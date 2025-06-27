@@ -332,27 +332,27 @@ export class MemStorage implements IStorage {
       },
       {
         id: 4,
-        title: "Employee Mentorship Program",
-        description: "Create a structured mentorship program pairing senior employees with junior staff to accelerate professional development and knowledge transfer within the organization.",
-        tags: ["mentorship", "professional-development", "knowledge-transfer"],
+        title: "Программа наставничества сотрудников",
+        description: "Создать структурированную программу наставничества, объединяющую опытных сотрудников с младшим персоналом для ускорения профессионального развития и передачи знаний внутри организации.",
+        tags: ["наставничество", "профессиональное-развитие", "передача-знаний"],
         images: [],
         authorId: 4,
         createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
       },
       {
         id: 5,
-        title: "Dark Mode for All Applications",
-        description: "Implement a consistent dark mode theme across all our internal applications to reduce eye strain and improve user experience, especially for developers working long hours.",
-        tags: ["dark-mode", "ux", "accessibility"],
+        title: "Темная тема для всех приложений",
+        description: "Внедрить консистентную темную тему во всех наших внутренних приложениях для снижения нагрузки на глаза и улучшения пользовательского опыта, особенно для разработчиков, работающих долгие часы.",
+        tags: ["темная-тема", "ux", "доступность"],
         images: [],
         authorId: 5,
         createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
       },
       {
         id: 6,
-        title: "Automated Code Review System",
-        description: "Integrate automated code analysis tools to catch common issues before human review, streamlining the development process and maintaining code quality standards.",
-        tags: ["automation", "code-review", "quality"],
+        title: "Автоматизированная система код-ревью",
+        description: "Интегрировать инструменты автоматического анализа кода для выявления распространенных проблем до человеческого ревью, оптимизируя процесс разработки и поддерживая стандарты качества кода.",
+        tags: ["автоматизация", "код-ревью", "качество"],
         images: [],
         authorId: 6,
         createdAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
@@ -381,8 +381,8 @@ export class MemStorage implements IStorage {
 
     // Create sample comments
     const sampleComments = [
-      { id: 1, ideaId: 1, userId: 2, content: "This is a great idea! We've been struggling with support response times. Have you considered which AI platform to use?", createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000) },
-      { id: 2, ideaId: 1, userId: 3, content: "I love the seamless handoff feature. This would definitely improve customer experience.", createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000) },
+      { id: 1, ideaId: 1, userId: 2, content: "Отличная идея! У нас проблемы со временем ответа службы поддержки. Вы рассматривали, какую ИИ-платформу использовать?", createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000) },
+      { id: 2, ideaId: 1, userId: 3, content: "Мне нравится функция бесшовной передачи. Это определенно улучшит клиентский опыт.", createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000) },
     ];
 
     sampleComments.forEach(comment => {
