@@ -175,7 +175,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
             <div className="border-t border-gray-200 pt-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <MessageCircle className="w-5 h-5 mr-2" />
-                Comments
+                Комментарии
               </h3>
               
               {/* Comment Form */}
@@ -184,22 +184,22 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
                   rows={3}
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
-                  placeholder="Add a comment..."
+                  placeholder="Написать комментарий..."
                   className="mb-3"
                 />
                 <Button
                   type="submit"
                   disabled={!commentText.trim() || commentMutation.isPending}
-                  className="bg-primary hover:bg-primary/90"
+                  className="bg-[#fee600] hover:bg-yellow-500 text-black font-medium"
                 >
-                  {commentMutation.isPending ? "Posting..." : "Post Comment"}
+                  {commentMutation.isPending ? "Отправка..." : "Добавить комментарий"}
                 </Button>
               </form>
               
               {/* Comments List */}
               <div className="space-y-4">
                 {comments.length === 0 ? (
-                  <p className="text-gray-500 text-center py-4">No comments yet. Be the first to comment!</p>
+                  <p className="text-gray-500 text-center py-4">Пока нет комментариев. Будьте первым!</p>
                 ) : (
                   comments.map((comment) => (
                     <div key={comment.id} className="flex space-x-3">
@@ -225,7 +225,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
           </div>
         ) : (
           <div className="p-6 text-center">
-            <p className="text-gray-500">Idea not found</p>
+            <p className="text-gray-500">Задача не найдена</p>
           </div>
         )}
       </DialogContent>
