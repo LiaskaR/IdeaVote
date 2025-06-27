@@ -1,7 +1,7 @@
-import type { Express } from "express";
+import type { Express, Response } from "express";
 import { body, validationResult } from 'express-validator';
 import rateLimit from 'express-rate-limit';
-import { generateTokens, hashPassword, verifyPassword, verifyToken, authenticate } from './auth';
+import { generateTokens, hashPassword, verifyPassword, verifyToken, authenticate, type AuthRequest } from './auth';
 import { storage } from './storage';
 
 // Rate limiting for auth endpoints
@@ -54,7 +54,7 @@ const loginValidation = [
 
 export function registerAuthRoutes(app: Express) {
   // User registration
-  app.post('/api/auth/register', registrationLimiter, registerValidation, async (req, res) => {
+  app.post('/api/auth/register', registrationLimiter, registerValidation, async (req: AuthRequest, res: Response) => {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -117,7 +117,7 @@ export function registerAuthRoutes(app: Express) {
   });
 
   // User login
-  app.post('/api/auth/login', authLimiter, loginValidation, async (req, res) => {
+  app.post('/api/auth/login', authLimiter, loginValidation, async (req: AuthRequest, res: Response) => {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -185,7 +185,7 @@ export function registerAuthRoutes(app: Express) {
         });
       }
 
-      const payload = verifyToken(refreshToken);
+      const payload = verifyToken(refreshToken) as any;
       if (!payload || payload.type !== 'refresh') {
         return res.status(401).json({
           error: 'INVALID_REFRESH_TOKEN',
@@ -220,7 +220,7 @@ export function registerAuthRoutes(app: Express) {
   });
 
   // Get current user profile
-  app.get('/api/auth/profile', authenticate, async (req, res) => {
+  app.get('/api/auth/profile', authenticate, async (req: AuthRequest, res) => {
     try {
       const user = await storage.getUser(req.user!.userId);
       if (!user) {
