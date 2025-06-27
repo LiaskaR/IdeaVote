@@ -8,6 +8,9 @@ import { registerRoutes } from "./routes";
 import { registerAuthRoutes } from "./authRoutes";
 import { setupVite, serveStatic, log } from "./vite";
 import { sanitizeInput, getCSPDirectives, securityHeaders, rateLimitConfigs } from "./security";
+import { securityMiddleware, authThreatDetection, getSecurityMetrics } from "./monitoring";
+import { auditMiddleware, auditLogger } from "./audit";
+import { performanceMiddleware, healthCheck, getPerformanceMetrics } from "./performance";
 
 const app = express();
 
@@ -87,7 +90,14 @@ const apiLimiter = rateLimit({
   },
 });
 
-app.use('/api/auth', authLimiter);
+// Performance monitoring (must be early in middleware chain)
+app.use(performanceMiddleware);
+
+// Security monitoring and threat detection
+app.use(securityMiddleware);
+
+// Enhanced rate limiting with threat detection
+app.use('/api/auth', authThreatDetection, authLimiter);
 app.use('/api', apiLimiter);
 app.use(generalLimiter);
 
@@ -100,6 +110,15 @@ app.use(sanitizeInput({
   maxArrayLength: 50,
   allowedHTMLTags: ['b', 'i', 'em', 'strong', 'p', 'br'],
 }));
+
+// Audit logging middleware
+app.use(auditMiddleware);
+
+// Monitoring and health endpoints
+app.get('/health', healthCheck);
+app.get('/api/health', healthCheck);
+app.get('/api/security/metrics', getSecurityMetrics);
+app.get('/api/performance/metrics', getPerformanceMetrics);
 
 app.use((req, res, next) => {
   const start = Date.now();
