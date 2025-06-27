@@ -25,31 +25,34 @@ export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
         <p className="text-gray-600 text-sm mb-4 line-clamp-3">{idea.description}</p>
         
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="flex items-center space-x-1 text-green-600 hover:text-green-700 p-0"
-              onClick={(e) => {
-                e.stopPropagation();
-                // TODO: Handle upvote
-              }}
-            >
-              <ArrowUp className="w-4 h-4" />
-              <span className="font-medium">{idea.upvotes}</span>
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="flex items-center space-x-1 text-red-500 hover:text-red-600 p-0"
-              onClick={(e) => {
-                e.stopPropagation();
-                // TODO: Handle downvote
-              }}
-            >
-              <ArrowDown className="w-4 h-4" />
-              <span className="font-medium">{idea.downvotes}</span>
-            </Button>
+          <div className="flex items-center space-x-3">
+            {/* Voting System */}
+            <div className="flex items-center space-x-2">
+              <div 
+                className="flex items-center space-x-1 text-green-600 hover:text-green-700 cursor-pointer px-2 py-1 rounded transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // TODO: Handle upvote
+                }}
+              >
+                <ArrowUp className="w-4 h-4" />
+                <span className="font-medium text-lg">{idea.upvotes}</span>
+              </div>
+              
+              <div 
+                className="bg-red-100 hover:bg-red-200 px-3 py-1 rounded cursor-pointer transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  // TODO: Handle downvote
+                }}
+              >
+                <div className="flex items-center space-x-1 text-red-600">
+                  <ArrowDown className="w-4 h-4" />
+                  <span className="font-medium text-lg">{idea.downvotes}</span>
+                </div>
+              </div>
+            </div>
+            
             <div className="flex items-center space-x-1 text-gray-500">
               <MessageCircle className="w-4 h-4" />
               <span>{idea.commentCount}</span>

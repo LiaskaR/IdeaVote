@@ -11,12 +11,7 @@ import { formatDistanceToNow } from "date-fns";
 import { apiRequest } from "@/lib/queryClient";
 import type { IdeaWithDetails, CommentWithAuthor } from "@shared/schema";
 
-const categoryColors = {
-  product: "bg-blue-100 text-blue-800",
-  process: "bg-green-100 text-green-800", 
-  culture: "bg-orange-100 text-orange-800",
-  innovation: "bg-purple-100 text-purple-800",
-};
+
 
 interface IdeaDetailModalProps {
   ideaId: number;
@@ -110,7 +105,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
 
   if (!isOpen) return null;
 
-  const categoryColor = idea ? categoryColors[idea.category as keyof typeof categoryColors] || "bg-gray-100 text-gray-800" : "";
+
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
