@@ -49,6 +49,39 @@
   --radius: 0.5rem;
 }
 
+/* Remove dialog close button styling */
+[data-radix-dialog-content] > button[data-radix-dialog-close] {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+[data-radix-dialog-content] > button[data-radix-dialog-close]:hover {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+[data-radix-dialog-content] > button[data-radix-dialog-close]:focus {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  ring: none !important;
+}
+
+[data-radix-dialog-content] > button[data-radix-dialog-close]:active {
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 @layer base {
   * {
     @apply border-border;
