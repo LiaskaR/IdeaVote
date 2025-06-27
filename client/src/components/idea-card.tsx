@@ -1,7 +1,9 @@
 import { ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 
 import type { IdeaWithDetails } from "@shared/schema";
 
@@ -11,6 +13,36 @@ interface IdeaCardProps {
 }
 
 export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
+  const currentUserId = 7; // Default to current user (Andrey Zakharov)
+
+  const voteMutation = useMutation({
+    mutationFn: async ({ type }: { type: 'up' | 'down' }) => {
+      const response = await apiRequest("POST", `/api/ideas/${idea.id}/vote`, {
+        userId: currentUserId,
+        type
+      });
+      return response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch ideas list to get updated vote counts
+      queryClient.invalidateQueries({ queryKey: ["/api/ideas"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/ideas", idea.id] });
+    },
+    onError: () => {
+      toast({
+        title: "Ошибка",
+        description: "Не удалось проголосовать. Попробуйте снова.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleVote = (type: 'up' | 'down') => {
+    voteMutation.mutate({ type });
+  };
+
   return (
     <article className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
       <div className="p-6" onClick={onClick}>
@@ -24,10 +56,12 @@ export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
             {/* Voting System */}
             <div className="flex items-center space-x-1">
               <div 
-                className="bg-green-50 hover:bg-green-100 flex items-center space-x-1 text-green-600 hover:text-green-700 cursor-pointer px-2 py-1 rounded transition-colors"
+                className={`bg-green-50 hover:bg-green-100 flex items-center space-x-1 text-green-600 hover:text-green-700 cursor-pointer px-2 py-1 rounded transition-colors ${voteMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
                 onClick={(e) => {
                   e.stopPropagation();
-                  // TODO: Handle upvote
+                  if (!voteMutation.isPending) {
+                    handleVote('up');
+                  }
                 }}
               >
                 <ArrowUp className="w-3 h-3" />
@@ -35,10 +69,12 @@ export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
               </div>
               
               <div 
-                className="bg-red-50 hover:bg-red-100 px-2 py-1 rounded cursor-pointer transition-colors"
+                className={`bg-red-50 hover:bg-red-100 px-2 py-1 rounded cursor-pointer transition-colors ${voteMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
                 onClick={(e) => {
                   e.stopPropagation();
-                  // TODO: Handle downvote
+                  if (!voteMutation.isPending) {
+                    handleVote('down');
+                  }
                 }}
               >
                 <div className="flex items-center space-x-1 text-red-600">
