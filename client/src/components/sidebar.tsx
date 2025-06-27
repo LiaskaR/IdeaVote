@@ -1,7 +1,7 @@
 import React from "react";
 import { X, Home, Users, FileText, Calendar, Settings, BarChart3, Target, Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import logoPath from "@assets/4 оп_1751020306764.png";
 
 interface SidebarProps {
@@ -38,9 +38,6 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 />
                 <div>
                   <SheetTitle className="text-white text-lg font-bold">CRM</SheetTitle>
-                  <SheetDescription className="text-gray-400 text-sm">
-                    Управление идеями
-                  </SheetDescription>
                 </div>
               </div>
             </div>

@@ -108,7 +108,7 @@ export default function Home() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
                           <div className="flex items-center space-x-1">
-                            <div className="bg-green-50 hover:bg-green-100 flex items-center space-x-1 text-green-600 px-2 py-1 rounded text-sm">
+                            <div className="bg-gray-50 hover:bg-gray-100 flex items-center space-x-1 text-gray-600 px-2 py-1 rounded text-sm">
                               <ArrowUp className="w-3 h-3" />
                               <span className="font-medium">{idea.upvotes}</span>
                             </div>

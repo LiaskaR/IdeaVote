@@ -172,7 +172,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
               <div className="flex items-center space-x-2">
                 <div
                   onClick={() => handleVote('up')}
-                  className={`bg-green-100 hover:bg-green-200 flex items-center space-x-1 text-green-600 hover:text-green-700 cursor-pointer px-3 py-1 rounded transition-colors ${voteMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`bg-gray-100 hover:bg-gray-200 flex items-center space-x-1 text-gray-600 hover:text-gray-700 cursor-pointer px-3 py-1 rounded transition-colors ${voteMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   <ArrowUp className="w-4 h-4" />
                   <span className="font-medium text-lg">{idea.upvotes}</span>
