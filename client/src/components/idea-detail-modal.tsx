@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowUp, ArrowDown, X, MessageCircle } from "lucide-react";
+import { ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -120,13 +120,10 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
           </div>
         ) : idea ? (
           <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
+            <div className="mb-6">
               <span className="text-sm text-gray-500">
                 Опубликовано {formatDistanceToNow(new Date(idea.createdAt!), { addSuffix: true })}
               </span>
-              <Button variant="ghost" size="icon" onClick={onClose}>
-                <X className="w-4 h-4" />
-              </Button>
             </div>
             
             <h2 className="text-2xl font-bold text-gray-900 mb-4">{idea.title}</h2>
