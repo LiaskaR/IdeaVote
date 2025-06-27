@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -110,6 +110,12 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogHeader className="sr-only">
+          <DialogTitle>{idea?.title || "Детали идеи"}</DialogTitle>
+          <DialogDescription>
+            Просмотр полной информации об идее, включая описание, изображения и комментарии
+          </DialogDescription>
+        </DialogHeader>
         {isLoading ? (
           <div className="p-6">
             <div className="animate-pulse space-y-4">

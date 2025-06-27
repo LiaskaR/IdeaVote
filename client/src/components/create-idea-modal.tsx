@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Upload, Image as ImageIcon, Trash2 } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -103,6 +103,9 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
           <DialogTitle>
             Добавить новую идею
           </DialogTitle>
+          <DialogDescription>
+            Поделитесь своей идеей с командой. Добавьте описание, изображения и теги для лучшего понимания.
+          </DialogDescription>
         </DialogHeader>
 
         <Form {...form}>

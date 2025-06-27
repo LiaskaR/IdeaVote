@@ -55,7 +55,7 @@ export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
             {/* Voting System */}
             <div className="flex items-center space-x-1">
               <div 
-                className={`bg-gray-50 hover:bg-gray-100 flex items-center space-x-1 text-gray-600 hover:text-gray-700 cursor-pointer px-2 py-1 rounded transition-colors ${voteMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`bg-green-50 hover:bg-green-100 flex items-center space-x-1 text-green-600 hover:text-green-700 cursor-pointer px-2 py-1 rounded transition-colors ${voteMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
                 onClick={(e) => {
                   e.stopPropagation();
                   if (!voteMutation.isPending) {
