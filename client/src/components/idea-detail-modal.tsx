@@ -222,7 +222,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
           </div>
         ) : (
           <div className="p-6 text-center">
-            <p className="text-gray-500">Задача не найдена</p>
+            <p className="text-gray-500">Идея не найдена</p>
           </div>
         )}
       </DialogContent>

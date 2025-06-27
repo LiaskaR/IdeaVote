@@ -81,7 +81,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
     onError: () => {
       toast({
         title: "Ошибка",
-        description: "Не удалось создать задачу. Попробуйте снова.",
+        description: "Не удалось создать идею. Попробуйте снова.",
         variant: "destructive",
       });
     },
@@ -101,7 +101,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
-            Добавить новую задачу
+            Добавить новую идею
             <Button variant="ghost" size="icon" onClick={onClose}>
               <X className="w-4 h-4" />
             </Button>
@@ -117,7 +117,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
                 <FormItem>
                   <FormLabel>Заголовок *</FormLabel>
                   <FormControl>
-                    <Input placeholder="Введите заголовок задачи" {...field} />
+                    <Input placeholder="Введите заголовок идеи" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -133,7 +133,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
                   <FormControl>
                     <Textarea
                       rows={4}
-                      placeholder="Опишите задачу подробно..."
+                      placeholder="Опишите идею подробно..."
                       {...field}
                     />
                   </FormControl>
@@ -199,7 +199,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
                 disabled={createIdeaMutation.isPending}
                 className="bg-yellow-400 hover:bg-yellow-500 text-black font-medium"
               >
-                {createIdeaMutation.isPending ? "Сохранение..." : "Добавить задачу"}
+                {createIdeaMutation.isPending ? "Сохранение..." : "Добавить идею"}
               </Button>
             </div>
           </form>

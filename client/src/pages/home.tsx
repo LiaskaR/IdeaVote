@@ -36,7 +36,7 @@ export default function Home() {
         {/* Page Title and Stats */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-semibold text-gray-900">Идеи для CRM</h1>
+            <h1 className="text-2xl font-semibold text-gray-900">Банк идей</h1>
 
           </div>
           <Button 
@@ -44,7 +44,7 @@ export default function Home() {
             className="hover:bg-yellow-500 text-black font-medium bg-[#fee600]"
           >
             <Plus className="w-4 h-4 mr-2" />
-            Добавить задачу
+            Добавить идею
           </Button>
         </div>
 
@@ -79,7 +79,7 @@ export default function Home() {
           </div>
         ) : ideas.length === 0 ? (
           <div className="text-center py-12">
-            <div className="text-gray-500 text-lg mb-4">Задачи не найдены</div>
+            <div className="text-gray-500 text-lg mb-4">Идеи не найдены</div>
             <p className="text-gray-400 mb-6">Будьте первым, кто предложит идею!</p>
             <Button onClick={() => setIsCreateModalOpen(true)}>
               Предложить идею
