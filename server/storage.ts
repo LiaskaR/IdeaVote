@@ -301,99 +301,15 @@ export class MemStorage implements IStorage {
     });
     this.currentUserId = users.length + 1;
 
-    // Create sample ideas
-    const ideas = [
-      {
-        id: 1,
-        title: "ИИ-чат для поддержки клиентов",
-        description: "Внедрить умного чат-бота для обработки базовых запросов клиентов и переадресации сложных вопросов живым агентам, сократив время ответа на 60%. Система будет использовать обработку естественного языка для понимания запросов и предоставления релевантных ответов из базы знаний.",
-        tags: ["ии", "поддержка-клиентов", "автоматизация"],
-        images: [
-          "https://images.unsplash.com/photo-1531498860502-7c67cf02f657?w=500&h=300&fit=crop",
-          "https://images.unsplash.com/photo-1555421689-d68471e189f2?w=500&h=300&fit=crop"
-        ],
-        authorId: 1,
-        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
-      },
-      {
-        id: 2,
-        title: "Гибкий график работы",
-        description: "Позволить сотрудникам выбирать основные рабочие часы с 10:00 до 15:00, с гибкостью времени начала и окончания для улучшения баланса работы и жизни и учета различных личных расписаний и предпочтений.",
-        tags: ["баланс-работы-жизни", "политика", "гибкость"],
-        images: [],
-        authorId: 2,
-        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
-      },
-      {
-        id: 3,
-        title: "Ежемесячные хакатоны инноваций",
-        description: "Организовывать ежемесячные 2-дневные хакатоны, где команды могут работать над личными проектами и инновационными решениями корпоративных задач. Это будет способствовать творчеству и межкомандному сотрудничеству.",
-        tags: ["хакатон", "инновации", "сотрудничество"],
-        images: [
-          "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=500&h=300&fit=crop"
-        ],
-        authorId: 3,
-        createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
-      },
-      {
-        id: 4,
-        title: "Программа наставничества сотрудников",
-        description: "Создать структурированную программу наставничества, объединяющую опытных сотрудников с младшим персоналом для ускорения профессионального развития и передачи знаний внутри организации.",
-        tags: ["наставничество", "профессиональное-развитие", "передача-знаний"],
-        images: [],
-        authorId: 4,
-        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-      },
-      {
-        id: 5,
-        title: "Темная тема для всех приложений",
-        description: "Внедрить консистентную темную тему во всех наших внутренних приложениях для снижения нагрузки на глаза и улучшения пользовательского опыта, особенно для разработчиков, работающих долгие часы.",
-        tags: ["темная-тема", "ux", "доступность"],
-        images: [],
-        authorId: 5,
-        createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
-      },
-      {
-        id: 6,
-        title: "Автоматизированная система код-ревью",
-        description: "Интегрировать инструменты автоматического анализа кода для выявления распространенных проблем до человеческого ревью, оптимизируя процесс разработки и поддерживая стандарты качества кода.",
-        tags: ["автоматизация", "код-ревью", "качество"],
-        images: [],
-        authorId: 6,
-        createdAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
-      },
-    ];
+    // Create sample ideas (empty for now)
+    const ideas: any[] = [];
 
     ideas.forEach(idea => {
       this.ideas.set(idea.id, idea);
     });
-    this.currentIdeaId = ideas.length + 1;
+    this.currentIdeaId = 1;
 
-    // Create sample votes
-    const sampleVotes = [
-      { ideaId: 1, userId: 2, type: 'up' }, { ideaId: 1, userId: 3, type: 'up' }, { ideaId: 1, userId: 4, type: 'up' },
-      { ideaId: 2, userId: 1, type: 'up' }, { ideaId: 2, userId: 3, type: 'up' }, { ideaId: 2, userId: 5, type: 'up' },
-      { ideaId: 3, userId: 1, type: 'up' }, { ideaId: 3, userId: 2, type: 'up' },
-      { ideaId: 4, userId: 1, type: 'up' }, { ideaId: 4, userId: 2, type: 'up' },
-      { ideaId: 5, userId: 1, type: 'up' }, { ideaId: 5, userId: 2, type: 'up' }, { ideaId: 5, userId: 3, type: 'up' },
-      { ideaId: 6, userId: 1, type: 'up' }, { ideaId: 6, userId: 3, type: 'up' },
-    ];
-
-    sampleVotes.forEach(vote => {
-      const voteWithId = { id: this.currentVoteId++, ...vote };
-      this.votes.set(`${vote.ideaId}-${vote.userId}`, voteWithId);
-    });
-
-    // Create sample comments
-    const sampleComments = [
-      { id: 1, ideaId: 1, userId: 2, content: "Отличная идея! У нас проблемы со временем ответа службы поддержки. Вы рассматривали, какую ИИ-платформу использовать?", createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000) },
-      { id: 2, ideaId: 1, userId: 3, content: "Мне нравится функция бесшовной передачи. Это определенно улучшит клиентский опыт.", createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000) },
-    ];
-
-    sampleComments.forEach(comment => {
-      this.comments.set(comment.id, comment);
-    });
-    this.currentCommentId = sampleComments.length + 1;
+    // No sample votes or comments
   }
 
   async getUser(id: number): Promise<User | undefined> {
