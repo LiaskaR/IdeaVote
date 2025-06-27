@@ -15,12 +15,12 @@ IdeaHub is a full-stack web application for collaborative idea management, built
 - **Form Handling**: React Hook Form with Zod validation
 
 ### Backend Architecture
-- **Runtime**: Node.js with Express.js framework
-- **Language**: TypeScript with ESM modules
-- **Database**: PostgreSQL with Drizzle ORM
-- **Database Provider**: Neon Database (@neondatabase/serverless)
-- **Session Management**: Connect-pg-simple for PostgreSQL session storage
-- **Development**: tsx for TypeScript execution in development
+- **Runtime**: Java 21 with Spring Boot 3.2.1 framework
+- **Database**: PostgreSQL with JPA/Hibernate ORM
+- **Authentication**: Keycloak 23.0.4 with JWT tokens
+- **Security**: Spring Security with Keycloak adapter
+- **Build Tool**: Maven for dependency management
+- **Development**: Spring Boot DevTools for hot reload
 
 ### Database Schema
 The application uses a PostgreSQL database with the following main entities:
@@ -108,6 +108,7 @@ Changelog:
 - June 27, 2025. Added image display functionality in idea detail modal with responsive grid layout
 - June 27, 2025. Fixed idea cards layout: elements always stick to bottom edge for consistent alignment
 - June 27, 2025. Implemented enterprise-grade security: JWT authentication, bcrypt hashing, rate limiting, CORS protection, and input validation for 1M+ user scalability
+- June 27, 2025. **MAJOR ARCHITECTURE CHANGE**: Migrated from Node.js to Java Spring Boot backend with Keycloak authentication
 
 ## User Preferences
 
