@@ -1,5 +1,6 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import { Grid3X3, List } from "lucide-react";
 
 const sortOptions = [
   { value: "popular", label: "Популярные" },
@@ -23,16 +24,23 @@ export default function FiltersBar({
 }: FiltersBarProps) {
   return (
     <div className="flex items-center justify-between mb-6">
-      <div className="flex items-center space-x-2">
-        <Switch 
-          id="view-mode" 
-          className="data-[state=checked]:bg-[#fee600] data-[state=unchecked]:bg-[#828993]"
-          checked={viewMode === 'list'}
-          onCheckedChange={(checked) => onViewModeChange(checked ? 'list' : 'card')}
-        />
-        <label htmlFor="view-mode" className="text-sm font-medium text-gray-700">
-          Списочное представление
-        </label>
+      <div className="flex items-center space-x-1">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => onViewModeChange('card')}
+          className={`p-2 ${viewMode === 'card' ? 'bg-[#fee600] hover:bg-[#fee600]' : 'hover:bg-gray-100'}`}
+        >
+          <Grid3X3 className="w-4 h-4" />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => onViewModeChange('list')}
+          className={`p-2 ${viewMode === 'list' ? 'bg-[#fee600] hover:bg-[#fee600]' : 'hover:bg-gray-100'}`}
+        >
+          <List className="w-4 h-4" />
+        </Button>
       </div>
 
       <div className="flex items-center space-x-2">
