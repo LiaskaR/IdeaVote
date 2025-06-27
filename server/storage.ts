@@ -1,4 +1,6 @@
 import { users, ideas, votes, comments, type User, type InsertUser, type Idea, type InsertIdea, type Vote, type InsertVote, type Comment, type InsertComment, type IdeaWithDetails, type CommentWithAuthor } from "@shared/schema";
+import { db } from "./db";
+import { eq, desc, asc, sql } from "drizzle-orm";
 
 export interface IStorage {
   // Users
@@ -26,6 +28,241 @@ export interface IStorage {
 
   // Stats
   getStats(): Promise<{ totalIdeas: number; totalVotes: number; activeUsers: number }>;
+}
+
+export class DatabaseStorage implements IStorage {
+  async getUser(id: number): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    const [user] = await db
+      .insert(users)
+      .values(insertUser)
+      .returning();
+    return user;
+  }
+
+  async getIdeas(category?: string, sortBy?: string): Promise<IdeaWithDetails[]> {
+    let query = db
+      .select({
+        id: ideas.id,
+        title: ideas.title,
+        description: ideas.description,
+        category: ideas.category,
+        tags: ideas.tags,
+        authorId: ideas.authorId,
+        createdAt: ideas.createdAt,
+        author: users,
+        upvotes: sql<number>`COALESCE((SELECT COUNT(*) FROM votes WHERE idea_id = ${ideas.id} AND type = 'up'), 0)`,
+        downvotes: sql<number>`COALESCE((SELECT COUNT(*) FROM votes WHERE idea_id = ${ideas.id} AND type = 'down'), 0)`,
+        commentCount: sql<number>`COALESCE((SELECT COUNT(*) FROM comments WHERE idea_id = ${ideas.id}), 0)`
+      })
+      .from(ideas)
+      .innerJoin(users, eq(ideas.authorId, users.id));
+
+    if (category && category !== 'all') {
+      query = query.where(eq(ideas.category, category));
+    }
+
+    const baseQuery = query;
+
+    // Apply sorting
+    let result;
+    switch (sortBy) {
+      case 'newest':
+        result = await baseQuery.orderBy(desc(ideas.createdAt));
+        break;
+      case 'oldest':
+        result = await baseQuery.orderBy(asc(ideas.createdAt));
+        break;
+      case 'discussed':
+        result = await baseQuery.orderBy(desc(sql`(SELECT COUNT(*) FROM comments WHERE idea_id = ${ideas.id})`));
+        break;
+      default: // most popular
+        result = await baseQuery.orderBy(desc(sql`(SELECT COUNT(*) FROM votes WHERE idea_id = ${ideas.id} AND type = 'up') - (SELECT COUNT(*) FROM votes WHERE idea_id = ${ideas.id} AND type = 'down')`));
+    }
+
+    return result.map(row => ({
+      id: row.id,
+      title: row.title,
+      description: row.description,
+      category: row.category,
+      tags: row.tags,
+      authorId: row.authorId,
+      createdAt: row.createdAt,
+      author: row.author,
+      upvotes: row.upvotes,
+      downvotes: row.downvotes,
+      commentCount: row.commentCount
+    }));
+  }
+
+  async getIdea(id: number): Promise<IdeaWithDetails | undefined> {
+    const result = await db
+      .select({
+        id: ideas.id,
+        title: ideas.title,
+        description: ideas.description,
+        category: ideas.category,
+        tags: ideas.tags,
+        authorId: ideas.authorId,
+        createdAt: ideas.createdAt,
+        author: users,
+        upvotes: sql<number>`COALESCE(${sql`(SELECT COUNT(*) FROM ${votes} WHERE ${votes.ideaId} = ${ideas.id} AND ${votes.type} = 'up')`}, 0)`,
+        downvotes: sql<number>`COALESCE(${sql`(SELECT COUNT(*) FROM ${votes} WHERE ${votes.ideaId} = ${ideas.id} AND ${votes.type} = 'down')`}, 0)`,
+        commentCount: sql<number>`COALESCE(${sql`(SELECT COUNT(*) FROM ${comments} WHERE ${comments.ideaId} = ${ideas.id})`}, 0)`
+      })
+      .from(ideas)
+      .innerJoin(users, eq(ideas.authorId, users.id))
+      .where(eq(ideas.id, id));
+
+    const [row] = result;
+    if (!row) return undefined;
+
+    return {
+      id: row.id,
+      title: row.title,
+      description: row.description,
+      category: row.category,
+      tags: row.tags,
+      authorId: row.authorId,
+      createdAt: row.createdAt,
+      author: row.author,
+      upvotes: row.upvotes,
+      downvotes: row.downvotes,
+      commentCount: row.commentCount
+    };
+  }
+
+  async createIdea(insertIdea: InsertIdea): Promise<Idea> {
+    const [idea] = await db
+      .insert(ideas)
+      .values(insertIdea)
+      .returning();
+    return idea;
+  }
+
+  async updateIdea(id: number, updateData: Partial<InsertIdea>): Promise<Idea | undefined> {
+    const [idea] = await db
+      .update(ideas)
+      .set(updateData)
+      .where(eq(ideas.id, id))
+      .returning();
+    return idea || undefined;
+  }
+
+  async deleteIdea(id: number): Promise<boolean> {
+    const result = await db.delete(ideas).where(eq(ideas.id, id));
+    return (result.rowCount || 0) > 0;
+  }
+
+  async getUserVote(ideaId: number, userId: number): Promise<Vote | undefined> {
+    const [vote] = await db
+      .select()
+      .from(votes)
+      .where(sql`${votes.ideaId} = ${ideaId} AND ${votes.userId} = ${userId}`);
+    return vote || undefined;
+  }
+
+  async createOrUpdateVote(insertVote: InsertVote): Promise<Vote> {
+    const existingVote = await this.getUserVote(insertVote.ideaId, insertVote.userId);
+    
+    if (existingVote) {
+      const [vote] = await db
+        .update(votes)
+        .set({ type: insertVote.type })
+        .where(eq(votes.id, existingVote.id))
+        .returning();
+      return vote;
+    } else {
+      const [vote] = await db
+        .insert(votes)
+        .values(insertVote)
+        .returning();
+      return vote;
+    }
+  }
+
+  async deleteVote(ideaId: number, userId: number): Promise<boolean> {
+    const result = await db
+      .delete(votes)
+      .where(sql`${votes.ideaId} = ${ideaId} AND ${votes.userId} = ${userId}`);
+    return (result.rowCount || 0) > 0;
+  }
+
+  async getIdeaVotes(ideaId: number): Promise<{ upvotes: number; downvotes: number }> {
+    const upvotesResult = await db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(votes)
+      .where(eq(votes.ideaId, ideaId) && eq(votes.type, 'up'));
+    
+    const downvotesResult = await db
+      .select({ count: sql<number>`COUNT(*)` })
+      .from(votes)
+      .where(eq(votes.ideaId, ideaId) && eq(votes.type, 'down'));
+
+    return {
+      upvotes: upvotesResult[0]?.count || 0,
+      downvotes: downvotesResult[0]?.count || 0
+    };
+  }
+
+  async getIdeaComments(ideaId: number): Promise<CommentWithAuthor[]> {
+    const result = await db
+      .select({
+        id: comments.id,
+        ideaId: comments.ideaId,
+        userId: comments.userId,
+        content: comments.content,
+        createdAt: comments.createdAt,
+        author: users
+      })
+      .from(comments)
+      .innerJoin(users, eq(comments.userId, users.id))
+      .where(eq(comments.ideaId, ideaId))
+      .orderBy(asc(comments.createdAt));
+
+    return result.map(row => ({
+      id: row.id,
+      ideaId: row.ideaId,
+      userId: row.userId,
+      content: row.content,
+      createdAt: row.createdAt,
+      author: row.author
+    }));
+  }
+
+  async createComment(insertComment: InsertComment): Promise<Comment> {
+    const [comment] = await db
+      .insert(comments)
+      .values(insertComment)
+      .returning();
+    return comment;
+  }
+
+  async deleteComment(id: number): Promise<boolean> {
+    const result = await db.delete(comments).where(eq(comments.id, id));
+    return result.rowCount > 0;
+  }
+
+  async getStats(): Promise<{ totalIdeas: number; totalVotes: number; activeUsers: number }> {
+    const [ideasCount] = await db.select({ count: sql<number>`COUNT(*)` }).from(ideas);
+    const [votesCount] = await db.select({ count: sql<number>`COUNT(*)` }).from(votes);
+    const [usersCount] = await db.select({ count: sql<number>`COUNT(*)` }).from(users);
+
+    return {
+      totalIdeas: ideasCount.count || 0,
+      totalVotes: votesCount.count || 0,
+      activeUsers: usersCount.count || 0
+    };
+  }
 }
 
 export class MemStorage implements IStorage {
@@ -328,4 +565,4 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
