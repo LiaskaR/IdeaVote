@@ -95,6 +95,7 @@ export class DatabaseStorage implements IStorage {
       description: row.description,
       category: row.category,
       tags: row.tags,
+      images: row.images,
       authorId: row.authorId,
       createdAt: row.createdAt,
       author: row.author,

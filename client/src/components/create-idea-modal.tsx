@@ -28,6 +28,8 @@ interface CreateIdeaModalProps {
 export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<InsertIdea>({
     resolver: zodResolver(insertIdeaSchema),
@@ -36,9 +38,35 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
       description: "",
       category: "",
       tags: [],
+      images: [],
       authorId: 7, // Default to current user (Andrey Zakharov)
     },
   });
+
+  // Handle image file uploads
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (!files) return;
+
+    Array.from(files).forEach((file) => {
+      if (file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const imageUrl = e.target?.result as string;
+          setUploadedImages(prev => [...prev, imageUrl]);
+          const currentImages = form.getValues('images') || [];
+          form.setValue('images', [...currentImages, imageUrl]);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  };
+
+  const removeImage = (index: number) => {
+    const newImages = uploadedImages.filter((_, i) => i !== index);
+    setUploadedImages(newImages);
+    form.setValue('images', newImages);
+  };
 
   const createIdeaMutation = useMutation({
     mutationFn: async (data: InsertIdea) => {
@@ -49,16 +77,17 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
       queryClient.invalidateQueries({ queryKey: ["/api/ideas"] });
       queryClient.invalidateQueries({ queryKey: ["/api/stats"] });
       toast({
-        title: "Success",
-        description: "Your idea has been submitted successfully!",
+        title: "Задача создана!",
+        description: "Ваша задача успешно добавлена.",
       });
       form.reset();
+      setUploadedImages([]);
       onClose();
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to submit your idea. Please try again.",
+        title: "Ошибка",
+        description: "Не удалось создать задачу. Попробуйте снова.",
         variant: "destructive",
       });
     },
@@ -143,6 +172,54 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
                 </FormItem>
               )}
             />
+
+            {/* Image Upload Section */}
+            <div className="space-y-4">
+              <FormLabel>Изображения</FormLabel>
+              
+              {/* File Input */}
+              <input
+                type="file"
+                ref={fileInputRef}
+                onChange={handleImageUpload}
+                accept="image/*"
+                multiple
+                className="hidden"
+              />
+              
+              {/* Upload Button */}
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => fileInputRef.current?.click()}
+                className="w-full border-dashed border-2 border-gray-300 hover:border-gray-400 py-6"
+              >
+                <Upload className="w-5 h-5 mr-2" />
+                Добавить изображения
+              </Button>
+              
+              {/* Uploaded Images Preview */}
+              {uploadedImages.length > 0 && (
+                <div className="grid grid-cols-2 gap-3">
+                  {uploadedImages.map((image, index) => (
+                    <div key={index} className="relative group">
+                      <img
+                        src={image}
+                        alt={`Upload ${index + 1}`}
+                        className="w-full h-24 object-cover rounded-lg border border-gray-200"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Trash2 className="w-3 h-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
               <Button type="button" variant="outline" onClick={onClose}>
