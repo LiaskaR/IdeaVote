@@ -2,7 +2,7 @@
 
 ## Overview
 
-IdeaHub is a full-stack web application for collaborative idea management, built with a modern tech stack. It allows users to submit, discuss, vote on, and categorize innovative ideas within an organization. The application features a React frontend with a Node.js/Express backend, using PostgreSQL for data persistence.
+IdeaHub is a full-stack web application for collaborative idea management, built with a modern tech stack. It allows users to submit, discuss, vote on, and manage innovative ideas within an organization. The application features a React frontend with a Node.js/Express backend, using PostgreSQL for data persistence.
 
 ## System Architecture
 
@@ -104,6 +104,7 @@ Changelog:
 - June 27, 2025. Made voting buttons smaller and less prominent per user feedback
 - June 27, 2025. Replaced view mode switch with icon buttons for card/list views
 - June 27, 2025. Fully localized interface to Russian language including test data
+- June 27, 2025. Changed all terminology from "задачи" (tasks) to "идеи" (ideas) throughout interface
 
 ## User Preferences
 

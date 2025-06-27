@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X, Upload, Image as ImageIcon, Trash2 } from "lucide-react";
+import { Upload, Image as ImageIcon, Trash2 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -100,11 +100,8 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle className="flex items-center justify-between">
+          <DialogTitle>
             Добавить новую идею
-            <Button variant="ghost" size="icon" onClick={onClose}>
-              <X className="w-4 h-4" />
-            </Button>
           </DialogTitle>
         </DialogHeader>
 
