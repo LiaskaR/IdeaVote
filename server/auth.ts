@@ -3,7 +3,15 @@ import bcrypt from 'bcryptjs';
 import type { Request, Response, NextFunction } from 'express';
 import { storage } from './storage';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secure-secret-key-change-in-production';
+const JWT_SECRET = (() => {
+  if (!process.env.JWT_SECRET) {
+    throw new Error('JWT_SECRET environment variable is required for security');
+  }
+  if (process.env.JWT_SECRET.length < 32) {
+    throw new Error('JWT_SECRET must be at least 32 characters long');
+  }
+  return process.env.JWT_SECRET;
+})();
 const JWT_EXPIRES_IN = '24h';
 const REFRESH_TOKEN_EXPIRES_IN = '7d';
 
