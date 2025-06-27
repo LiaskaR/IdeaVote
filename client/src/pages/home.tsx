@@ -11,16 +11,14 @@ import { Plus } from "lucide-react";
 import type { IdeaWithDetails } from "@shared/schema";
 
 export default function Home() {
-  const [selectedCategory, setSelectedCategory] = useState("all");
   const [sortBy, setSortBy] = useState("popular");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedIdeaId, setSelectedIdeaId] = useState<number | null>(null);
 
   const { data: ideas = [], isLoading } = useQuery<IdeaWithDetails[]>({
-    queryKey: ["/api/ideas", selectedCategory, sortBy],
+    queryKey: ["/api/ideas", sortBy],
     queryFn: async () => {
       const params = new URLSearchParams();
-      if (selectedCategory !== "all") params.append("category", selectedCategory);
       if (sortBy !== "popular") params.append("sortBy", sortBy);
       
       const response = await fetch(`/api/ideas?${params}`);
@@ -49,8 +47,6 @@ export default function Home() {
         </div>
 
         <FiltersBar
-          selectedCategory={selectedCategory}
-          onCategoryChange={setSelectedCategory}
           sortBy={sortBy}
           onSortChange={setSortBy}
         />
