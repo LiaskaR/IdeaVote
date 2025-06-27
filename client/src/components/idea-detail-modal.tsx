@@ -5,7 +5,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
+
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
 import { apiRequest } from "@/lib/queryClient";
@@ -121,14 +121,9 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
         ) : idea ? (
           <div className="p-6">
             <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center space-x-3">
-                <Badge className={`${categoryColor} text-xs font-medium`}>
-                  {idea.category.charAt(0).toUpperCase() + idea.category.slice(1)}
-                </Badge>
-                <span className="text-sm text-gray-500">
-                  Posted {formatDistanceToNow(new Date(idea.createdAt!), { addSuffix: true })}
-                </span>
-              </div>
+              <span className="text-sm text-gray-500">
+                Опубликовано {formatDistanceToNow(new Date(idea.createdAt!), { addSuffix: true })}
+              </span>
               <Button variant="ghost" size="icon" onClick={onClose}>
                 <X className="w-4 h-4" />
               </Button>
@@ -155,30 +150,24 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
             {/* Voting Section */}
             <div className="flex items-center space-x-6 mb-6 p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center space-x-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
+                <div
                   onClick={() => handleVote('up')}
-                  className="flex items-center space-x-1 text-green-600 hover:text-green-700 font-medium p-0"
-                  disabled={voteMutation.isPending}
+                  className={`bg-green-100 hover:bg-green-200 flex items-center space-x-1 text-green-600 hover:text-green-700 cursor-pointer px-3 py-1 rounded transition-colors ${voteMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   <ArrowUp className="w-4 h-4" />
-                  <span>{idea.upvotes}</span>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
+                  <span className="font-medium text-lg">{idea.upvotes}</span>
+                </div>
+                <div
                   onClick={() => handleVote('down')}
-                  className="flex items-center space-x-1 text-red-500 hover:text-red-600 font-medium p-0"
-                  disabled={voteMutation.isPending}
+                  className={`bg-red-100 hover:bg-red-200 flex items-center space-x-1 text-red-600 hover:text-red-700 cursor-pointer px-3 py-1 rounded transition-colors ${voteMutation.isPending ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                   <ArrowDown className="w-4 h-4" />
-                  <span>{idea.downvotes}</span>
-                </Button>
+                  <span className="font-medium text-lg">{idea.downvotes}</span>
+                </div>
               </div>
               <div className="text-sm text-gray-600">
-                <span className="font-medium">{idea.upvotes - idea.downvotes}</span> net votes • 
-                <span className="font-medium ml-1">{comments.length}</span> comments
+                <span className="font-medium">{idea.upvotes - idea.downvotes}</span> общий рейтинг • 
+                <span className="font-medium ml-1">{comments.length}</span> комментариев
               </div>
             </div>
             

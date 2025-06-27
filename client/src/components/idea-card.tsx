@@ -29,7 +29,7 @@ export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
             {/* Voting System */}
             <div className="flex items-center space-x-2">
               <div 
-                className="flex items-center space-x-1 text-green-600 hover:text-green-700 cursor-pointer px-2 py-1 rounded transition-colors"
+                className="bg-green-100 hover:bg-green-200 flex items-center space-x-1 text-green-600 hover:text-green-700 cursor-pointer px-3 py-1 rounded transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
                   // TODO: Handle upvote
