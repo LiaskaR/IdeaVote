@@ -1,4 +1,5 @@
-import { Search, Bell, Plus, Lightbulb } from "lucide-react";
+import { Search, Bell, Plus } from "lucide-react";
+import logoPath from "@assets/4 оп_1751020306764.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,9 +15,11 @@ export default function Header({ onCreateClick }: HeaderProps) {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
-            <div className="bg-yellow-400 p-2 rounded-lg">
-              <Lightbulb className="text-white text-lg w-5 h-5" />
-            </div>
+            <img 
+              src={logoPath} 
+              alt="IdeaHub Logo" 
+              className="w-10 h-10 rounded-lg"
+            />
             <span className="ml-3 text-xl font-semibold text-gray-900">IdeaHub</span>
           </div>
           
