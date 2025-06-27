@@ -14,7 +14,6 @@ export const ideas = pgTable("ideas", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description").notNull(),
-  category: text("category").notNull(),
   tags: text("tags").array(),
   images: text("images").array(), // Array of image URLs/paths
   authorId: integer("author_id").notNull(),

@@ -9,7 +9,7 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
 
   // Ideas
-  getIdeas(category?: string, sortBy?: string): Promise<IdeaWithDetails[]>;
+  getIdeas(sortBy?: string): Promise<IdeaWithDetails[]>;
   getIdea(id: number): Promise<IdeaWithDetails | undefined>;
   createIdea(idea: InsertIdea): Promise<Idea>;
   updateIdea(id: number, idea: Partial<InsertIdea>): Promise<Idea | undefined>;
@@ -49,13 +49,12 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async getIdeas(category?: string, sortBy?: string): Promise<IdeaWithDetails[]> {
+  async getIdeas(sortBy?: string): Promise<IdeaWithDetails[]> {
     let query = db
       .select({
         id: ideas.id,
         title: ideas.title,
         description: ideas.description,
-        category: ideas.category,
         tags: ideas.tags,
         images: ideas.images,
         authorId: ideas.authorId,
@@ -67,10 +66,6 @@ export class DatabaseStorage implements IStorage {
       })
       .from(ideas)
       .innerJoin(users, eq(ideas.authorId, users.id));
-
-    if (category && category !== 'all') {
-      query = query.where(eq(ideas.category, category));
-    }
 
     const baseQuery = query;
 
@@ -94,7 +89,6 @@ export class DatabaseStorage implements IStorage {
       id: row.id,
       title: row.title,
       description: row.description,
-      category: row.category,
       tags: row.tags,
       images: row.images,
       authorId: row.authorId,
@@ -112,7 +106,6 @@ export class DatabaseStorage implements IStorage {
         id: ideas.id,
         title: ideas.title,
         description: ideas.description,
-        category: ideas.category,
         tags: ideas.tags,
         images: ideas.images,
         authorId: ideas.authorId,
@@ -133,7 +126,6 @@ export class DatabaseStorage implements IStorage {
       id: row.id,
       title: row.title,
       description: row.description,
-      category: row.category,
       tags: row.tags,
       images: row.images,
       authorId: row.authorId,
@@ -315,7 +307,6 @@ export class MemStorage implements IStorage {
         id: 1,
         title: "AI-Powered Customer Support Chat",
         description: "Implement an intelligent chatbot that can handle basic customer inquiries and route complex issues to human agents, reducing response time by 60%. The system would use natural language processing to understand customer queries and provide relevant responses from our knowledge base.",
-        category: "product",
         tags: ["ai", "customer-support", "automation"],
         images: [],
         authorId: 1,
@@ -325,7 +316,6 @@ export class MemStorage implements IStorage {
         id: 2,
         title: "Flexible Work Hours Policy",
         description: "Allow employees to choose their core working hours between 10 AM - 3 PM, with flexibility for start and end times to improve work-life balance and accommodate different personal schedules and preferences.",
-        category: "process",
         tags: ["work-life-balance", "policy", "flexibility"],
         images: [],
         authorId: 2,
@@ -335,7 +325,6 @@ export class MemStorage implements IStorage {
         id: 3,
         title: "Monthly Innovation Hackathons",
         description: "Organize monthly 2-day hackathons where teams can work on passion projects and innovative solutions to company challenges. This would foster creativity and cross-team collaboration.",
-        category: "innovation",
         tags: ["hackathon", "innovation", "collaboration"],
         images: [],
         authorId: 3,
@@ -345,7 +334,6 @@ export class MemStorage implements IStorage {
         id: 4,
         title: "Employee Mentorship Program",
         description: "Create a structured mentorship program pairing senior employees with junior staff to accelerate professional development and knowledge transfer within the organization.",
-        category: "culture",
         tags: ["mentorship", "professional-development", "knowledge-transfer"],
         images: [],
         authorId: 4,
@@ -355,7 +343,6 @@ export class MemStorage implements IStorage {
         id: 5,
         title: "Dark Mode for All Applications",
         description: "Implement a consistent dark mode theme across all our internal applications to reduce eye strain and improve user experience, especially for developers working long hours.",
-        category: "product",
         tags: ["dark-mode", "ux", "accessibility"],
         images: [],
         authorId: 5,
@@ -365,7 +352,6 @@ export class MemStorage implements IStorage {
         id: 6,
         title: "Automated Code Review System",
         description: "Integrate automated code analysis tools to catch common issues before human review, streamlining the development process and maintaining code quality standards.",
-        category: "process",
         tags: ["automation", "code-review", "quality"],
         images: [],
         authorId: 6,
@@ -425,12 +411,8 @@ export class MemStorage implements IStorage {
     return user;
   }
 
-  async getIdeas(category?: string, sortBy?: string): Promise<IdeaWithDetails[]> {
+  async getIdeas(sortBy?: string): Promise<IdeaWithDetails[]> {
     let ideas = Array.from(this.ideas.values());
-    
-    if (category && category !== 'all') {
-      ideas = ideas.filter(idea => idea.category === category);
-    }
 
     const ideasWithDetails: IdeaWithDetails[] = [];
     
