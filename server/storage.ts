@@ -301,13 +301,13 @@ export class MemStorage implements IStorage {
   private seedData() {
     // Create sample users
     const users = [
-      { id: 1, username: "sarah_chen", password: "password", avatar: null, role: "Product Manager" },
-      { id: 2, username: "mike_johnson", password: "password", avatar: null, role: "Developer" },
-      { id: 3, username: "lisa_park", password: "password", avatar: null, role: "Designer" },
-      { id: 4, username: "david_kim", password: "password", avatar: null, role: "Manager" },
-      { id: 5, username: "alex_rodriguez", password: "password", avatar: null, role: "Developer" },
-      { id: 6, username: "emily_watson", password: "password", avatar: null, role: "QA Engineer" },
-      { id: 7, username: "andrey_zakharov", password: "password", avatar: null, role: "Admin" },
+      { id: 1, username: "sarah_chen", email: "sarah@example.com", password: "password", avatar: null, role: "Product Manager", isActive: "true", lastLogin: null, createdAt: new Date(), updatedAt: new Date() },
+      { id: 2, username: "mike_johnson", email: "mike@example.com", password: "password", avatar: null, role: "Developer", isActive: "true", lastLogin: null, createdAt: new Date(), updatedAt: new Date() },
+      { id: 3, username: "lisa_park", email: "lisa@example.com", password: "password", avatar: null, role: "Designer", isActive: "true", lastLogin: null, createdAt: new Date(), updatedAt: new Date() },
+      { id: 4, username: "david_kim", email: "david@example.com", password: "password", avatar: null, role: "Manager", isActive: "true", lastLogin: null, createdAt: new Date(), updatedAt: new Date() },
+      { id: 5, username: "alex_rodriguez", email: "alex@example.com", password: "password", avatar: null, role: "Developer", isActive: "true", lastLogin: null, createdAt: new Date(), updatedAt: new Date() },
+      { id: 6, username: "emily_watson", email: "emily@example.com", password: "password", avatar: null, role: "QA Engineer", isActive: "true", lastLogin: null, createdAt: new Date(), updatedAt: new Date() },
+      { id: 7, username: "andrey_zakharov", email: "andrey@example.com", password: "password", avatar: null, role: "Admin", isActive: "true", lastLogin: null, createdAt: new Date(), updatedAt: new Date() },
     ];
 
     users.forEach(user => {
@@ -332,6 +332,18 @@ export class MemStorage implements IStorage {
 
   async getUserByUsername(username: string): Promise<User | undefined> {
     return Array.from(this.users.values()).find(user => user.username === username);
+  }
+
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    return Array.from(this.users.values()).find(user => user.email === email);
+  }
+
+  async updateUserLastLogin(id: number): Promise<void> {
+    const user = this.users.get(id);
+    if (user) {
+      user.lastLogin = new Date();
+      this.users.set(id, user);
+    }
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {

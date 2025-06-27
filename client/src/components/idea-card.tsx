@@ -44,14 +44,12 @@ export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
   };
 
   return (
-    <article className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
-      <div className="p-6" onClick={onClick}>
-
-        
+    <article className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer h-full flex flex-col">
+      <div className="p-6 flex-1 flex flex-col" onClick={onClick}>
         <h3 className="text-lg font-semibold text-gray-900 mb-2">{idea.title}</h3>
-        <p className="text-gray-600 text-sm mb-4 line-clamp-3">{idea.description}</p>
+        <p className="text-gray-600 text-sm mb-4 line-clamp-3 flex-1">{idea.description}</p>
         
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between mt-auto">
           <div className="flex items-center space-x-3">
             {/* Voting System */}
             <div className="flex items-center space-x-1">
