@@ -18,13 +18,20 @@ export function useAuth() {
     };
 
     initAuth();
+
+    // Subscribe to auth state changes
+    const unsubscribe = auth.onAuthChange((newUser) => {
+      setUser(newUser);
+    });
+
+    return unsubscribe;
   }, []);
 
   const login = async () => {
     setIsLoading(true);
     try {
-      const user = await auth.login();
-      setUser(user);
+      const loggedInUser = await auth.login();
+      // State will be updated via the onAuthChange callback
     } catch (error) {
       console.error("Login failed:", error);
     } finally {
@@ -34,7 +41,7 @@ export function useAuth() {
 
   const logout = () => {
     auth.logout();
-    setUser(null);
+    // State will be updated via the onAuthChange callback
   };
 
   return {
