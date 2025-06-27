@@ -12,6 +12,7 @@ import type { IdeaWithDetails } from "@shared/schema";
 
 export default function Home() {
   const [sortBy, setSortBy] = useState("popular");
+  const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedIdeaId, setSelectedIdeaId] = useState<number | null>(null);
 
@@ -49,6 +50,8 @@ export default function Home() {
         <FiltersBar
           sortBy={sortBy}
           onSortChange={setSortBy}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
         />
 
         {isLoading ? (
@@ -83,15 +86,50 @@ export default function Home() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {ideas.map((idea) => (
-                <IdeaCard
-                  key={idea.id}
-                  idea={idea}
-                  onClick={() => setSelectedIdeaId(idea.id)}
-                />
-              ))}
-            </div>
+            {viewMode === 'card' ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {ideas.map((idea) => (
+                  <IdeaCard
+                    key={idea.id}
+                    idea={idea}
+                    onClick={() => setSelectedIdeaId(idea.id)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {ideas.map((idea) => (
+                  <div
+                    key={idea.id}
+                    onClick={() => setSelectedIdeaId(idea.id)}
+                    className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:bg-gray-50 cursor-pointer transition-colors"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-1">{idea.title}</h3>
+                        <p className="text-gray-600 text-sm mb-2 line-clamp-2">{idea.description}</p>
+                        <div className="flex items-center space-x-4">
+                          <div className="flex items-center space-x-1">
+                            <div className="bg-green-50 hover:bg-green-100 flex items-center space-x-1 text-green-600 px-2 py-1 rounded text-sm">
+                              <span className="font-medium">{idea.upvotes}</span>
+                            </div>
+                            <div className="bg-red-50 hover:bg-red-100 flex items-center space-x-1 text-red-600 px-2 py-1 rounded text-sm">
+                              <span className="font-medium">{idea.downvotes}</span>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-1 text-gray-500 text-sm">
+                            <span>{idea.commentCount} комментариев</span>
+                          </div>
+                          <div className="flex items-center space-x-2 text-sm text-gray-600">
+                            <span>{idea.author.username}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             <div className="text-center mt-8">
               <Button variant="outline" className="px-6 py-3">

@@ -11,18 +11,26 @@ const sortOptions = [
 interface FiltersBarProps {
   sortBy: string;
   onSortChange: (sortBy: string) => void;
+  viewMode: 'card' | 'list';
+  onViewModeChange: (viewMode: 'card' | 'list') => void;
 }
 
 export default function FiltersBar({
   sortBy,
   onSortChange,
+  viewMode,
+  onViewModeChange,
 }: FiltersBarProps) {
   return (
     <div className="flex items-center justify-between mb-6">
       <div className="flex items-center space-x-2">
-        <Switch id="show-completed" />
-        <label htmlFor="show-completed" className="text-sm font-medium text-gray-700">
-          Показывать выполненные
+        <Switch 
+          id="view-mode" 
+          checked={viewMode === 'list'}
+          onCheckedChange={(checked) => onViewModeChange(checked ? 'list' : 'card')}
+        />
+        <label htmlFor="view-mode" className="text-sm font-medium text-gray-700">
+          Списочное представление
         </label>
       </div>
 
