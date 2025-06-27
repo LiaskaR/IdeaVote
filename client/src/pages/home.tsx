@@ -36,7 +36,7 @@ export default function Home() {
         {/* Page Title and Stats */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-semibold text-gray-900">Банк идей</h1>
+            <h1 className="text-2xl font-semibold text-gray-900">CRM Think tank</h1>
 
           </div>
           <Button onClick={() => setIsCreateModalOpen(true)}>
