@@ -49,54 +49,110 @@
   --radius: 0.5rem;
 }
 
-/* Completely override dialog close button - make it invisible except for the X icon */
-[data-radix-dialog-content] > button[data-radix-dialog-close] {
-  all: unset !important;
-  position: absolute !important;
-  right: 16px !important;
-  top: 16px !important;
-  cursor: pointer !important;
-  width: 16px !important;
-  height: 16px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
+/* COMPLETE RESET: Dialog close button - just an X icon, no styling whatsoever */
+[data-radix-dialog-content] > button[data-radix-dialog-close],
 [data-radix-dialog-content] > button[data-radix-dialog-close]:hover,
 [data-radix-dialog-content] > button[data-radix-dialog-close]:focus,
 [data-radix-dialog-content] > button[data-radix-dialog-close]:active,
-[data-radix-dialog-content] > button[data-radix-dialog-close]:focus-visible {
+[data-radix-dialog-content] > button[data-radix-dialog-close]:focus-visible,
+[data-radix-dialog-content] > button[data-radix-dialog-close]:focus-within,
+[data-radix-dialog-content] > button[data-radix-dialog-close]:target,
+[data-radix-dialog-content] > button[data-radix-dialog-close]:visited,
+[data-radix-dialog-content] > button[data-radix-dialog-close]:link,
+[data-radix-dialog-content] > button[data-radix-dialog-close]:enabled,
+[data-radix-dialog-content] > button[data-radix-dialog-close]:disabled {
+  /* Complete CSS reset */
   all: unset !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  
+  /* Position */
   position: absolute !important;
   right: 16px !important;
   top: 16px !important;
-  cursor: pointer !important;
+  
+  /* Size */
   width: 16px !important;
   height: 16px !important;
+  min-width: 16px !important;
+  min-height: 16px !important;
+  max-width: 16px !important;
+  max-height: 16px !important;
+  
+  /* Layout */
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  
+  /* Remove all visual styling */
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+  text-decoration: none !important;
+  
+  /* Remove spacing */
+  margin: 0 !important;
+  padding: 0 !important;
+  
+  /* Interaction */
+  cursor: pointer !important;
+  
+  /* Remove animations and transitions */
+  transition: none !important;
+  animation: none !important;
+  transform: none !important;
+  
+  /* Remove focus indicators */
+  outline-offset: 0 !important;
+  outline-width: 0 !important;
+  outline-style: none !important;
+  outline-color: transparent !important;
+  
+  /* Override any inherited styles */
+  color: inherit !important;
+  font: inherit !important;
+  text-align: center !important;
+  vertical-align: baseline !important;
+  
+  /* Remove any ring or glow effects */
+  box-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
 }
 
-/* Remove any animation or transition */
+/* Reset the X icon inside */
+[data-radix-dialog-content] > button[data-radix-dialog-close] > svg,
 [data-radix-dialog-content] > button[data-radix-dialog-close] * {
   transition: none !important;
   animation: none !important;
+  transform: none !important;
+  filter: none !important;
 }
 
-/* Override any Tailwind utility classes that might be applied */
-[data-radix-dialog-content] > button[data-radix-dialog-close].absolute {
+/* Force override any Tailwind classes */
+[data-radix-dialog-content] > button[data-radix-dialog-close].absolute,
+[data-radix-dialog-content] > button[data-radix-dialog-close][class*="absolute"],
+[data-radix-dialog-content] > button[data-radix-dialog-close][class*="rounded"],
+[data-radix-dialog-content] > button[data-radix-dialog-close][class*="shadow"],
+[data-radix-dialog-content] > button[data-radix-dialog-close][class*="border"],
+[data-radix-dialog-content] > button[data-radix-dialog-close][class*="ring"],
+[data-radix-dialog-content] > button[data-radix-dialog-close][class*="bg-"],
+[data-radix-dialog-content] > button[data-radix-dialog-close][class*="hover:"],
+[data-radix-dialog-content] > button[data-radix-dialog-close][class*="focus:"] {
   all: unset !important;
   position: absolute !important;
   right: 16px !important;
   top: 16px !important;
-  cursor: pointer !important;
   width: 16px !important;
   height: 16px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  cursor: pointer !important;
 }
 
 @layer base {
