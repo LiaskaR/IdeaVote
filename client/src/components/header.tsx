@@ -20,7 +20,7 @@ export default function Header({ onCreateClick }: HeaderProps) {
               alt="IdeaHub Logo" 
               className="w-10 h-10 rounded-lg"
             />
-            <span className="ml-3 text-xl font-semibold text-gray-900">IdeaHub</span>
+
           </div>
           
           {/* Search Bar */}

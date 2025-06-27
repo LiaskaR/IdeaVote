@@ -118,10 +118,7 @@ async function seed() {
   }
 }
 
-if (require.main === module) {
-  seed()
-    .then(() => process.exit(0))
-    .catch(() => process.exit(1));
-}
+// Run if this file is executed directly
+seed();
 
 export { seed };
