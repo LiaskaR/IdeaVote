@@ -16,6 +16,7 @@ export const ideas = pgTable("ideas", {
   description: text("description").notNull(),
   category: text("category").notNull(),
   tags: text("tags").array(),
+  images: text("images").array(), // Array of image URLs/paths
   authorId: integer("author_id").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
