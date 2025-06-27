@@ -99,6 +99,9 @@ The application uses a PostgreSQL database with the following main entities:
 
 Changelog:
 - June 27, 2025. Initial setup
+- June 27, 2025. Removed category functionality completely from the entire project
+- June 27, 2025. Redesigned voting system to match user reference with green/red backgrounds
+- June 27, 2025. Made voting buttons smaller and less prominent per user feedback
 
 ## User Preferences
 

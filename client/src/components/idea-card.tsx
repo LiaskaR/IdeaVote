@@ -27,28 +27,28 @@ export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             {/* Voting System */}
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-1">
               <div 
-                className="bg-green-100 hover:bg-green-200 flex items-center space-x-1 text-green-600 hover:text-green-700 cursor-pointer px-3 py-1 rounded transition-colors"
+                className="bg-green-50 hover:bg-green-100 flex items-center space-x-1 text-green-600 hover:text-green-700 cursor-pointer px-2 py-1 rounded transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
                   // TODO: Handle upvote
                 }}
               >
-                <ArrowUp className="w-4 h-4" />
-                <span className="font-medium text-lg">{idea.upvotes}</span>
+                <ArrowUp className="w-3 h-3" />
+                <span className="font-medium text-sm">{idea.upvotes}</span>
               </div>
               
               <div 
-                className="bg-red-100 hover:bg-red-200 px-3 py-1 rounded cursor-pointer transition-colors"
+                className="bg-red-50 hover:bg-red-100 px-2 py-1 rounded cursor-pointer transition-colors"
                 onClick={(e) => {
                   e.stopPropagation();
                   // TODO: Handle downvote
                 }}
               >
                 <div className="flex items-center space-x-1 text-red-600">
-                  <ArrowDown className="w-4 h-4" />
-                  <span className="font-medium text-lg">{idea.downvotes}</span>
+                  <ArrowDown className="w-3 h-3" />
+                  <span className="font-medium text-sm">{idea.downvotes}</span>
                 </div>
               </div>
             </div>
