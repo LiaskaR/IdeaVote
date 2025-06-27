@@ -239,9 +239,8 @@ export const securityMiddleware = (req: Request, res: Response, next: NextFuncti
     }, 'HIGH');
   }
 
-  // Monitor response for errors
-  const originalEnd = res.end;
-  res.end = function(chunk?: any, encoding?: any) {
+  // Monitor response for errors using finish event
+  res.on('finish', () => {
     if (res.statusCode >= 400) {
       securityMonitor.updateMetrics('errorCount');
       threat.errorCount++;
@@ -251,9 +250,7 @@ export const securityMiddleware = (req: Request, res: Response, next: NextFuncti
         threat.authFailures++;
       }
     }
-    
-    originalEnd.call(this, chunk, encoding);
-  };
+  });
 
   next();
 };

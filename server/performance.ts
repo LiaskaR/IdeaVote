@@ -121,20 +121,20 @@ export const performanceMonitor = new PerformanceMonitor();
 export const performanceMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const startTime = Date.now();
   
-  const originalEnd = res.end;
-  res.end = function(chunk?: any, encoding?: any) {
+  // Store performance data in request object
+  (req as any).performanceStart = startTime;
+  
+  // Use finish event instead of overriding res.end
+  res.on('finish', () => {
     const endTime = Date.now();
     const duration = endTime - startTime;
     
     // Record performance metrics
     performanceMonitor.recordRequestTime(req.path, duration);
-    
-    // Add performance headers
-    res.setHeader('X-Response-Time', `${duration}ms`);
-    res.setHeader('X-Request-ID', `req_${startTime}_${Math.random().toString(36).substr(2, 9)}`);
-    
-    originalEnd.call(this, chunk, encoding);
-  };
+  });
+  
+  // Set headers early, before response is sent
+  res.setHeader('X-Request-ID', `req_${startTime}_${Math.random().toString(36).substr(2, 9)}`);
   
   next();
 };

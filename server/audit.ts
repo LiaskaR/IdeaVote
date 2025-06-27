@@ -219,17 +219,11 @@ export const auditLogger = new AuditLogger();
 export const auditMiddleware = (req: Request & { user?: any, sessionId?: string }, res: Response, next: NextFunction) => {
   const startTime = Date.now();
   
-  // Capture response end to log the complete request
-  const originalEnd = res.end;
-  res.end = function(chunk?: any, encoding?: any) {
-    const responseTime = Date.now() - startTime;
-    
+  // Capture response finish to log the complete request
+  res.on('finish', () => {
     // Log the API request with timing
     auditLogger.logApiRequest(req, res, req.user?.userId, req.sessionId).catch(console.error);
-    
-    // Call original end method
-    originalEnd.call(this, chunk, encoding);
-  };
+  });
   
   next();
 };
