@@ -7,7 +7,7 @@ import IdeaCard from "@/components/idea-card";
 import CreateIdeaModal from "@/components/create-idea-modal";
 import IdeaDetailModal from "@/components/idea-detail-modal";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
 import type { IdeaWithDetails } from "@shared/schema";
 
 export default function Home() {
@@ -111,14 +111,17 @@ export default function Home() {
                         <div className="flex items-center space-x-4">
                           <div className="flex items-center space-x-1">
                             <div className="bg-green-50 hover:bg-green-100 flex items-center space-x-1 text-green-600 px-2 py-1 rounded text-sm">
+                              <ArrowUp className="w-3 h-3" />
                               <span className="font-medium">{idea.upvotes}</span>
                             </div>
                             <div className="bg-red-50 hover:bg-red-100 flex items-center space-x-1 text-red-600 px-2 py-1 rounded text-sm">
+                              <ArrowDown className="w-3 h-3" />
                               <span className="font-medium">{idea.downvotes}</span>
                             </div>
                           </div>
                           <div className="flex items-center space-x-1 text-gray-500 text-sm">
-                            <span>{idea.commentCount} комментариев</span>
+                            <MessageCircle className="w-4 h-4" />
+                            <span>{idea.commentCount}</span>
                           </div>
                           <div className="flex items-center space-x-2 text-sm text-gray-600">
                             <span>{idea.author.username}</span>
