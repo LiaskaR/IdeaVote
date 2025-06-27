@@ -22,7 +22,7 @@ export default function Header() {
               variant="ghost" 
               size="icon"
               onClick={() => setIsSidebarOpen(true)}
-              className="text-gray-600 hover:text-gray-900"
+              className="text-gray-600 hover:text-gray-900 hover:bg-gray-100"
             >
               <Menu className="w-5 h-5" />
             </Button>
