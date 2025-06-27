@@ -43,14 +43,7 @@ export default function FiltersBar({
           </label>
         </div>
 
-        {/* Create Filter Button */}
-        <Button 
-          variant="outline" 
-          className="text-blue-600 border-blue-200 hover:bg-blue-50"
-        >
-          <Plus className="w-4 h-4 mr-2" />
-          Создать свой фильтр
-        </Button>
+
       </div>
 
       {/* Right Side - Filter Actions */}
