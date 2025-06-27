@@ -188,7 +188,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
             </div>
 
             <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
-              <Button type="button" variant="outline" onClick={onClose} className="hover:bg-gray-50">
+              <Button type="button" variant="outline" onClick={onClose} className="hover:bg-gray-50 hover:text-gray-900">
                 Отмена
               </Button>
               <Button 
