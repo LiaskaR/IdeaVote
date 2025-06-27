@@ -1,7 +1,7 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
-import keycloak from "./keycloak";
+import auth from "./auth"; // Временная заглушка аутентификации
 
-const API_BASE_URL = "http://localhost:8080/api";
+const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
@@ -21,9 +21,9 @@ export async function apiRequest(
     headers["Content-Type"] = "application/json";
   }
 
-  // Add Keycloak token if authenticated
-  if (keycloak.authenticated && keycloak.token) {
-    headers["Authorization"] = `Bearer ${keycloak.token}`;
+  // Add auth token if available
+  if (auth.authenticated && auth.token) {
+    headers["Authorization"] = `Bearer ${auth.token}`;
   }
 
   const res = await fetch(`${API_BASE_URL}${url}`, {
@@ -32,24 +32,10 @@ export async function apiRequest(
     body: data ? JSON.stringify(data) : undefined,
   });
 
-  // Handle token refresh if expired
-  if (res.status === 401 && keycloak.authenticated) {
-    try {
-      await keycloak.updateToken(30);
-      // Retry with new token
-      headers["Authorization"] = `Bearer ${keycloak.token}`;
-      const retryRes = await fetch(`${API_BASE_URL}${url}`, {
-        method,
-        headers,
-        body: data ? JSON.stringify(data) : undefined,
-      });
-      await throwIfResNotOk(retryRes);
-      return retryRes;
-    } catch (error) {
-      // Force login if refresh failed
-      keycloak.login();
-      throw new Error("401: Unauthorized");
-    }
+  // Handle authentication errors
+  if (res.status === 401) {
+    auth.logout();
+    window.location.reload(); // Force re-authentication
   }
 
   await throwIfResNotOk(res);
@@ -64,9 +50,9 @@ export const getQueryFn: <T>(options: {
   async ({ queryKey }) => {
     const headers: Record<string, string> = {};
 
-    // Add Keycloak token if authenticated
-    if (keycloak.authenticated && keycloak.token) {
-      headers["Authorization"] = `Bearer ${keycloak.token}`;
+    // Add auth token if available
+    if (auth.authenticated && auth.token) {
+      headers["Authorization"] = `Bearer ${auth.token}`;
     }
 
     const res = await fetch(`${API_BASE_URL}${queryKey[0] as string}`, {
@@ -77,30 +63,13 @@ export const getQueryFn: <T>(options: {
       return null;
     }
 
-    // Handle token refresh if expired
-    if (res.status === 401 && keycloak.authenticated) {
-      try {
-        await keycloak.updateToken(30);
-        // Retry with new token
-        headers["Authorization"] = `Bearer ${keycloak.token}`;
-        const retryRes = await fetch(`${API_BASE_URL}${queryKey[0] as string}`, {
-          headers,
-        });
-        
-        if (unauthorizedBehavior === "returnNull" && retryRes.status === 401) {
-          return null;
-        }
-        
-        await throwIfResNotOk(retryRes);
-        return await retryRes.json();
-      } catch (error) {
-        if (unauthorizedBehavior === "returnNull") {
-          return null;
-        }
-        // Force login if refresh failed
-        keycloak.login();
-        throw new Error("401: Unauthorized");
+    // Handle authentication errors
+    if (res.status === 401) {
+      if (unauthorizedBehavior === "returnNull") {
+        return null;
       }
+      auth.logout();
+      window.location.reload(); // Force re-authentication
     }
 
     await throwIfResNotOk(res);
