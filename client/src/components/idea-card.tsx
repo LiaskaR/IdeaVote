@@ -1,8 +1,8 @@
-import { ArrowUp, ArrowDown, MessageCircle, Clock } from "lucide-react";
+import { ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-import { formatDistanceToNow } from "date-fns";
+
 import type { IdeaWithDetails } from "@shared/schema";
 
 interface IdeaCardProps {
@@ -14,12 +14,7 @@ export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
   return (
     <article className="bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow cursor-pointer">
       <div className="p-6" onClick={onClick}>
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-center space-x-1 text-sm text-gray-500">
-            <Clock className="w-3 h-3" />
-            <span>{formatDistanceToNow(new Date(idea.createdAt!), { addSuffix: true })}</span>
-          </div>
-        </div>
+
         
         <h3 className="text-lg font-semibold text-gray-900 mb-2">{idea.title}</h3>
         <p className="text-gray-600 text-sm mb-4 line-clamp-3">{idea.description}</p>
