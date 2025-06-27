@@ -7,11 +7,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get all ideas with optional filtering and sorting
   app.get("/api/ideas", async (req, res) => {
     try {
-      const { category, sortBy } = req.query;
-      const ideas = await storage.getIdeas(
-        category as string, 
-        sortBy as string
-      );
+      const { sortBy } = req.query;
+      const ideas = await storage.getIdeas(sortBy as string);
       res.json(ideas);
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch ideas" });

@@ -7,18 +7,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { insertIdeaSchema, type InsertIdea } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 
-const categories = [
-  { value: "product", label: "Product" },
-  { value: "process", label: "Process" },
-  { value: "culture", label: "Culture" },
-  { value: "innovation", label: "Innovation" },
-];
+
 
 interface CreateIdeaModalProps {
   isOpen: boolean;
@@ -36,7 +31,6 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
     defaultValues: {
       title: "",
       description: "",
-      category: "",
       tags: [],
       images: [],
       authorId: 7, // Default to current user (Andrey Zakharov)
@@ -125,31 +119,6 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
                   <FormControl>
                     <Input placeholder="Введите заголовок задачи" {...field} />
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Категория *</FormLabel>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Выберите категорию" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {categories.map((category) => (
-                        <SelectItem key={category.value} value={category.value}>
-                          {category.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
