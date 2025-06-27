@@ -138,7 +138,7 @@ export default function Home() {
             )}
 
             <div className="text-center mt-8">
-              <Button variant="outline" className="px-6 py-3">
+              <Button className="px-6 py-3">
                 Загрузить еще
               </Button>
             </div>
