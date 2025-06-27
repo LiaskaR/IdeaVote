@@ -106,6 +106,8 @@ Changelog:
 - June 27, 2025. Fully localized interface to Russian language including test data
 - June 27, 2025. Changed all terminology from "задачи" (tasks) to "идеи" (ideas) throughout interface
 - June 27, 2025. Added image display functionality in idea detail modal with responsive grid layout
+- June 27, 2025. Fixed idea cards layout: elements always stick to bottom edge for consistent alignment
+- June 27, 2025. Implemented enterprise-grade security: JWT authentication, bcrypt hashing, rate limiting, CORS protection, and input validation for 1M+ user scalability
 
 ## User Preferences
 

@@ -259,7 +259,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteComment(id: number): Promise<boolean> {
     const result = await db.delete(comments).where(eq(comments.id, id));
-    return result.rowCount > 0;
+    return result.rowCount !== null && result.rowCount > 0;
   }
 
   async getStats(): Promise<{ totalIdeas: number; totalVotes: number; activeUsers: number }> {
@@ -351,7 +351,7 @@ export class MemStorage implements IStorage {
     const user: User = { 
       ...insertUser, 
       avatar: insertUser.avatar || null,
-      role: insertUser.role || null,
+      role: insertUser.role,
       id 
     };
     this.users.set(id, user);
