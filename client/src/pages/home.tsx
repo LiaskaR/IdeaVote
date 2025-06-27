@@ -7,6 +7,7 @@ import IdeaCard from "@/components/idea-card";
 import CreateIdeaModal from "@/components/create-idea-modal";
 import IdeaDetailModal from "@/components/idea-detail-modal";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Plus, ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
 import type { IdeaWithDetails } from "@shared/schema";
 
@@ -104,8 +105,8 @@ export default function Home() {
                     onClick={() => setSelectedIdeaId(idea.id)}
                     className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:bg-gray-50 cursor-pointer transition-colors"
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1 mr-4">
                         <h3 className="text-lg font-semibold text-gray-900 mb-1">{idea.title}</h3>
                         <p className="text-gray-600 text-sm mb-2 line-clamp-2">{idea.description}</p>
                         <div className="flex items-center space-x-4">
@@ -123,10 +124,15 @@ export default function Home() {
                             <MessageCircle className="w-4 h-4" />
                             <span>{idea.commentCount}</span>
                           </div>
-                          <div className="flex items-center space-x-2 text-sm text-gray-600">
-                            <span>{idea.author.username}</span>
-                          </div>
                         </div>
+                      </div>
+                      <div className="flex items-center space-x-2 flex-shrink-0">
+                        <Avatar className="w-6 h-6">
+                          <AvatarFallback className="text-xs">
+                            {idea.author.username.charAt(0).toUpperCase()}
+                          </AvatarFallback>
+                        </Avatar>
+                        <span className="text-sm text-gray-600">{idea.author.username}</span>
                       </div>
                     </div>
                   </div>
