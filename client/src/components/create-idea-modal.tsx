@@ -194,7 +194,6 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
               <Button 
                 type="submit" 
                 disabled={createIdeaMutation.isPending}
-                className="bg-[#fee600] hover:bg-[#fdd600] text-black font-medium"
               >
                 {createIdeaMutation.isPending ? "Сохранение..." : "Добавить идею"}
               </Button>

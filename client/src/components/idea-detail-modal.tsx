@@ -187,7 +187,6 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
                 <Button
                   type="submit"
                   disabled={!commentText.trim() || commentMutation.isPending}
-                  className="bg-[#fee600] hover:bg-[#fdd600] text-black font-medium"
                 >
                   {commentMutation.isPending ? "Отправка..." : "Добавить комментарий"}
                 </Button>

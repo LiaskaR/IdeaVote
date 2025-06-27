@@ -78,10 +78,7 @@ export default function Home() {
           <div className="text-center py-12">
             <div className="text-gray-500 text-lg mb-4">Идеи не найдены</div>
             <p className="text-gray-400 mb-6">Будьте первым, кто предложит идею!</p>
-            <Button 
-              onClick={() => setIsCreateModalOpen(true)}
-              className="bg-[#fee600] hover:bg-[#fdd600] text-black font-medium"
-            >
+            <Button onClick={() => setIsCreateModalOpen(true)}>
               Предложить идею
             </Button>
           </div>
