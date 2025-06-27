@@ -198,25 +198,8 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
                 Комментарии
               </h3>
               
-              {/* Comment Form */}
-              <form onSubmit={handleCommentSubmit} className="mb-6">
-                <Textarea
-                  rows={3}
-                  value={commentText}
-                  onChange={(e) => setCommentText(e.target.value)}
-                  placeholder="Написать комментарий..."
-                  className="mb-3"
-                />
-                <Button
-                  type="submit"
-                  disabled={!commentText.trim() || commentMutation.isPending}
-                >
-                  {commentMutation.isPending ? "Отправка..." : "Добавить комментарий"}
-                </Button>
-              </form>
-              
               {/* Comments List */}
-              <div className="space-y-4">
+              <div className="space-y-4 mb-6">
                 {comments.length === 0 ? (
                   <p className="text-gray-500 text-center py-4">Пока нет комментариев. Будьте первым!</p>
                 ) : (
@@ -240,6 +223,23 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
                   ))
                 )}
               </div>
+              
+              {/* Comment Form */}
+              <form onSubmit={handleCommentSubmit}>
+                <Textarea
+                  rows={3}
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}
+                  placeholder="Написать комментарий..."
+                  className="mb-3"
+                />
+                <Button
+                  type="submit"
+                  disabled={!commentText.trim() || commentMutation.isPending}
+                >
+                  {commentMutation.isPending ? "Отправка..." : "Добавить комментарий"}
+                </Button>
+              </form>
             </div>
           </div>
         ) : (
