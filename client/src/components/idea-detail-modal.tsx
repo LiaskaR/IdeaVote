@@ -144,6 +144,29 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
               <p className="text-gray-700 whitespace-pre-wrap">{idea.description}</p>
             </div>
             
+            {/* Images Section */}
+            {idea.images && idea.images.length > 0 && (
+              <div className="mb-6">
+                <h4 className="text-sm font-medium text-gray-900 mb-3">Приложенные изображения</h4>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {idea.images.map((image, index) => (
+                    <div key={index} className="relative group">
+                      <img
+                        src={image}
+                        alt={`Изображение ${index + 1} для идеи "${idea.title}"`}
+                        className="w-full h-48 object-cover rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                        onClick={() => {
+                          // Open image in new tab for full view
+                          window.open(image, '_blank');
+                        }}
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 rounded-lg transition-opacity"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            
             {/* Voting Section */}
             <div className="flex items-center space-x-6 mb-6 p-4 bg-gray-50 rounded-lg">
               <div className="flex items-center space-x-2">

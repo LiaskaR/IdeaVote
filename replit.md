@@ -105,6 +105,7 @@ Changelog:
 - June 27, 2025. Replaced view mode switch with icon buttons for card/list views
 - June 27, 2025. Fully localized interface to Russian language including test data
 - June 27, 2025. Changed all terminology from "задачи" (tasks) to "идеи" (ideas) throughout interface
+- June 27, 2025. Added image display functionality in idea detail modal with responsive grid layout
 
 ## User Preferences
 
