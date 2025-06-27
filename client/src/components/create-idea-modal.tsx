@@ -158,7 +158,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
                 type="button"
                 variant="outline"
                 onClick={() => fileInputRef.current?.click()}
-                className="w-full border-dashed border-2 border-gray-300 hover:border-gray-400 py-6 bg-transparent hover:bg-green-100"
+                className="w-full border-dashed border-2 border-gray-300 hover:border-gray-400 py-6 bg-transparent hover:bg-green-100 hover:text-gray-700"
               >
                 <Upload className="w-5 h-5 mr-2" />
                 Добавить изображения
