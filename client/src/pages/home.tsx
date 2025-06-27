@@ -105,10 +105,10 @@ export default function Home() {
                     onClick={() => setSelectedIdeaId(idea.id)}
                     className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 hover:bg-gray-50 cursor-pointer transition-colors"
                   >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1 mr-4">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-1">{idea.title}</h3>
-                        <p className="text-gray-600 text-sm mb-2 line-clamp-2">{idea.description}</p>
+                    <div className="flex flex-col">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-1">{idea.title}</h3>
+                      <p className="text-gray-600 text-sm mb-2 line-clamp-2">{idea.description}</p>
+                      <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-4">
                           <div className="flex items-center space-x-1">
                             <div className="bg-green-50 hover:bg-green-100 flex items-center space-x-1 text-green-600 px-2 py-1 rounded text-sm">
@@ -125,14 +125,14 @@ export default function Home() {
                             <span>{idea.commentCount}</span>
                           </div>
                         </div>
-                      </div>
-                      <div className="flex items-center space-x-2 flex-shrink-0">
-                        <Avatar className="w-6 h-6">
-                          <AvatarFallback className="text-xs">
-                            {idea.author.username.charAt(0).toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                        <span className="text-sm text-gray-600">{idea.author.username}</span>
+                        <div className="flex items-center space-x-2">
+                          <Avatar className="w-6 h-6">
+                            <AvatarFallback className="text-xs">
+                              {idea.author.username.charAt(0).toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                          <span className="text-sm text-gray-600">{idea.author.username}</span>
+                        </div>
                       </div>
                     </div>
                   </div>
