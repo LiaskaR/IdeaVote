@@ -4,11 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-interface HeaderProps {
-  onCreateClick: () => void;
-}
+interface HeaderProps {}
 
-export default function Header({ onCreateClick }: HeaderProps) {
+export default function Header() {
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -42,10 +40,7 @@ export default function Header({ onCreateClick }: HeaderProps) {
             <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700">
               <Bell className="w-5 h-5" />
             </Button>
-            <Button onClick={onCreateClick} className="bg-primary hover:bg-primary/90">
-              <Plus className="w-4 h-4 mr-2" />
-              New Idea
-            </Button>
+
             <div className="flex items-center space-x-2">
               <Avatar className="w-8 h-8">
                 <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&w=32&h=32&fit=crop&crop=face" />

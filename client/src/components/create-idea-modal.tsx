@@ -78,7 +78,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center justify-between">
-            Submit New Idea
+            Добавить новую задачу
             <Button variant="ghost" size="icon" onClick={onClose}>
               <X className="w-4 h-4" />
             </Button>

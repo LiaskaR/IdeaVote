@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Filter, Plus } from "lucide-react";
 
 const categories = [
   { value: "all", label: "All Ideas" },
@@ -30,42 +32,36 @@ export default function FiltersBar({
   onSortChange,
 }: FiltersBarProps) {
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-        {/* Category Filters */}
-        <div className="flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <Button
-              key={category.value}
-              variant={selectedCategory === category.value ? "default" : "secondary"}
-              size="sm"
-              onClick={() => onCategoryChange(category.value)}
-              className={selectedCategory === category.value 
-                ? "bg-primary text-white hover:bg-primary/90" 
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-              }
-            >
-              {category.label}
-            </Button>
-          ))}
+    <div className="flex items-center justify-between mb-6">
+      {/* Left Side - Toggle and Filters */}
+      <div className="flex items-center space-x-4">
+        {/* Show Completed Toggle */}
+        <div className="flex items-center space-x-2">
+          <Switch id="show-completed" />
+          <label htmlFor="show-completed" className="text-sm font-medium text-gray-700">
+            Показывать выполненные
+          </label>
         </div>
-        
-        {/* Sort Options */}
-        <div className="flex items-center space-x-4">
-          <label className="text-sm font-medium text-gray-700">Sort by:</label>
-          <Select value={sortBy} onValueChange={onSortChange}>
-            <SelectTrigger className="w-48">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {sortOptions.map((option) => (
-                <SelectItem key={option.value} value={option.value}>
-                  {option.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+
+        {/* Create Filter Button */}
+        <Button 
+          variant="outline" 
+          className="text-blue-600 border-blue-200 hover:bg-blue-50"
+        >
+          <Plus className="w-4 h-4 mr-2" />
+          Создать свой фильтр
+        </Button>
+      </div>
+
+      {/* Right Side - Filter Actions */}
+      <div className="flex items-center space-x-2">
+        <Button 
+          variant="outline" 
+          className="text-gray-600 border-gray-200 hover:bg-gray-50"
+        >
+          <Filter className="w-4 h-4 mr-2" />
+          Фильтры
+        </Button>
       </div>
     </div>
   );

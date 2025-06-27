@@ -7,6 +7,7 @@ import IdeaCard from "@/components/idea-card";
 import CreateIdeaModal from "@/components/create-idea-modal";
 import IdeaDetailModal from "@/components/idea-detail-modal";
 import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 import type { IdeaWithDetails } from "@shared/schema";
 
 export default function Home() {
@@ -30,9 +31,27 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header onCreateClick={() => setIsCreateModalOpen(true)} />
+      <Header />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Page Title and Stats */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-4">
+            <h1 className="text-2xl font-semibold text-gray-900">Задачи</h1>
+            <div className="flex items-center space-x-4 text-sm text-gray-500">
+              <span>Просроченные: 5 730</span>
+              <span>Активные: 6 984</span>
+            </div>
+          </div>
+          <Button 
+            onClick={() => setIsCreateModalOpen(true)}
+            className="bg-yellow-400 hover:bg-yellow-500 text-black font-medium"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            Добавить задачу
+          </Button>
+        </div>
+
         <FiltersBar
           selectedCategory={selectedCategory}
           onCategoryChange={setSelectedCategory}
