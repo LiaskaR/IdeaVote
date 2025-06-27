@@ -92,9 +92,9 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title *</FormLabel>
+                  <FormLabel>Заголовок *</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your idea title" {...field} />
+                    <Input placeholder="Введите заголовок задачи" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -106,11 +106,11 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
               name="category"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category *</FormLabel>
+                  <FormLabel>Категория *</FormLabel>
                   <Select onValueChange={field.onChange} defaultValue={field.value}>
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a category" />
+                        <SelectValue placeholder="Выберите категорию" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -131,11 +131,11 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description *</FormLabel>
+                  <FormLabel>Описание *</FormLabel>
                   <FormControl>
                     <Textarea
                       rows={4}
-                      placeholder="Describe your idea in detail..."
+                      placeholder="Опишите задачу подробно..."
                       {...field}
                     />
                   </FormControl>
@@ -146,14 +146,14 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
 
             <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
               <Button type="button" variant="outline" onClick={onClose}>
-                Cancel
+                Отмена
               </Button>
               <Button 
                 type="submit" 
                 disabled={createIdeaMutation.isPending}
-                className="bg-primary hover:bg-primary/90"
+                className="bg-yellow-400 hover:bg-yellow-500 text-black font-medium"
               >
-                {createIdeaMutation.isPending ? "Submitting..." : "Submit Idea"}
+                {createIdeaMutation.isPending ? "Сохранение..." : "Добавить задачу"}
               </Button>
             </div>
           </form>
