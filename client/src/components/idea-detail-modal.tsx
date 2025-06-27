@@ -109,7 +109,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto [&>button]:border-none [&>button]:outline-none [&>button]:ring-0 [&>button]:focus:ring-0 [&>button]:focus:border-none [&>button]:focus:outline-none">
+      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto [&>button]:border-none [&>button]:outline-none [&>button]:ring-0 [&>button]:focus:ring-0 [&>button]:focus:border-none [&>button]:focus:outline-none [&>button]:bg-transparent [&>button]:hover:bg-transparent [&>button]:shadow-none [&>button]:rounded-none">
         {isLoading ? (
           <div className="p-6">
             <div className="animate-pulse space-y-4">
