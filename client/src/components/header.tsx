@@ -29,7 +29,7 @@ export default function Header() {
               </div>
               <Input
                 type="text"
-                placeholder="Search ideas..."
+                placeholder="Поиск задач..."
                 className="pl-10"
               />
             </div>

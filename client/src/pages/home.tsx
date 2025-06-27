@@ -79,10 +79,10 @@ export default function Home() {
           </div>
         ) : ideas.length === 0 ? (
           <div className="text-center py-12">
-            <div className="text-gray-500 text-lg mb-4">No ideas found</div>
-            <p className="text-gray-400 mb-6">Be the first to submit an idea!</p>
+            <div className="text-gray-500 text-lg mb-4">Задачи не найдены</div>
+            <p className="text-gray-400 mb-6">Будьте первым, кто предложит идею!</p>
             <Button onClick={() => setIsCreateModalOpen(true)}>
-              Submit Your Idea
+              Предложить идею
             </Button>
           </div>
         ) : (
@@ -142,7 +142,7 @@ export default function Home() {
 
             <div className="text-center mt-8">
               <Button variant="outline" className="px-6 py-3">
-                Load More Ideas
+                Загрузить еще
               </Button>
             </div>
           </>
