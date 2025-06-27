@@ -49,37 +49,54 @@
   --radius: 0.5rem;
 }
 
-/* Remove dialog close button styling */
+/* Completely override dialog close button - make it invisible except for the X icon */
 [data-radix-dialog-content] > button[data-radix-dialog-close] {
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  background: transparent !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
-  margin: 0 !important;
+  all: unset !important;
+  position: absolute !important;
+  right: 16px !important;
+  top: 16px !important;
+  cursor: pointer !important;
+  width: 16px !important;
+  height: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-[data-radix-dialog-content] > button[data-radix-dialog-close]:hover {
-  background: transparent !important;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
+[data-radix-dialog-content] > button[data-radix-dialog-close]:hover,
+[data-radix-dialog-content] > button[data-radix-dialog-close]:focus,
+[data-radix-dialog-content] > button[data-radix-dialog-close]:active,
+[data-radix-dialog-content] > button[data-radix-dialog-close]:focus-visible {
+  all: unset !important;
+  position: absolute !important;
+  right: 16px !important;
+  top: 16px !important;
+  cursor: pointer !important;
+  width: 16px !important;
+  height: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-[data-radix-dialog-content] > button[data-radix-dialog-close]:focus {
-  background: transparent !important;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
-  ring: none !important;
+/* Remove any animation or transition */
+[data-radix-dialog-content] > button[data-radix-dialog-close] * {
+  transition: none !important;
+  animation: none !important;
 }
 
-[data-radix-dialog-content] > button[data-radix-dialog-close]:active {
-  background: transparent !important;
-  border: none !important;
-  outline: none !important;
-  box-shadow: none !important;
+/* Override any Tailwind utility classes that might be applied */
+[data-radix-dialog-content] > button[data-radix-dialog-close].absolute {
+  all: unset !important;
+  position: absolute !important;
+  right: 16px !important;
+  top: 16px !important;
+  cursor: pointer !important;
+  width: 16px !important;
+  height: 16px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 @layer base {
