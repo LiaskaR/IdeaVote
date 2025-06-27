@@ -109,7 +109,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto [&>button]:hidden">
         {isLoading ? (
           <div className="p-6">
             <div className="animate-pulse space-y-4">
