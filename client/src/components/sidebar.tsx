@@ -37,9 +37,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                   className="w-10 h-10 rounded-lg bg-yellow-400 p-1"
                 />
                 <div>
-                  <SheetTitle className="text-white text-lg font-bold">
-                    IdeaHub
-                  </SheetTitle>
+                  <SheetTitle className="text-white text-lg font-bold">CRM</SheetTitle>
                   <SheetDescription className="text-gray-400 text-sm">
                     Управление идеями
                   </SheetDescription>
