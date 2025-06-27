@@ -1,0 +1,57 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: ideahub-backend
+    
+  datasource:
+    url: ${DATABASE_URL}
+    driver-class-name: org.postgresql.Driver
+    
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: false
+    
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${KEYCLOAK_URL}/realms/${KEYCLOAK_REALM}/protocol/openid_connect/certs
+
+keycloak:
+  realm: ${KEYCLOAK_REALM:ideahub}
+  auth-server-url: ${KEYCLOAK_URL:http://localhost:8180}
+  resource: ${KEYCLOAK_CLIENT_ID:ideahub-backend}
+  credentials:
+    secret: ${KEYCLOAK_CLIENT_SECRET}
+  use-resource-role-mappings: true
+  bearer-only: true
+  
+cors:
+  allowed-origins: 
+    - http://localhost:5000
+    - ${FRONTEND_URL:http://localhost:3000}
+  allowed-methods:
+    - GET
+    - POST
+    - PUT
+    - DELETE
+    - PATCH
+    - OPTIONS
+  allowed-headers:
+    - "*"
+  allow-credentials: true
+
+logging:
+  level:
+    com.ideahub: INFO
+    org.springframework.security: DEBUG
+    org.keycloak: DEBUG
