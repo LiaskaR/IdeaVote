@@ -32,7 +32,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto pl-12 pr-4 sm:pr-6 lg:pr-8 py-8">
         {/* Page Title and Stats */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
