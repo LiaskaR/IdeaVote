@@ -19,10 +19,10 @@ export default function Header() {
           {/* Menu Button & Logo */}
           <div className="flex items-center space-x-3">
             <Button 
-              variant="ghost" 
+              variant="outline" 
               size="icon"
               onClick={() => setIsSidebarOpen(true)}
-              className="text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+              className="border border-gray-300 bg-white hover:bg-gray-50 shadow-sm text-gray-700 hover:text-gray-900 -ml-2"
             >
               <Menu className="w-5 h-5" />
             </Button>
