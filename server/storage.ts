@@ -315,13 +315,59 @@ export class MemStorage implements IStorage {
     });
     this.currentUserId = users.length + 1;
 
-    // Create sample ideas (empty for now)
-    const ideas: any[] = [];
+    // Create sample ideas with English content
+    const ideas: any[] = [
+      {
+        id: 1,
+        title: "AI-Powered Customer Support Chatbot",
+        description: "Implement an intelligent chatbot that can handle 80% of customer inquiries automatically. This would reduce response time from hours to seconds and free up our support team for complex issues.",
+        tags: ["AI", "customer service", "automation"],
+        images: null,
+        authorId: 1,
+        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
+      },
+      {
+        id: 2,
+        title: "Mobile App Dark Mode Implementation",
+        description: "Add dark mode support to our mobile application. Recent user surveys show 75% of users prefer dark mode for better battery life and reduced eye strain during evening usage.",
+        tags: ["mobile", "UI/UX", "accessibility"],
+        images: null,
+        authorId: 2,
+        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
+      },
+      {
+        id: 3,
+        title: "Automated Code Review System",
+        description: "Set up automated code quality checks using GitHub Actions. This will catch common issues before manual review and ensure consistent coding standards across the team.",
+        tags: ["DevOps", "code quality", "automation"],
+        images: null,
+        authorId: 3,
+        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+      },
+      {
+        id: 4,
+        title: "Real-time Collaboration Features",
+        description: "Add real-time collaborative editing similar to Google Docs. Users can see each other's cursors and changes instantly, improving team productivity.",
+        tags: ["collaboration", "real-time", "productivity"],
+        images: null,
+        authorId: 4,
+        createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
+      },
+      {
+        id: 5,
+        title: "Performance Analytics Dashboard",
+        description: "Create a comprehensive dashboard showing app performance metrics, user engagement, and system health. This will help us make data-driven decisions.",
+        tags: ["analytics", "dashboard", "performance"],
+        images: null,
+        authorId: 5,
+        createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000), // 12 hours ago
+      }
+    ];
 
     ideas.forEach(idea => {
       this.ideas.set(idea.id, idea);
     });
-    this.currentIdeaId = 1;
+    this.currentIdeaId = ideas.length + 1;
 
     // No sample votes or comments
   }
@@ -351,7 +397,7 @@ export class MemStorage implements IStorage {
     const user: User = { 
       ...insertUser, 
       avatar: insertUser.avatar || null,
-      role: insertUser.role,
+      role: insertUser.role || "user",
       id 
     };
     this.users.set(id, user);

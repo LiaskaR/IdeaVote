@@ -111,9 +111,9 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader className="sr-only">
-          <DialogTitle>{idea?.title || "Детали идеи"}</DialogTitle>
+          <DialogTitle>{idea?.title || "Idea Details"}</DialogTitle>
           <DialogDescription>
-            Просмотр полной информации об идее, включая описание, изображения и комментарии
+            View complete information about the idea, including description, images and comments
           </DialogDescription>
         </DialogHeader>
         {isLoading ? (
@@ -201,13 +201,13 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
             <div className="border-t border-gray-200 pt-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <MessageCircle className="w-5 h-5 mr-2" />
-                Комментарии
+                Comments
               </h3>
               
               {/* Comments List */}
               <div className="space-y-4 mb-6">
                 {comments.length === 0 ? (
-                  <p className="text-gray-500 text-center py-4">Пока нет комментариев. Будьте первым!</p>
+                  <p className="text-gray-500 text-center py-4">No comments yet. Be the first!</p>
                 ) : (
                   comments.map((comment) => (
                     <div key={comment.id} className="flex space-x-3">
@@ -236,14 +236,14 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
                   rows={3}
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
-                  placeholder="Написать комментарий..."
+                  placeholder="Write a comment..."
                   className="mb-3"
                 />
                 <Button
                   type="submit"
                   disabled={!commentText.trim() || commentMutation.isPending}
                 >
-                  {commentMutation.isPending ? "Отправка..." : "Добавить комментарий"}
+                  {commentMutation.isPending ? "Posting..." : "Add Comment"}
                 </Button>
               </form>
             </div>
