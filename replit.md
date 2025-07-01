@@ -104,6 +104,7 @@ Changelog:
 - June 27, 2025. Made voting buttons smaller and less prominent per user feedback
 - June 27, 2025. Replaced view mode switch with icon buttons for card/list views
 - June 27, 2025. Fully localized interface to Russian language including test data
+- July 1, 2025. **CONVERTED ENTIRE INTERFACE TO ENGLISH**: Translated all UI text, labels, buttons, placeholders, and sample data to English language
 - June 27, 2025. Changed all terminology from "задачи" (tasks) to "идеи" (ideas) throughout interface
 - June 27, 2025. Added image display functionality in idea detail modal with responsive grid layout
 - June 27, 2025. Fixed idea cards layout: elements always stick to bottom edge for consistent alignment
@@ -122,3 +123,4 @@ Changelog:
 ## User Preferences
 
 Preferred communication style: Simple, everyday language.
+Preferred interface language: English (converted from Russian on July 1, 2025)
