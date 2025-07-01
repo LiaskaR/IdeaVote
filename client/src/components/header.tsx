@@ -41,7 +41,7 @@ export default function Header() {
               </div>
               <Input
                 type="text"
-                placeholder="Поиск идей..."
+                placeholder="Search ideas..."
                 className="pl-10"
               />
             </div>
@@ -57,11 +57,11 @@ export default function Header() {
               <Avatar className="w-8 h-8">
                 <AvatarImage src={user?.profileImageUrl} />
                 <AvatarFallback>
-                  {user?.username?.charAt(0).toUpperCase() || "У"}
+                  {user?.username?.charAt(0).toUpperCase() || "U"}
                 </AvatarFallback>
               </Avatar>
               <span className="text-sm font-medium text-gray-700">
-                {user?.username || "Пользователь"}
+                {user?.username || "User"}
               </span>
             </div>
             

@@ -10,17 +10,17 @@ interface SidebarProps {
 }
 
 const menuItems = [
-  { icon: Home, label: "МБО", href: "/" },
-  { icon: Users, label: "Клиенты", href: "/clients" },
-  { icon: FileText, label: "Пайплайн", href: "/pipeline" },
-  { icon: Users, label: "Контакты", href: "/contacts" },
-  { icon: BarChart3, label: "Дашборд", href: "/dashboard" },
-  { icon: Target, label: "Рекомендации", href: "/recommendations" },
-  { icon: FileText, label: "Потенциальные продукты", href: "/products" },
-  { icon: Target, label: "Задачи", href: "/tasks" },
-  { icon: Calendar, label: "Календарь", href: "/calendar" },
-  { icon: BarChart3, label: "Ставки", href: "/rates" },
-  { icon: Calculator, label: "Калькулятор", href: "/calculator" },
+  { icon: Home, label: "Ideas", href: "/" },
+  { icon: Users, label: "Clients", href: "/clients" },
+  { icon: FileText, label: "Pipeline", href: "/pipeline" },
+  { icon: Users, label: "Contacts", href: "/contacts" },
+  { icon: BarChart3, label: "Dashboard", href: "/dashboard" },
+  { icon: Target, label: "Recommendations", href: "/recommendations" },
+  { icon: FileText, label: "Products", href: "/products" },
+  { icon: Target, label: "Tasks", href: "/tasks" },
+  { icon: Calendar, label: "Calendar", href: "/calendar" },
+  { icon: BarChart3, label: "Rates", href: "/rates" },
+  { icon: Calculator, label: "Calculator", href: "/calculator" },
 ];
 
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
@@ -37,9 +37,9 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                   className="w-10 h-10 rounded-lg bg-yellow-400 p-1"
                 />
                 <div>
-                  <SheetTitle className="text-white text-lg font-bold">CRM</SheetTitle>
+                  <SheetTitle className="text-white text-lg font-bold">IdeaHub</SheetTitle>
                   <SheetDescription className="text-gray-400 text-sm">
-                    Навигация по системе управления идеями
+                    Navigate through idea management system
                   </SheetDescription>
                 </div>
               </div>
@@ -69,16 +69,16 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <div className="p-6 border-t border-gray-700">
             <div className="bg-gray-800 rounded-lg p-4 mb-4">
               <h3 className="text-sm font-medium text-white mb-2">
-                Мобильная версия
+                Mobile Version
               </h3>
               <p className="text-xs text-gray-400 mb-3">
-                Управляйте идеями в любом месте
+                Manage ideas anywhere
               </p>
               <Button 
                 size="sm"
                 className="bg-gray-700 hover:bg-gray-600 text-white"
               >
-                Попробовать
+                Try Now
               </Button>
             </div>
             

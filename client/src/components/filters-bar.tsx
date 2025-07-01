@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Grid3X3, List } from "lucide-react";
 
 const sortOptions = [
-  { value: "popular", label: "Популярные" },
-  { value: "newest", label: "Новые" },
-  { value: "oldest", label: "Старые" },
-  { value: "discussed", label: "Обсуждаемые" },
+  { value: "popular", label: "Popular" },
+  { value: "newest", label: "Newest" },
+  { value: "oldest", label: "Oldest" },
+  { value: "discussed", label: "Most Discussed" },
 ];
 
 interface FiltersBarProps {
@@ -45,7 +45,7 @@ export default function FiltersBar({
       </div>
 
       <div className="flex items-center space-x-2">
-        <span className="text-sm font-medium text-gray-700">Сортировка:</span>
+        <span className="text-sm font-medium text-gray-700">Sort by:</span>
         <Select value={sortBy} onValueChange={onSortChange}>
           <SelectTrigger className="w-40">
             <SelectValue />
