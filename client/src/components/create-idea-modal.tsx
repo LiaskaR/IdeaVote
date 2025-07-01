@@ -101,10 +101,10 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
-            Добавить новую идею
+            Add New Idea
           </DialogTitle>
           <DialogDescription>
-            Поделитесь своей идеей с командой. Добавьте описание, изображения и теги для лучшего понимания.
+            Share your idea with the team. Add description, images and tags for better understanding.
           </DialogDescription>
         </DialogHeader>
 
@@ -115,9 +115,9 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Заголовок *</FormLabel>
+                  <FormLabel>Title *</FormLabel>
                   <FormControl>
-                    <Input placeholder="Введите заголовок идеи" {...field} />
+                    <Input placeholder="Enter idea title" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -129,11 +129,11 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Описание *</FormLabel>
+                  <FormLabel>Description *</FormLabel>
                   <FormControl>
                     <Textarea
                       rows={4}
-                      placeholder="Опишите идею подробно..."
+                      placeholder="Describe your idea in detail..."
                       {...field}
                     />
                   </FormControl>
@@ -144,7 +144,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
 
             {/* Image Upload Section */}
             <div className="space-y-4">
-              <FormLabel>Изображения</FormLabel>
+              <FormLabel>Images</FormLabel>
               
               {/* File Input */}
               <input
@@ -164,7 +164,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
                 className="w-full border-dashed border-2 border-gray-300 hover:border-gray-400 py-6 bg-transparent hover:bg-gray-100 hover:text-gray-700"
               >
                 <Upload className="w-5 h-5 mr-2" />
-                Добавить изображения
+                Add Images
               </Button>
               
               {/* Uploaded Images Preview */}
@@ -192,13 +192,13 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
 
             <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
               <Button type="button" variant="outline" onClick={onClose} className="hover:bg-gray-50 hover:text-gray-900">
-                Отмена
+                Cancel
               </Button>
               <Button 
                 type="submit" 
                 disabled={createIdeaMutation.isPending}
               >
-                {createIdeaMutation.isPending ? "Сохранение..." : "Добавить идею"}
+                {createIdeaMutation.isPending ? "Creating..." : "Add Idea"}
               </Button>
             </div>
           </form>
