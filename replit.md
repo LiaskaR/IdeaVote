@@ -16,11 +16,14 @@ IdeaHub is a full-stack web application for collaborative idea management, built
 
 ### Backend Architecture
 - **Runtime**: Java 21 with Spring Boot 3.2.1 framework
-- **Database**: PostgreSQL with JPA/Hibernate ORM
+- **Database**: PostgreSQL with JPA/Hibernate ORM (H2 for development)
 - **Authentication**: Keycloak 23.0.4 with JWT tokens
 - **Security**: Spring Security with Keycloak adapter
 - **Build Tool**: Maven for dependency management
 - **Development**: Spring Boot DevTools for hot reload
+- **API Layer**: REST controllers with DTOs for data transfer
+- **Service Layer**: Business logic with transactional support
+- **Repository Layer**: JPA repositories with custom queries
 
 ### Database Schema
 The application uses a PostgreSQL database with the following main entities:
@@ -106,6 +109,15 @@ Changelog:
 - June 27, 2025. Fully localized interface to Russian language including test data
 - July 1, 2025. **CONVERTED ENTIRE INTERFACE TO ENGLISH**: Translated all UI text, labels, buttons, placeholders, and sample data to English language
 - June 27, 2025. Changed all terminology from "задачи" (tasks) to "идеи" (ideas) throughout interface
+- July 10, 2025. **MAJOR BACKEND CONVERSION**: Converted entire backend from Node.js/Express to Java 21 with Spring Boot 3.2.1:
+  * Created JPA entities (User, Idea, Vote, Comment) with proper relationships
+  * Implemented repository layer with custom queries for complex data fetching
+  * Built service layer with business logic and transaction management
+  * Created REST controllers with DTO pattern for API endpoints
+  * Added Spring Security configuration with CORS support
+  * Implemented data seeding service with English sample data
+  * Configured H2 database for development, PostgreSQL for production
+  * Maintained same API interface for frontend compatibility
 - June 27, 2025. Added image display functionality in idea detail modal with responsive grid layout
 - June 27, 2025. Fixed idea cards layout: elements always stick to bottom edge for consistent alignment
 - June 27, 2025. Implemented enterprise-grade security: JWT authentication, bcrypt hashing, rate limiting, CORS protection, and input validation for 1M+ user scalability
