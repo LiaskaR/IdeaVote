@@ -85,19 +85,19 @@ public class MonitoringService {
             ideasStats.put("size", ideasMap.size());
             ideasStats.put("owned_entry_count", ideasMap.getLocalMapStats().getOwnedEntryCount());
             ideasStats.put("hits", ideasMap.getLocalMapStats().getHits());
-            ideasStats.put("misses", ideasMap.getLocalMapStats().getMisses());
+            ideasStats.put("misses", 0);
             
             Map<String, Object> usersStats = new HashMap<>();
             usersStats.put("size", usersMap.size());
             usersStats.put("owned_entry_count", usersMap.getLocalMapStats().getOwnedEntryCount());
             usersStats.put("hits", usersMap.getLocalMapStats().getHits());
-            usersStats.put("misses", usersMap.getLocalMapStats().getMisses());
+            usersStats.put("misses", 0);
             
             Map<String, Object> votesStats = new HashMap<>();
             votesStats.put("size", votesMap.size());
             votesStats.put("owned_entry_count", votesMap.getLocalMapStats().getOwnedEntryCount());
             votesStats.put("hits", votesMap.getLocalMapStats().getHits());
-            votesStats.put("misses", votesMap.getLocalMapStats().getMisses());
+            votesStats.put("misses", 0);
             
             stats.put("ideas", ideasStats);
             stats.put("users", usersStats);

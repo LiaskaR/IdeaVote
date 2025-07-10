@@ -27,7 +27,7 @@ public class PerformanceConfig implements WebMvcConfigurer {
 
     @Override
     public void configureAsyncSupport(AsyncSupportConfigurer configurer) {
-        configurer.setTaskExecutor(taskExecutor());
+        configurer.setTaskExecutor((org.springframework.core.task.AsyncTaskExecutor) taskExecutor());
         configurer.setDefaultTimeout(60000); // 60 seconds
     }
 }

@@ -35,10 +35,11 @@ public class KeycloakSecurityConfig {
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .oauth2ResourceServer()
-                .jwt()
-                .jwtAuthenticationConverter(jwtAuthenticationConverter())
-            .and()
+            .oauth2ResourceServer(oauth2 -> oauth2
+                .jwt(jwt -> jwt
+                    .jwtAuthenticationConverter(jwtAuthenticationConverter())
+                )
+            )
             .authorizeHttpRequests(authz -> authz
                 .requestMatchers("/api/public/**").permitAll()
                 .requestMatchers("/api/stats").permitAll()

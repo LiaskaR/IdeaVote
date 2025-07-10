@@ -12,7 +12,8 @@ public class JwtUserDetails {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.getPrincipal() instanceof Jwt) {
             Jwt jwt = (Jwt) authentication.getPrincipal();
-            return jwt.getClaimAsLong("sub");
+            String sub = jwt.getClaimAsString("sub");
+            return sub != null ? Long.parseLong(sub) : null;
         }
         return null;
     }
