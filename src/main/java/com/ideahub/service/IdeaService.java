@@ -7,7 +7,11 @@ import com.ideahub.entity.Vote;
 import com.ideahub.repository.IdeaRepository;
 import com.ideahub.repository.UserRepository;
 import com.ideahub.repository.VoteRepository;
+import com.ideahub.security.JwtUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +32,10 @@ public class IdeaService {
     @Autowired
     private VoteRepository voteRepository;
     
+    @Autowired
+    private JwtUserDetails jwtUserDetails;
+    
+    @Cacheable(value = "ideas", key = "#sortBy + '_' + #currentUserId")
     public List<IdeaDto> getAllIdeas(String sortBy, Long currentUserId) {
         List<Idea> ideas;
         
@@ -59,6 +67,7 @@ public class IdeaService {
             .collect(Collectors.toList());
     }
     
+    @Cacheable(value = "ideas", key = "#id + '_' + #currentUserId")
     public Optional<IdeaDto> getIdeaById(Long id, Long currentUserId) {
         Optional<Idea> idea = ideaRepository.findByIdWithDetails(id);
         
@@ -77,6 +86,8 @@ public class IdeaService {
         return Optional.of(dto);
     }
     
+    @CacheEvict(value = "ideas", allEntries = true)
+    @Async
     public IdeaDto createIdea(String title, String description, List<String> tags, List<String> images, Long authorId) {
         User author = userRepository.findById(authorId)
             .orElseThrow(() -> new RuntimeException("User not found"));
