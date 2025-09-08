@@ -10,24 +10,9 @@ export default defineConfig({
       name: 'IdeasWidget',
       filename: 'remoteEntry.js',
       exposes: {
-        './IdeasWidget': './src/widget-ideas/index.ts',
+        './IdeasWidget': './src/microfrontend.tsx',
       },
-      shared: {
-        react: {
-          singleton: true,
-          requiredVersion: '^18.0.0'
-        },
-        'react-dom': {
-          singleton: true,
-          requiredVersion: '^18.0.0'
-        },
-        'react-i18next': {
-          singleton: true
-        },
-        '@tanstack/react-query': {
-          singleton: true
-        }
-      }
+      shared: ['react', 'react-dom', 'react-i18next', '@tanstack/react-query']
     }),
   ],
   resolve: {
