@@ -1,0 +1,92 @@
+{
+  "app": {
+    "title": "IdeaHub",
+    "subtitle": "Collaborative Idea Management Platform"
+  },
+  "auth": {
+    "welcome": "Welcome to IdeaHub",
+    "subtitle": "Collaborative Idea Management Platform",
+    "signIn": "Sign In",
+    "signingIn": "Signing in...",
+    "backendInfo": "Node.js backend with secure authentication",
+    "demoNote": "Demo login for testing purposes"
+  },
+  "navigation": {
+    "ideas": "Ideas",
+    "clients": "Clients",
+    "pipeline": "Pipeline",
+    "contacts": "Contacts",
+    "dashboard": "Dashboard",
+    "recommendations": "Recommendations",
+    "products": "Products",
+    "tasks": "Tasks",
+    "calendar": "Calendar",
+    "rates": "Rates",
+    "calculator": "Calculator",
+    "sidebarDescription": "Navigate through idea management system"
+  },
+  "hero": {
+    "totalIdeas": "Total Ideas",
+    "activeUsers": "Active Users",
+    "thisMonth": "This Month",
+    "welcomeBack": "Welcome back!",
+    "manageIdeas": "Here you can manage and track all ideas",
+    "addNewIdea": "Add New Idea"
+  },
+  "filters": {
+    "search": "Search ideas...",
+    "sortBy": "Sort by",
+    "newest": "Newest",
+    "oldest": "Oldest",
+    "mostVoted": "Most Voted",
+    "leastVoted": "Least Voted",
+    "gridView": "Grid View",
+    "listView": "List View"
+  },
+  "idea": {
+    "createTitle": "Add New Idea",
+    "createDescription": "Share your idea with the team. Add description, images and tags for better understanding.",
+    "title": "Title",
+    "titlePlaceholder": "Enter idea title",
+    "description": "Description",
+    "descriptionPlaceholder": "Describe your idea in detail...",
+    "images": "Images",
+    "addImages": "Add Images",
+    "published": "Published",
+    "attachedImages": "Attached Images",
+    "overallRating": "overall rating",
+    "comments": "comments",
+    "noComments": "No comments yet. Be the first!",
+    "writeComment": "Write a comment...",
+    "addComment": "Add Comment",
+    "posting": "Posting...",
+    "creating": "Creating...",
+    "addIdea": "Add Idea",
+    "ideaNotFound": "Idea not found"
+  },
+  "actions": {
+    "cancel": "Cancel",
+    "loading": "Loading...",
+    "tryNow": "Try Now"
+  },
+  "messages": {
+    "ideaCreated": "Idea Created!",
+    "ideaCreatedSuccess": "Your idea has been successfully added.",
+    "commentPosted": "Your comment has been posted!",
+    "error": "Error",
+    "createIdeaError": "Failed to create idea. Please try again.",
+    "voteError": "Failed to vote. Please try again.",
+    "commentError": "Failed to post comment. Please try again."
+  },
+  "mobile": {
+    "title": "Mobile Version",
+    "description": "Manage ideas anywhere"
+  },
+  "notFound": {
+    "title": "404 Page Not Found",
+    "description": "The requested page does not exist."
+  },
+  "language": {
+    "switchTo": "Switch to {{language}}"
+  }
+}
