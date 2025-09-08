@@ -1,16 +1,19 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Search, Bell, Plus, LogOut, Menu } from "lucide-react";
 import logoPath from "@assets/4 оп_1751020306764.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
+import LanguageSwitcher from "./language-switcher";
 import Sidebar from "./sidebar";
 
 interface HeaderProps {}
 
 export default function Header() {
   const { user, logout } = useAuth();
+  const { t } = useTranslation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
@@ -41,7 +44,7 @@ export default function Header() {
               </div>
               <Input
                 type="text"
-                placeholder="Search ideas..."
+                placeholder={t('filters.search')}
                 className="pl-10"
               />
             </div>
@@ -49,6 +52,8 @@ export default function Header() {
           
           {/* Right Navigation */}
           <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
+            
             <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 bg-transparent">
               <Bell className="w-5 h-5" />
             </Button>

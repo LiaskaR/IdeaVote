@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,6 +23,7 @@ interface CreateIdeaModalProps {
 
 export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProps) {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -71,8 +73,8 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
       queryClient.invalidateQueries({ queryKey: ["/api/ideas"] });
       queryClient.invalidateQueries({ queryKey: ["/api/stats"] });
       toast({
-        title: "Idea Created!",
-        description: "Your idea has been successfully added.",
+        title: t('messages.ideaCreated'),
+        description: t('messages.ideaCreatedSuccess'),
       });
       form.reset();
       setUploadedImages([]);
@@ -80,8 +82,8 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to create idea. Please try again.",
+        title: t('messages.error'),
+        description: t('messages.createIdeaError'),
         variant: "destructive",
       });
     },
@@ -101,10 +103,10 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
-            Add New Idea
+            {t('idea.createTitle')}
           </DialogTitle>
           <DialogDescription>
-            Share your idea with the team. Add description, images and tags for better understanding.
+            {t('idea.createDescription')}
           </DialogDescription>
         </DialogHeader>
 
@@ -115,9 +117,9 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title *</FormLabel>
+                  <FormLabel>{t('idea.title')} *</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter idea title" {...field} />
+                    <Input placeholder={t('idea.titlePlaceholder')} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -129,11 +131,11 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description *</FormLabel>
+                  <FormLabel>{t('idea.description')} *</FormLabel>
                   <FormControl>
                     <Textarea
                       rows={4}
-                      placeholder="Describe your idea in detail..."
+                      placeholder={t('idea.descriptionPlaceholder')}
                       {...field}
                     />
                   </FormControl>
@@ -144,7 +146,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
 
             {/* Image Upload Section */}
             <div className="space-y-4">
-              <FormLabel>Images</FormLabel>
+              <FormLabel>{t('idea.images')}</FormLabel>
               
               {/* File Input */}
               <input
@@ -164,7 +166,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
                 className="w-full border-dashed border-2 border-gray-300 hover:border-gray-400 py-6 bg-transparent hover:bg-gray-100 hover:text-gray-700"
               >
                 <Upload className="w-5 h-5 mr-2" />
-                Add Images
+                {t('idea.addImages')}
               </Button>
               
               {/* Uploaded Images Preview */}
@@ -192,13 +194,13 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
 
             <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
               <Button type="button" variant="outline" onClick={onClose} className="hover:bg-gray-50 hover:text-gray-900">
-                Cancel
+                {t('actions.cancel')}
               </Button>
               <Button 
                 type="submit" 
                 disabled={createIdeaMutation.isPending}
               >
-                {createIdeaMutation.isPending ? "Creating..." : "Add Idea"}
+                {createIdeaMutation.isPending ? t('idea.creating') : t('idea.addIdea')}
               </Button>
             </div>
           </form>

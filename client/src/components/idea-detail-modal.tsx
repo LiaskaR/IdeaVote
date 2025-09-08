@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
@@ -22,6 +23,7 @@ interface IdeaDetailModalProps {
 export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailModalProps) {
   const [commentText, setCommentText] = useState("");
   const { toast } = useToast();
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const currentUserId = 7; // Default to current user (Andrey Zakharov)
 
@@ -59,8 +61,8 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to process vote. Please try again.",
+        title: t('messages.error'),
+        description: t('messages.voteError'),
         variant: "destructive",
       });
     },
@@ -79,14 +81,14 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
       queryClient.invalidateQueries({ queryKey: ["/api/ideas", ideaId] });
       setCommentText("");
       toast({
-        title: "Success",
-        description: "Your comment has been posted!",
+        title: t('messages.ideaCreated'),
+        description: t('messages.commentPosted'),
       });
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to post comment. Please try again.",
+        title: t('messages.error'),
+        description: t('messages.commentError'),
         variant: "destructive",
       });
     },
@@ -111,9 +113,9 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader className="sr-only">
-          <DialogTitle>{idea?.title || "Idea Details"}</DialogTitle>
+          <DialogTitle>{idea?.title || t('idea.createTitle')}</DialogTitle>
           <DialogDescription>
-            View complete information about the idea, including description, images and comments
+            {t('idea.createDescription')}
           </DialogDescription>
         </DialogHeader>
         {isLoading ? (
@@ -128,7 +130,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
           <div className="p-6">
             <div className="mb-6">
               <span className="text-sm text-gray-500">
-                Published {formatDistanceToNow(new Date(idea.createdAt!), { addSuffix: true })}
+                {t('idea.published')} {formatDistanceToNow(new Date(idea.createdAt!), { addSuffix: true })}
               </span>
             </div>
             
@@ -153,13 +155,13 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
             {/* Images Section */}
             {idea.images && idea.images.length > 0 && (
               <div className="mb-6">
-                <h4 className="text-sm font-medium text-gray-900 mb-3">Attached Images</h4>
+                <h4 className="text-sm font-medium text-gray-900 mb-3">{t('idea.attachedImages')}</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {idea.images.map((image, index) => (
                     <div key={index} className="relative group">
                       <img
                         src={image}
-                        alt={`Image ${index + 1} for idea "${idea.title}"`}
+                        alt={`${t('idea.images')} ${index + 1} ${idea.title}`}
                         className="w-full h-48 object-cover rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                         onClick={() => {
                           // Open image in new tab for full view
@@ -192,8 +194,8 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
                 </div>
               </div>
               <div className="text-sm text-gray-600">
-                <span className="font-medium">{idea.upvotes - idea.downvotes}</span> overall rating • 
-                <span className="font-medium ml-1">{comments.length}</span> comments
+                <span className="font-medium">{idea.upvotes - idea.downvotes}</span> {t('idea.overallRating')} • 
+                <span className="font-medium ml-1">{comments.length}</span> {t('idea.comments')}
               </div>
             </div>
             
@@ -201,13 +203,13 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
             <div className="border-t border-gray-200 pt-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <MessageCircle className="w-5 h-5 mr-2" />
-                Comments
+                {t('idea.comments')}
               </h3>
               
               {/* Comments List */}
               <div className="space-y-4 mb-6">
                 {comments.length === 0 ? (
-                  <p className="text-gray-500 text-center py-4">No comments yet. Be the first!</p>
+                  <p className="text-gray-500 text-center py-4">{t('idea.noComments')}</p>
                 ) : (
                   comments.map((comment) => (
                     <div key={comment.id} className="flex space-x-3">
@@ -236,21 +238,21 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
                   rows={3}
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
-                  placeholder="Write a comment..."
+                  placeholder={t('idea.writeComment')}
                   className="mb-3"
                 />
                 <Button
                   type="submit"
                   disabled={!commentText.trim() || commentMutation.isPending}
                 >
-                  {commentMutation.isPending ? "Posting..." : "Add Comment"}
+                  {commentMutation.isPending ? t('idea.posting') : t('idea.addComment')}
                 </Button>
               </form>
             </div>
           </div>
         ) : (
           <div className="p-6 text-center">
-            <p className="text-gray-500">Idea not found</p>
+            <p className="text-gray-500">{t('idea.ideaNotFound')}</p>
           </div>
         )}
       </DialogContent>

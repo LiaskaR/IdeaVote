@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -15,6 +16,7 @@ interface IdeaCardProps {
 
 export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const currentUserId = 7; // Default to current user (Andrey Zakharov)
 
@@ -33,8 +35,8 @@ export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to vote. Please try again.",
+        title: t('messages.error'),
+        description: t('messages.voteError'),
         variant: "destructive",
       });
     },

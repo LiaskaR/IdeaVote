@@ -1,7 +1,9 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { X, Home, Users, FileText, Calendar, Settings, BarChart3, Target, Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import LanguageSwitcher from "./language-switcher";
 import logoPath from "@assets/4 оп_1751020306764.png";
 
 interface SidebarProps {
@@ -9,21 +11,22 @@ interface SidebarProps {
   onClose: () => void;
 }
 
-const menuItems = [
-  { icon: Home, label: "Ideas", href: "/" },
-  { icon: Users, label: "Clients", href: "/clients" },
-  { icon: FileText, label: "Pipeline", href: "/pipeline" },
-  { icon: Users, label: "Contacts", href: "/contacts" },
-  { icon: BarChart3, label: "Dashboard", href: "/dashboard" },
-  { icon: Target, label: "Recommendations", href: "/recommendations" },
-  { icon: FileText, label: "Products", href: "/products" },
-  { icon: Target, label: "Tasks", href: "/tasks" },
-  { icon: Calendar, label: "Calendar", href: "/calendar" },
-  { icon: BarChart3, label: "Rates", href: "/rates" },
-  { icon: Calculator, label: "Calculator", href: "/calculator" },
-];
-
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+  const { t } = useTranslation();
+  
+  const menuItems = [
+    { icon: Home, label: t('navigation.ideas'), href: "/" },
+    { icon: Users, label: t('navigation.clients'), href: "/clients" },
+    { icon: FileText, label: t('navigation.pipeline'), href: "/pipeline" },
+    { icon: Users, label: t('navigation.contacts'), href: "/contacts" },
+    { icon: BarChart3, label: t('navigation.dashboard'), href: "/dashboard" },
+    { icon: Target, label: t('navigation.recommendations'), href: "/recommendations" },
+    { icon: FileText, label: t('navigation.products'), href: "/products" },
+    { icon: Target, label: t('navigation.tasks'), href: "/tasks" },
+    { icon: Calendar, label: t('navigation.calendar'), href: "/calendar" },
+    { icon: BarChart3, label: t('navigation.rates'), href: "/rates" },
+    { icon: Calculator, label: t('navigation.calculator'), href: "/calculator" },
+  ];
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent side="left" className="w-80 p-0 border-0">
@@ -39,7 +42,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                 <div>
                   <SheetTitle className="text-white text-lg font-bold">IdeaHub</SheetTitle>
                   <SheetDescription className="text-gray-400 text-sm">
-                    Navigate through idea management system
+                    {t('navigation.sidebarDescription')}
                   </SheetDescription>
                 </div>
               </div>
@@ -69,22 +72,21 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <div className="p-6 border-t border-gray-700">
             <div className="bg-gray-800 rounded-lg p-4 mb-4">
               <h3 className="text-sm font-medium text-white mb-2">
-                Mobile Version
+                {t('mobile.title')}
               </h3>
               <p className="text-xs text-gray-400 mb-3">
-                Manage ideas anywhere
+                {t('mobile.description')}
               </p>
               <Button 
                 size="sm"
                 className="bg-gray-700 hover:bg-gray-600 text-white"
               >
-                Try Now
+                {t('actions.tryNow')}
               </Button>
             </div>
             
-            <div className="flex items-center space-x-2 text-xs text-gray-500">
-              <span>RU</span>
-              <span>EN</span>
+            <div className="flex justify-center">
+              <LanguageSwitcher />
             </div>
           </div>
         </div>
