@@ -1,16 +1,15 @@
 import React from "react";
 import { Switch, Route } from "wouter";
-import { queryClient } from "@/shared/lib/queryClient";
+import { queryClient } from "./widget-ideas/lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
-import { Toaster } from "@/shared/ui/toaster";
-import { TooltipProvider } from "@/shared/ui/tooltip";
-import Home from "@/pages/home";
-import NotFound from "@/pages/not-found";
+import { Toaster } from "./widget-ideas/ui/toaster";
+import { TooltipProvider } from "./widget-ideas/ui/tooltip";
+import { IdeasWidget, NotFound } from "./widget-ideas";
 
 function Router() {
   return (
     <Switch>
-      <Route path="/" component={Home} />
+      <Route path="/" component={IdeasWidget} />
       <Route component={NotFound} />
     </Switch>
   );

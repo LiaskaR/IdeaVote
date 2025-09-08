@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import HeroSection from "@/widgets/hero-section";
-import FiltersBar from "@/widgets/filters-bar";
-import IdeaCard from "@/features/ideas/idea-card";
-import CreateIdeaModal from "@/features/ideas/create-idea-modal";
-import IdeaDetailModal from "@/features/ideas/idea-detail-modal";
-import LanguageSwitcher from "@/features/language/language-switcher";
-import { Button } from "@/shared/ui/button";
-import { Avatar, AvatarFallback } from "@/shared/ui/avatar";
+import HeroSection from "./hero-section";
+import FiltersBar from "./filters-bar";
+import IdeaCard from "./idea-card";
+import CreateIdeaModal from "./create-idea-modal";
+import IdeaDetailModal from "./idea-detail-modal";
+import LanguageSwitcher from "./language-switcher";
+import { Button } from "./button";
+import { Avatar, AvatarFallback } from "./avatar";
 import { Plus, ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
 import type { IdeaWithDetails } from "@shared/schema";
 

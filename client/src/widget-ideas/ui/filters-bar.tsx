@@ -1,6 +1,6 @@
 import React from "react";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/shared/ui/select";
-import { Button } from "@/shared/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
+import { Button } from "./button";
 import { Grid3X3, List } from "lucide-react";
 
 const sortOptions = [

@@ -1,11 +1,11 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
-import { Button } from "@/shared/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
+import { Button } from "./button";
+import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useToast } from "@/shared/hooks/use-toast";
-import { apiRequest } from "@/shared/lib/queryClient";
+import { useToast } from "../hooks/use-toast";
+import { apiRequest } from "../lib/queryClient";
 
 import type { IdeaWithDetails } from "@shared/schema";
 

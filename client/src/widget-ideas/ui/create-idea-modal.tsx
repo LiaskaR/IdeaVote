@@ -4,15 +4,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Upload, Image as ImageIcon, Trash2 } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/shared/ui/dialog";
-import { Button } from "@/shared/ui/button";
-import { Input } from "@/shared/ui/input";
-import { Textarea } from "@/shared/ui/textarea";
-
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/shared/ui/form";
-import { useToast } from "@/shared/hooks/use-toast";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "./dialog";
+import { Button } from "./button";
+import { Input } from "./input";
+import { Textarea } from "./textarea";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./form";
+import { useToast } from "../hooks/use-toast";
 import { insertIdeaSchema, type InsertIdea } from "@shared/schema";
-import { apiRequest } from "@/shared/lib/queryClient";
+import { apiRequest } from "../lib/queryClient";
 
 
 
