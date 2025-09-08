@@ -10,26 +10,27 @@ import { useToast } from "../hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
 import { apiRequest } from "../lib/queryClient";
 import type { IdeaWithDetails, CommentWithAuthor } from "@shared/schema";
-
-
+import type { UserData } from './home';
 
 interface IdeaDetailModalProps {
   ideaId: number;
   isOpen: boolean;
   onClose: () => void;
+  user?: UserData;
+  apiBaseUrl?: string;
 }
 
-export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailModalProps) {
+export default function IdeaDetailModal({ ideaId, isOpen, onClose, user, apiBaseUrl = '' }: IdeaDetailModalProps) {
   const [commentText, setCommentText] = useState("");
   const { toast } = useToast();
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const currentUserId = 7; // Default to current user (Andrey Zakharov)
+  const currentUserId = user?.id || 1; // Use authenticated user ID
 
   const { data: idea, isLoading } = useQuery<IdeaWithDetails>({
     queryKey: ["/api/ideas", ideaId],
     queryFn: async () => {
-      const response = await fetch(`/api/ideas/${ideaId}`);
+      const response = await fetch(`${apiBaseUrl}/api/ideas/${ideaId}`);
       if (!response.ok) throw new Error("Failed to fetch idea");
       return response.json();
     },
@@ -39,7 +40,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
   const { data: comments = [] } = useQuery<CommentWithAuthor[]>({
     queryKey: ["/api/ideas", ideaId, "comments"],
     queryFn: async () => {
-      const response = await fetch(`/api/ideas/${ideaId}/comments`);
+      const response = await fetch(`${apiBaseUrl}/api/ideas/${ideaId}/comments`);
       if (!response.ok) throw new Error("Failed to fetch comments");
       return response.json();
     },
@@ -48,7 +49,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
 
   const voteMutation = useMutation({
     mutationFn: async ({ type }: { type: 'up' | 'down' }) => {
-      const response = await apiRequest("POST", `/api/ideas/${ideaId}/vote`, {
+      const response = await apiRequest("POST", `${apiBaseUrl}/api/ideas/${ideaId}/vote`, {
         userId: currentUserId,
         type,
       });
@@ -69,7 +70,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
 
   const commentMutation = useMutation({
     mutationFn: async (content: string) => {
-      const response = await apiRequest("POST", `/api/ideas/${ideaId}/comments`, {
+      const response = await apiRequest("POST", `${apiBaseUrl}/api/ideas/${ideaId}/comments`, {
         userId: currentUserId,
         content,
       });

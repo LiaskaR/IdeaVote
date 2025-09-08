@@ -8,21 +8,24 @@ import { useToast } from "../hooks/use-toast";
 import { apiRequest } from "../lib/queryClient";
 
 import type { IdeaWithDetails } from "@shared/schema";
+import type { UserData } from './home';
 
 interface IdeaCardProps {
   idea: IdeaWithDetails;
   onClick: () => void;
+  user?: UserData;
+  apiBaseUrl?: string;
 }
 
-export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
+export default function IdeaCard({ idea, onClick, user, apiBaseUrl = '' }: IdeaCardProps) {
   const { toast } = useToast();
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const currentUserId = 7; // Default to current user (Andrey Zakharov)
+  const currentUserId = user?.id || 1; // Use authenticated user ID
 
   const voteMutation = useMutation({
     mutationFn: async ({ type }: { type: 'up' | 'down' }) => {
-      const response = await apiRequest("POST", `/api/ideas/${idea.id}/vote`, {
+      const response = await apiRequest("POST", `${apiBaseUrl}/api/ideas/${idea.id}/vote`, {
         userId: currentUserId,
         type
       });

@@ -1,5 +1,6 @@
 // Widget Ideas - Single Widget Slice Entry Point
-export { default as IdeasWidget } from './ui/home';
+export { default as IdeasWidget, type UserData, type IdeasWidgetProps } from './ui/home';
+export { StandaloneIdeasWidget } from './standalone';
 export { default as CreateIdeaModal } from './ui/create-idea-modal';
 export { default as IdeaDetailModal } from './ui/idea-detail-modal';
 export { default as IdeaCard } from './ui/idea-card';

@@ -12,7 +12,18 @@ import { Avatar, AvatarFallback } from "./avatar";
 import { Plus, ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
 import type { IdeaWithDetails } from "@shared/schema";
 
-export default function Home() {
+export interface UserData {
+  id: number;
+  username: string;
+  avatar?: string;
+}
+
+export interface IdeasWidgetProps {
+  user?: UserData;
+  apiBaseUrl?: string;
+}
+
+export default function Home({ user, apiBaseUrl = '' }: IdeasWidgetProps) {
   const { t } = useTranslation();
   const [sortBy, setSortBy] = useState("popular");
   const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
@@ -25,7 +36,7 @@ export default function Home() {
       const params = new URLSearchParams();
       if (sortBy !== "popular") params.append("sortBy", sortBy);
       
-      const response = await fetch(`/api/ideas?${params}`);
+      const response = await fetch(`${apiBaseUrl}/api/ideas?${params}`);
       if (!response.ok) throw new Error("Failed to fetch ideas");
       return response.json();
     },
@@ -97,6 +108,8 @@ export default function Home() {
                     key={idea.id}
                     idea={idea}
                     onClick={() => setSelectedIdeaId(idea.id)}
+                    user={user}
+                    apiBaseUrl={apiBaseUrl}
                   />
                 ))}
               </div>
@@ -150,12 +163,16 @@ export default function Home() {
       <CreateIdeaModal
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
+        user={user}
+        apiBaseUrl={apiBaseUrl}
       />
       {selectedIdeaId && (
         <IdeaDetailModal
           ideaId={selectedIdeaId}
           isOpen={!!selectedIdeaId}
           onClose={() => setSelectedIdeaId(null)}
+          user={user}
+          apiBaseUrl={apiBaseUrl}
         />
       )}
     </div>

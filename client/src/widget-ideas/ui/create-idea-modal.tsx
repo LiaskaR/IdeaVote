@@ -12,15 +12,16 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "../hooks/use-toast";
 import { insertIdeaSchema, type InsertIdea } from "@shared/schema";
 import { apiRequest } from "../lib/queryClient";
-
-
+import type { UserData } from './home';
 
 interface CreateIdeaModalProps {
   isOpen: boolean;
   onClose: () => void;
+  user?: UserData;
+  apiBaseUrl?: string;
 }
 
-export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProps) {
+export default function CreateIdeaModal({ isOpen, onClose, user, apiBaseUrl = '' }: CreateIdeaModalProps) {
   const { toast } = useToast();
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -34,7 +35,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
       description: "",
       tags: [],
       images: [],
-      authorId: 7, // Default to current user (Andrey Zakharov)
+      authorId: user?.id || 1, // Use authenticated user ID
     },
   });
 
@@ -65,7 +66,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
 
   const createIdeaMutation = useMutation({
     mutationFn: async (data: InsertIdea) => {
-      const response = await apiRequest("POST", "/api/ideas", data);
+      const response = await apiRequest("POST", `${apiBaseUrl}/api/ideas`, data);
       return response.json();
     },
     onSuccess: () => {
