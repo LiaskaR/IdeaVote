@@ -2,11 +2,13 @@
 
 ## Overview
 
-The IdeaHub Ideas Widget has been prepared as a self-contained widget that can be easily integrated into other applications as a MicroFrontend. The widget is structured as a single, independent module with all necessary dependencies.
+The IdeaHub Ideas Widget is a production-ready, self-contained microfrontend with Keycloak authentication support. It can be easily integrated into any React application using multiple deployment strategies.
+
+**⚠️ UPDATED:** Now includes Keycloak JWT authentication integration for enterprise security.
 
 ## Quick Integration Methods
 
-### Option 1: Standalone Widget (Recommended)
+### Option 1: Standalone Widget with Keycloak (Recommended)
 
 Copy the entire `client/src/widget-ideas/` directory to your host application and use:
 
@@ -14,10 +16,21 @@ Copy the entire `client/src/widget-ideas/` directory to your host application an
 import { StandaloneIdeasWidget } from './path/to/widget-ideas/standalone';
 
 function App() {
+  // Get user data from Keycloak
+  const user = {
+    id: keycloak.tokenParsed.sub,
+    username: keycloak.tokenParsed.preferred_username,
+    avatar: keycloak.tokenParsed.picture
+  };
+
   return (
     <div>
       <h1>My Application</h1>
-      <StandaloneIdeasWidget />
+      <StandaloneIdeasWidget 
+        user={user}
+        authToken={keycloak.token}  // JWT token from Keycloak
+        apiBaseUrl="https://your-api-domain.com"
+      />
     </div>
   );
 }
@@ -33,10 +46,20 @@ import { queryClient } from './path/to/widget-ideas/lib/queryClient';
 import './path/to/widget-ideas/config/i18n'; // Initialize translations
 
 function App() {
+  const user = {
+    id: keycloak.tokenParsed.sub,
+    username: keycloak.tokenParsed.preferred_username,
+    avatar: keycloak.tokenParsed.picture
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <IdeasWidget />
+        <IdeasWidget 
+          user={user}
+          authToken={keycloak.token}
+          apiBaseUrl="https://your-api-domain.com"
+        />
       </TooltipProvider>
     </QueryClientProvider>
   );
@@ -45,18 +68,19 @@ function App() {
 
 ## Required Dependencies
 
-Ensure your host application has these dependencies installed:
+**⚠️ IMPORTANT:** This widget requires React 18.2.0 for compatibility:
 
 ```json
 {
   "dependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^5.3.0",
     "@tanstack/react-query": "^5.60.5",
     "react-i18next": "^13.0.0",
     "i18next": "^23.0.0",
     "i18next-browser-languagedetector": "^7.0.0",
-    "@radix-ui/react-tooltip": "^1.0.0",
+    "@radix-ui/react-tooltip": "^1.2.0",
     "lucide-react": "^0.400.0",
     "tailwindcss": "^3.4.0",
     "class-variance-authority": "^0.7.0",
@@ -113,11 +137,21 @@ import React, { Suspense } from 'react';
 const IdeasWidget = React.lazy(() => import('IdeasWidget/IdeasWidget'));
 
 function App() {
+  const user = {
+    id: keycloak.tokenParsed.sub,
+    username: keycloak.tokenParsed.preferred_username,
+    avatar: keycloak.tokenParsed.picture
+  };
+
   return (
     <div>
       <h1>My Application</h1>
       <Suspense fallback={<div>Loading Ideas Widget...</div>}>
-        <IdeasWidget />
+        <IdeasWidget 
+          user={user}
+          authToken={keycloak.token}
+          apiBaseUrl="https://your-api-backend.com"
+        />
       </Suspense>
     </div>
   );
@@ -147,15 +181,54 @@ The microfrontend shares these dependencies with the host:
 
 The widget includes its own Tailwind CSS styling. Make sure your host application doesn't conflict with these styles, or include the microfrontend in an isolated container.
 
-## API Requirements
+## 🔐 Authentication & API Requirements
 
-The widget expects these API endpoints to be available:
+### Keycloak Integration
 
-- `GET /api/ideas` - List ideas
-- `GET /api/ideas/:id` - Get idea details
-- `GET /api/ideas/:id/comments` - Get idea comments
-- `POST /api/ideas` - Create new idea
-- `POST /api/ideas/:id/vote` - Vote on idea
-- `POST /api/ideas/:id/comments` - Add comment
+The widget now supports enterprise-grade Keycloak authentication:
 
-Make sure these endpoints are available in your host application's backend.
+```typescript
+interface IdeasWidgetProps {
+  user?: {
+    id: string;          // Keycloak 'sub' claim
+    username: string;    // Keycloak 'preferred_username' claim  
+    avatar?: string;     // Keycloak 'picture' claim (optional)
+  };
+  authToken?: string;    // Raw JWT token from Keycloak
+  apiBaseUrl?: string;   // Your backend API URL
+}
+```
+
+### Backend Configuration
+
+Your backend must be configured with Keycloak JWT verification:
+
+```bash
+# Environment variables
+KEYCLOAK_REALM_URL=https://your-keycloak.com/realms/your-realm
+KEYCLOAK_CLIENT_ID=your-client-id
+JWT_SECRET=your-32-plus-character-secret-for-dev
+```
+
+### API Endpoints
+
+The widget expects these **authenticated** API endpoints:
+
+- `GET /api/ideas` - List ideas (public)
+- `GET /api/ideas/:id` - Get idea details (public)
+- `GET /api/ideas/:id/comments` - Get idea comments (public)
+- `POST /api/ideas` - Create new idea (**requires authentication**)
+- `POST /api/ideas/:id/vote` - Vote on idea (**requires authentication**)
+- `POST /api/ideas/:id/comments` - Add comment (**requires authentication**)
+
+All POST endpoints now automatically use the authenticated user ID from the JWT token.
+
+## 🚀 Deployment
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for comprehensive deployment instructions including:
+- Replit auto-deployment
+- Docker containerization
+- Cloud platform deployment (Vercel, Heroku, AWS)
+- CDN deployment for microfrontends
+- Environment configuration
+- Performance optimization
