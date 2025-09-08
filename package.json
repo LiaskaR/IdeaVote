@@ -46,6 +46,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/compression": "^1.8.1",
     "@types/cors": "^2.8.19",
+    "@types/date-fns": "^2.5.3",
     "@types/dompurify": "^3.0.5",
     "@types/jsdom": "^21.1.7",
     "@types/jsonwebtoken": "^9.0.10",

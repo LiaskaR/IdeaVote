@@ -8,6 +8,7 @@ import { Textarea } from "./textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "./avatar";
 import { useToast } from "../hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
+import { ru } from "date-fns/locale";
 import { apiRequest } from "../lib/queryClient";
 import type { IdeaWithDetails, CommentWithAuthor } from "@shared/schema";
 import type { UserData } from './home';
@@ -24,7 +25,7 @@ interface IdeaDetailModalProps {
 export default function IdeaDetailModal({ ideaId, isOpen, onClose, user, apiBaseUrl = '', authToken }: IdeaDetailModalProps) {
   const [commentText, setCommentText] = useState("");
   const { toast } = useToast();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
   const currentUserId = user?.id || 1; // Use authenticated user ID
 
@@ -133,7 +134,10 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose, user, apiBase
           <div className="p-6">
             <div className="mb-6">
               <span className="text-sm text-gray-500">
-                {t('idea.published')} {formatDistanceToNow(new Date(idea.createdAt!), { addSuffix: true })}
+                {t('idea.published')} {formatDistanceToNow(new Date(idea.createdAt!), { 
+                  addSuffix: true, 
+                  locale: i18n.language === 'ru' ? ru : undefined 
+                })}
               </span>
             </div>
             
@@ -225,7 +229,10 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose, user, apiBase
                         <div className="flex items-center space-x-2 mb-1">
                           <span className="font-medium text-gray-900">{comment.author.username}</span>
                           <span className="text-sm text-gray-500">
-                            {formatDistanceToNow(new Date(comment.createdAt!), { addSuffix: true })}
+                            {formatDistanceToNow(new Date(comment.createdAt!), { 
+                              addSuffix: true, 
+                              locale: i18n.language === 'ru' ? ru : undefined 
+                            })}
                           </span>
                         </div>
                         <p className="text-gray-700 text-sm">{comment.content}</p>
