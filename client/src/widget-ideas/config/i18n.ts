@@ -109,6 +109,7 @@ const resources = {
         delete: 'Delete',
         edit: 'Edit',
         confirm: 'Confirm',
+        user: 'User',
       },
       errors: {
         notFound: 'Page Not Found',
@@ -222,6 +223,7 @@ const resources = {
         delete: 'Удалить',
         edit: 'Редактировать',
         confirm: 'Подтвердить',
+        user: 'Пользователь',
       },
       errors: {
         notFound: 'Страница не найдена',

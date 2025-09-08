@@ -147,7 +147,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose, user, apiBase
               </Avatar>
               <div>
                 <div className="font-medium text-gray-900">{idea.author.username}</div>
-                <div className="text-sm text-gray-500">{idea.author.role || "User"}</div>
+                <div className="text-sm text-gray-500">{idea.author.role || t('common.user')}</div>
               </div>
             </div>
             

@@ -1,14 +1,10 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
 import { Button } from "./button";
 import { Grid3X3, List } from "lucide-react";
 
-const sortOptions = [
-  { value: "popular", label: "Popular" },
-  { value: "newest", label: "Newest" },
-  { value: "oldest", label: "Oldest" },
-  { value: "discussed", label: "Most Discussed" },
-];
+// Sort options will be translated dynamically
 
 interface FiltersBarProps {
   sortBy: string;
@@ -23,6 +19,15 @@ export default function FiltersBar({
   viewMode,
   onViewModeChange,
 }: FiltersBarProps) {
+  const { t } = useTranslation();
+  
+  const sortOptions = [
+    { value: "popular", label: t('filters.popular') },
+    { value: "newest", label: t('filters.newest') },
+    { value: "oldest", label: t('filters.oldest') },
+    { value: "discussed", label: t('filters.discussed') },
+  ];
+
   return (
     <div className="flex items-center justify-between mb-6">
       <div className="flex items-center space-x-1">
@@ -45,7 +50,7 @@ export default function FiltersBar({
       </div>
 
       <div className="flex items-center space-x-2">
-        <span className="text-sm font-medium text-gray-700">Sort by:</span>
+        <span className="text-sm font-medium text-gray-700">{t('filters.sortBy')}:</span>
         <Select value={sortBy} onValueChange={onSortChange}>
           <SelectTrigger className="w-40">
             <SelectValue />
