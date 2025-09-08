@@ -15,15 +15,15 @@ IdeaHub is a full-stack web application for collaborative idea management, built
 - **Form Handling**: React Hook Form with Zod validation
 
 ### Backend Architecture
-- **Runtime**: Java 21 with Spring Boot 3.2.1 framework
-- **Database**: PostgreSQL with JPA/Hibernate ORM (H2 for development)
-- **Authentication**: Keycloak 23.0.4 with JWT tokens
-- **Security**: Spring Security with Keycloak adapter
-- **Build Tool**: Maven for dependency management
-- **Development**: Spring Boot DevTools for hot reload
-- **API Layer**: REST controllers with DTOs for data transfer
-- **Service Layer**: Business logic with transactional support
-- **Repository Layer**: JPA repositories with custom queries
+- **Runtime**: Node.js with Express.js framework
+- **Database**: PostgreSQL with Drizzle ORM
+- **Authentication**: Session-based authentication with bcrypt
+- **Security**: Express security middleware with rate limiting, CORS, and input validation
+- **Build Tool**: esbuild for production builds
+- **Development**: tsx for TypeScript execution and hot reload
+- **API Layer**: Express routes with Zod validation
+- **Service Layer**: Business logic with TypeScript interfaces
+- **Storage Layer**: Drizzle ORM with PostgreSQL queries
 
 ### Database Schema
 The application uses a PostgreSQL database with the following main entities:
@@ -109,21 +109,7 @@ Changelog:
 - June 27, 2025. Fully localized interface to Russian language including test data
 - July 1, 2025. **CONVERTED ENTIRE INTERFACE TO ENGLISH**: Translated all UI text, labels, buttons, placeholders, and sample data to English language
 - June 27, 2025. Changed all terminology from "задачи" (tasks) to "идеи" (ideas) throughout interface
-- July 10, 2025. **MAJOR BACKEND CONVERSION**: Converted entire backend from Node.js/Express to Java 21 with Spring Boot 3.2.1 (COMPLETED):
-  * Created JPA entities (User, Idea, Vote, Comment) with proper relationships
-  * Implemented repository layer with custom queries for complex data fetching
-  * Built service layer with business logic and transaction management
-  * Created REST controllers with DTO pattern for API endpoints
-  * Added Spring Security configuration with CORS support
-  * Implemented data seeding service with English sample data
-  * Configured H2 database for development, PostgreSQL for production
-  * Maintained same API interface for frontend compatibility
-  * Added enterprise-grade features: distributed caching with Hazelcast, rate limiting with Resilience4j
-  * Implemented circuit breakers and monitoring endpoints for 1B+ user scalability
-  * Configured high-performance Tomcat with 400 threads and 10K connections
-  * Added Keycloak OAuth2 JWT authentication with role-based access control
-  * Created comprehensive admin monitoring dashboard with health checks and metrics
-  * Optimized database connection pooling for high-load scenarios
+- September 8, 2025. **BACKEND SIMPLIFICATION**: Removed Java Spring Boot backend and reverted to Node.js/Express for simplified development and maintenance
 - June 27, 2025. Added image display functionality in idea detail modal with responsive grid layout
 - June 27, 2025. Fixed idea cards layout: elements always stick to bottom edge for consistent alignment
 - June 27, 2025. Implemented enterprise-grade security: JWT authentication, bcrypt hashing, rate limiting, CORS protection, and input validation for 1M+ user scalability
