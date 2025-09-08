@@ -67,7 +67,10 @@ const en = {
     "posting": "Posting...",
     "creating": "Creating...",
     "addIdea": "Add Idea",
-    "ideaNotFound": "Idea not found"
+    "ideaNotFound": "Idea not found",
+    "noIdeasFound": "No ideas found",
+    "beFirstToSuggest": "Be the first to suggest an idea!",
+    "suggestIdea": "Suggest Idea"
   },
   "actions": {
     "cancel": "Cancel",
@@ -160,7 +163,10 @@ const ru = {
     "posting": "Отправляем...",
     "creating": "Создаем...",
     "addIdea": "Добавить идею",
-    "ideaNotFound": "Идея не найдена"
+    "ideaNotFound": "Идея не найдена",
+    "noIdeasFound": "Идеи не найдены",
+    "beFirstToSuggest": "Будьте первым, кто предложит идею!",
+    "suggestIdea": "Предложить идею"
   },
   "actions": {
     "cancel": "Отмена",
