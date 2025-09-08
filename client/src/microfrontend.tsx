@@ -3,7 +3,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { TooltipProvider } from "./widget-ideas/ui/tooltip";
 import { Toaster } from "./widget-ideas/ui/toaster";
 import { queryClient } from "./widget-ideas/lib/queryClient";
-import { IdeasWidget } from "./widget-ideas";
+import IdeasWidget from "./widget-ideas/ui/home";
 import "./widget-ideas/config/i18n";
 import "./index.css";
 
@@ -25,4 +25,4 @@ export const MicroFrontendWrapper: React.FC = () => {
 export default MicroFrontendWrapper;
 
 // Also export the raw widget for more flexible integration
-export { IdeasWidget } from "./widget-ideas";
+export { default as IdeasWidget } from "./widget-ideas/ui/home";

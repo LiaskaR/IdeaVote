@@ -10,7 +10,7 @@ export default defineConfig({
       name: 'IdeasWidget',
       filename: 'remoteEntry.js',
       exposes: {
-        './IdeasWidget': './src/microfrontend.tsx',
+        './IdeasWidget': './src/widget-ideas/index.ts',
       },
       shared: ['react', 'react-dom', 'react-i18next', '@tanstack/react-query']
     }),

@@ -2,49 +2,109 @@
 
 ## Overview
 
-The IdeaHub Ideas Widget has been configured as a MicroFrontend that can be consumed by other applications using Module Federation.
+The IdeaHub Ideas Widget has been prepared as a self-contained widget that can be easily integrated into other applications as a MicroFrontend. The widget is structured as a single, independent module with all necessary dependencies.
 
-## Build Commands
+## Quick Integration Methods
 
-To build the microfrontend:
+### Option 1: Standalone Widget (Recommended)
 
-```bash
-# Build the microfrontend
-npx vite build --config vite.microfrontend.config.ts
+Copy the entire `client/src/widget-ideas/` directory to your host application and use:
 
-# The built files will be in dist/microfrontend/
-# The main entry point will be remoteEntry.js
+```typescript
+import { StandaloneIdeasWidget } from './path/to/widget-ideas/standalone';
+
+function App() {
+  return (
+    <div>
+      <h1>My Application</h1>
+      <StandaloneIdeasWidget />
+    </div>
+  );
+}
 ```
 
-## Integration in Host Application
+### Option 2: Manual Setup with Providers
+
+```typescript
+import { IdeasWidget } from './path/to/widget-ideas';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { TooltipProvider } from './path/to/widget-ideas/ui/tooltip';
+import { queryClient } from './path/to/widget-ideas/lib/queryClient';
+import './path/to/widget-ideas/config/i18n'; // Initialize translations
+
+function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <IdeasWidget />
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+}
+```
+
+## Required Dependencies
+
+Ensure your host application has these dependencies installed:
+
+```json
+{
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "@tanstack/react-query": "^5.60.5",
+    "react-i18next": "^13.0.0",
+    "i18next": "^23.0.0",
+    "i18next-browser-languagedetector": "^7.0.0",
+    "@radix-ui/react-tooltip": "^1.0.0",
+    "lucide-react": "^0.400.0",
+    "tailwindcss": "^3.4.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.0.0"
+  }
+}
+```
+
+## Module Federation Setup (Advanced)
+
+For a true microfrontend architecture using Module Federation:
 
 ### 1. Configure Module Federation in your host application
 
-Add to your vite.config.ts (or webpack config):
+Add to your vite.config.ts:
 
 ```typescript
 import federation from "@originjs/vite-plugin-federation";
 
 export default defineConfig({
   plugins: [
-    // ... other plugins
     federation({
       name: 'HostApp',
       remotes: {
         IdeasWidget: {
           from: 'webpack',
-          format: 'var',
-          external: '/path/to/ideas-widget/remoteEntry.js',
+          format: 'var', 
+          external: 'http://localhost:5000/assets/remoteEntry.js',
           externalType: 'url',
         },
       },
-      shared: ['react', 'react-dom'],
+      shared: ['react', 'react-dom', 'react-i18next', '@tanstack/react-query'],
     }),
   ],
 });
 ```
 
-### 2. Import and use in your React application
+### 2. Build the Ideas Widget as Remote
+
+Use the provided configuration:
+
+```bash
+# Build the microfrontend (when working)
+npx vite build --config vite.microfrontend.config.ts
+```
+
+### 3. Import and use in your React application
 
 ```typescript
 import React, { Suspense } from 'react';
@@ -62,8 +122,6 @@ function App() {
     </div>
   );
 }
-
-export default App;
 ```
 
 ## Features Exposed
