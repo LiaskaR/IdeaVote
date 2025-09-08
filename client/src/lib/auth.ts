@@ -1,4 +1,4 @@
-// Временная заглушка для аутентификации до настройки Keycloak
+// Temporary authentication stub until Keycloak setup
 export interface User {
   id: string;
   username: string;
@@ -59,10 +59,10 @@ export const auth = {
     // Simulate login process
     const user: User = {
       id: "mock-user-1",
-      username: "Тест Пользователь",
+      username: "Test User",
       email: "user@example.com",
-      firstName: "Тест",
-      lastName: "Пользователь",
+      firstName: "Test",
+      lastName: "User",
     };
     const token = "mock-jwt-token";
     

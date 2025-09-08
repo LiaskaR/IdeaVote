@@ -1,5 +1,5 @@
 import { QueryClient, QueryFunction } from "@tanstack/react-query";
-import auth from "./auth"; // Временная заглушка аутентификации
+import auth from "./auth"; // Temporary authentication stub
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "";
 

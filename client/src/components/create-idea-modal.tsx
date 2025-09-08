@@ -71,8 +71,8 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
       queryClient.invalidateQueries({ queryKey: ["/api/ideas"] });
       queryClient.invalidateQueries({ queryKey: ["/api/stats"] });
       toast({
-        title: "Задача создана!",
-        description: "Ваша задача успешно добавлена.",
+        title: "Idea Created!",
+        description: "Your idea has been successfully added.",
       });
       form.reset();
       setUploadedImages([]);
@@ -80,8 +80,8 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
     },
     onError: () => {
       toast({
-        title: "Ошибка",
-        description: "Не удалось создать идею. Попробуйте снова.",
+        title: "Error",
+        description: "Failed to create idea. Please try again.",
         variant: "destructive",
       });
     },

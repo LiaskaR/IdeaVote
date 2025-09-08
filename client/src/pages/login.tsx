@@ -14,9 +14,9 @@ export default function Login() {
           <div className="flex justify-center mb-4">
             <img src={logoPath} alt="IdeaHub" className="h-16 w-auto" />
           </div>
-          <CardTitle className="text-2xl">Добро пожаловать в IdeaHub</CardTitle>
+          <CardTitle className="text-2xl">Welcome to IdeaHub</CardTitle>
           <CardDescription>
-            Платформа для совместного управления идеями
+            Collaborative Idea Management Platform
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -26,12 +26,12 @@ export default function Login() {
               disabled={isLoading}
               className="w-full bg-[#fee600] hover:bg-[#fdd600] text-black"
             >
-              {isLoading ? "Входим..." : "Войти в систему"}
+              {isLoading ? "Signing in..." : "Sign In"}
             </Button>
             <div className="text-center text-sm text-gray-600">
-              <p>Java backend с Keycloak авторизацией</p>
+              <p>Node.js backend with secure authentication</p>
               <p className="mt-2 text-xs">
-                Временная заглушка для демонстрации
+                Demo login for testing purposes
               </p>
             </div>
           </div>

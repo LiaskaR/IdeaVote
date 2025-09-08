@@ -128,7 +128,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
           <div className="p-6">
             <div className="mb-6">
               <span className="text-sm text-gray-500">
-                Опубликовано {formatDistanceToNow(new Date(idea.createdAt!), { addSuffix: true })}
+                Published {formatDistanceToNow(new Date(idea.createdAt!), { addSuffix: true })}
               </span>
             </div>
             
@@ -153,13 +153,13 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
             {/* Images Section */}
             {idea.images && idea.images.length > 0 && (
               <div className="mb-6">
-                <h4 className="text-sm font-medium text-gray-900 mb-3">Приложенные изображения</h4>
+                <h4 className="text-sm font-medium text-gray-900 mb-3">Attached Images</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {idea.images.map((image, index) => (
                     <div key={index} className="relative group">
                       <img
                         src={image}
-                        alt={`Изображение ${index + 1} для идеи "${idea.title}"`}
+                        alt={`Image ${index + 1} for idea "${idea.title}"`}
                         className="w-full h-48 object-cover rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                         onClick={() => {
                           // Open image in new tab for full view
@@ -192,8 +192,8 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
                 </div>
               </div>
               <div className="text-sm text-gray-600">
-                <span className="font-medium">{idea.upvotes - idea.downvotes}</span> общий рейтинг • 
-                <span className="font-medium ml-1">{comments.length}</span> комментариев
+                <span className="font-medium">{idea.upvotes - idea.downvotes}</span> overall rating • 
+                <span className="font-medium ml-1">{comments.length}</span> comments
               </div>
             </div>
             
@@ -250,7 +250,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
           </div>
         ) : (
           <div className="p-6 text-center">
-            <p className="text-gray-500">Идея не найдена</p>
+            <p className="text-gray-500">Idea not found</p>
           </div>
         )}
       </DialogContent>

@@ -33,8 +33,8 @@ export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
     },
     onError: () => {
       toast({
-        title: "Ошибка",
-        description: "Не удалось проголосовать. Попробуйте снова.",
+        title: "Error",
+        description: "Failed to vote. Please try again.",
         variant: "destructive",
       });
     },
