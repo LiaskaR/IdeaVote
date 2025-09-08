@@ -12,7 +12,7 @@ export default defineConfig({
       exposes: {
         './IdeasWidget': './src/widget-ideas/index.ts',
       },
-      shared: ['react', 'react-dom', 'react-i18next', '@tanstack/react-query']
+      shared: ['react', 'react-dom', '@tanstack/react-query']
     }),
   ],
   resolve: {
