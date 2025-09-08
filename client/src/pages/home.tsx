@@ -1,21 +1,19 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import HeroSection from "@/components/hero-section";
-import FiltersBar from "@/components/filters-bar";
-import IdeaCard from "@/components/idea-card";
-import CreateIdeaModal from "@/components/create-idea-modal";
-import IdeaDetailModal from "@/components/idea-detail-modal";
-import LanguageSwitcher from "@/components/language-switcher";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Plus, ArrowUp, ArrowDown, MessageCircle, LogOut } from "lucide-react";
-import { useAuth } from "@/hooks/useAuth";
+import HeroSection from "@/widgets/hero-section";
+import FiltersBar from "@/widgets/filters-bar";
+import IdeaCard from "@/features/ideas/idea-card";
+import CreateIdeaModal from "@/features/ideas/create-idea-modal";
+import IdeaDetailModal from "@/features/ideas/idea-detail-modal";
+import LanguageSwitcher from "@/features/language/language-switcher";
+import { Button } from "@/shared/ui/button";
+import { Avatar, AvatarFallback } from "@/shared/ui/avatar";
+import { Plus, ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
 import type { IdeaWithDetails } from "@shared/schema";
 
 export default function Home() {
   const { t } = useTranslation();
-  const { user, logout } = useAuth();
   const [sortBy, setSortBy] = useState("popular");
   const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -36,36 +34,17 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Top Bar with Language Switcher and User Info */}
+        {/* Top Bar with Language Switcher */}
         <div className="flex justify-between items-center mb-8">
           <div className="flex items-center space-x-2">
-            <Avatar className="w-8 h-8">
-              <AvatarFallback>
-                {user?.username?.charAt(0).toUpperCase() || "U"}
-              </AvatarFallback>
-            </Avatar>
-            <span className="text-sm font-medium text-gray-700">
-              {user?.username || "User"}
-            </span>
+            <h1 className="text-2xl font-semibold text-gray-900">{t('navigation.ideas')}</h1>
           </div>
           <div className="flex items-center space-x-4">
             <LanguageSwitcher />
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={logout}
-              className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 bg-transparent"
-            >
-              <LogOut className="w-5 h-5" />
-            </Button>
           </div>
         </div>
-        {/* Page Title and Stats */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-semibold text-gray-900">{t('navigation.ideas')}</h1>
-
-          </div>
+        {/* Add Idea Button */}
+        <div className="flex justify-end mb-6">
           <Button onClick={() => setIsCreateModalOpen(true)}>
             <Plus className="w-4 h-4 mr-2" />
             {t('idea.addIdea')}
@@ -155,7 +134,7 @@ export default function Home() {
                               {idea.author.username.charAt(0).toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
-                          <span className="text-sm text-gray-600">{idea.author.username}</span>
+                          <span className="text-sm text-gray-600">{idea.author?.username || 'User'}</span>
                         </div>
                       </div>
                     </div>
