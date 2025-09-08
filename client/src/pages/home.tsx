@@ -1,17 +1,21 @@
 import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import Header from "@/components/header";
 import HeroSection from "@/components/hero-section";
 import FiltersBar from "@/components/filters-bar";
 import IdeaCard from "@/components/idea-card";
 import CreateIdeaModal from "@/components/create-idea-modal";
 import IdeaDetailModal from "@/components/idea-detail-modal";
+import LanguageSwitcher from "@/components/language-switcher";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Plus, ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
+import { Plus, ArrowUp, ArrowDown, MessageCircle, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 import type { IdeaWithDetails } from "@shared/schema";
 
 export default function Home() {
+  const { t } = useTranslation();
+  const { user, logout } = useAuth();
   const [sortBy, setSortBy] = useState("popular");
   const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -31,17 +35,40 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-      <main className="max-w-7xl mx-auto pl-12 pr-4 sm:pr-6 lg:pr-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Top Bar with Language Switcher and User Info */}
+        <div className="flex justify-between items-center mb-8">
+          <div className="flex items-center space-x-2">
+            <Avatar className="w-8 h-8">
+              <AvatarFallback>
+                {user?.username?.charAt(0).toUpperCase() || "U"}
+              </AvatarFallback>
+            </Avatar>
+            <span className="text-sm font-medium text-gray-700">
+              {user?.username || "User"}
+            </span>
+          </div>
+          <div className="flex items-center space-x-4">
+            <LanguageSwitcher />
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={logout}
+              className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 bg-transparent"
+            >
+              <LogOut className="w-5 h-5" />
+            </Button>
+          </div>
+        </div>
         {/* Page Title and Stats */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-semibold text-gray-900">Great ideas</h1>
+            <h1 className="text-2xl font-semibold text-gray-900">{t('navigation.ideas')}</h1>
 
           </div>
           <Button onClick={() => setIsCreateModalOpen(true)}>
             <Plus className="w-4 h-4 mr-2" />
-            Add Idea
+            {t('idea.addIdea')}
           </Button>
         </div>
 
@@ -76,10 +103,10 @@ export default function Home() {
           </div>
         ) : ideas.length === 0 ? (
           <div className="text-center py-12">
-            <div className="text-gray-500 text-lg mb-4">No ideas found</div>
-            <p className="text-gray-400 mb-6">Be the first to suggest an idea!</p>
+            <div className="text-gray-500 text-lg mb-4">{t('idea.noIdeasFound')}</div>
+            <p className="text-gray-400 mb-6">{t('idea.beFirstToSuggest')}</p>
             <Button onClick={() => setIsCreateModalOpen(true)}>
-              Suggest Idea
+              {t('idea.suggestIdea')}
             </Button>
           </div>
         ) : (
