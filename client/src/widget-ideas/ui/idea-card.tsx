@@ -15,9 +15,10 @@ interface IdeaCardProps {
   onClick: () => void;
   user?: UserData;
   apiBaseUrl?: string;
+  authToken?: string;
 }
 
-export default function IdeaCard({ idea, onClick, user, apiBaseUrl = '' }: IdeaCardProps) {
+export default function IdeaCard({ idea, onClick, user, apiBaseUrl = '', authToken }: IdeaCardProps) {
   const { toast } = useToast();
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -26,9 +27,8 @@ export default function IdeaCard({ idea, onClick, user, apiBaseUrl = '' }: IdeaC
   const voteMutation = useMutation({
     mutationFn: async ({ type }: { type: 'up' | 'down' }) => {
       const response = await apiRequest("POST", `${apiBaseUrl}/api/ideas/${idea.id}/vote`, {
-        userId: currentUserId,
         type
-      });
+      }, authToken);
       return response;
     },
     onSuccess: () => {

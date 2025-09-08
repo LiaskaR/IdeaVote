@@ -18,9 +18,10 @@ interface IdeaDetailModalProps {
   onClose: () => void;
   user?: UserData;
   apiBaseUrl?: string;
+  authToken?: string;
 }
 
-export default function IdeaDetailModal({ ideaId, isOpen, onClose, user, apiBaseUrl = '' }: IdeaDetailModalProps) {
+export default function IdeaDetailModal({ ideaId, isOpen, onClose, user, apiBaseUrl = '', authToken }: IdeaDetailModalProps) {
   const [commentText, setCommentText] = useState("");
   const { toast } = useToast();
   const { t } = useTranslation();
@@ -30,7 +31,9 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose, user, apiBase
   const { data: idea, isLoading } = useQuery<IdeaWithDetails>({
     queryKey: ["/api/ideas", ideaId],
     queryFn: async () => {
-      const response = await fetch(`${apiBaseUrl}/api/ideas/${ideaId}`);
+      const response = await fetch(`${apiBaseUrl}/api/ideas/${ideaId}`, {
+        headers: authToken ? { 'Authorization': `Bearer ${authToken}` } : {}
+      });
       if (!response.ok) throw new Error("Failed to fetch idea");
       return response.json();
     },
@@ -40,7 +43,9 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose, user, apiBase
   const { data: comments = [] } = useQuery<CommentWithAuthor[]>({
     queryKey: ["/api/ideas", ideaId, "comments"],
     queryFn: async () => {
-      const response = await fetch(`${apiBaseUrl}/api/ideas/${ideaId}/comments`);
+      const response = await fetch(`${apiBaseUrl}/api/ideas/${ideaId}/comments`, {
+        headers: authToken ? { 'Authorization': `Bearer ${authToken}` } : {}
+      });
       if (!response.ok) throw new Error("Failed to fetch comments");
       return response.json();
     },
@@ -50,9 +55,8 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose, user, apiBase
   const voteMutation = useMutation({
     mutationFn: async ({ type }: { type: 'up' | 'down' }) => {
       const response = await apiRequest("POST", `${apiBaseUrl}/api/ideas/${ideaId}/vote`, {
-        userId: currentUserId,
         type,
-      });
+      }, authToken);
       return response.json();
     },
     onSuccess: () => {
@@ -71,9 +75,8 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose, user, apiBase
   const commentMutation = useMutation({
     mutationFn: async (content: string) => {
       const response = await apiRequest("POST", `${apiBaseUrl}/api/ideas/${ideaId}/comments`, {
-        userId: currentUserId,
         content,
-      });
+      }, authToken);
       return response.json();
     },
     onSuccess: () => {

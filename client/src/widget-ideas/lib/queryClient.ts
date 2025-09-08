@@ -9,16 +9,31 @@ export const queryClient = new QueryClient({
   },
 });
 
+// Global auth token storage for the widget
+let globalAuthToken: string | undefined;
+
+export function setAuthToken(token: string | undefined) {
+  globalAuthToken = token;
+}
+
 export async function apiRequest(
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
   endpoint: string,
-  data?: any
+  data?: any,
+  authToken?: string
 ) {
+  const token = authToken || globalAuthToken;
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
   const response = await fetch(endpoint, {
     method,
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers,
     body: data ? JSON.stringify(data) : undefined,
   });
 

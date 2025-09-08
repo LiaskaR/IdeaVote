@@ -21,9 +21,10 @@ export interface UserData {
 export interface IdeasWidgetProps {
   user?: UserData;
   apiBaseUrl?: string;
+  authToken?: string; // JWT token from Keycloak
 }
 
-export default function Home({ user, apiBaseUrl = '' }: IdeasWidgetProps) {
+export default function Home({ user, apiBaseUrl = '', authToken }: IdeasWidgetProps) {
   const { t } = useTranslation();
   const [sortBy, setSortBy] = useState("popular");
   const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
@@ -36,7 +37,9 @@ export default function Home({ user, apiBaseUrl = '' }: IdeasWidgetProps) {
       const params = new URLSearchParams();
       if (sortBy !== "popular") params.append("sortBy", sortBy);
       
-      const response = await fetch(`${apiBaseUrl}/api/ideas?${params}`);
+      const response = await fetch(`${apiBaseUrl}/api/ideas?${params}`, {
+        headers: authToken ? { 'Authorization': `Bearer ${authToken}` } : {}
+      });
       if (!response.ok) throw new Error("Failed to fetch ideas");
       return response.json();
     },
@@ -110,6 +113,7 @@ export default function Home({ user, apiBaseUrl = '' }: IdeasWidgetProps) {
                     onClick={() => setSelectedIdeaId(idea.id)}
                     user={user}
                     apiBaseUrl={apiBaseUrl}
+                    authToken={authToken}
                   />
                 ))}
               </div>
@@ -165,6 +169,7 @@ export default function Home({ user, apiBaseUrl = '' }: IdeasWidgetProps) {
         onClose={() => setIsCreateModalOpen(false)}
         user={user}
         apiBaseUrl={apiBaseUrl}
+        authToken={authToken}
       />
       {selectedIdeaId && (
         <IdeaDetailModal
@@ -173,6 +178,7 @@ export default function Home({ user, apiBaseUrl = '' }: IdeasWidgetProps) {
           onClose={() => setSelectedIdeaId(null)}
           user={user}
           apiBaseUrl={apiBaseUrl}
+          authToken={authToken}
         />
       )}
     </div>

@@ -19,9 +19,10 @@ interface CreateIdeaModalProps {
   onClose: () => void;
   user?: UserData;
   apiBaseUrl?: string;
+  authToken?: string;
 }
 
-export default function CreateIdeaModal({ isOpen, onClose, user, apiBaseUrl = '' }: CreateIdeaModalProps) {
+export default function CreateIdeaModal({ isOpen, onClose, user, apiBaseUrl = '', authToken }: CreateIdeaModalProps) {
   const { toast } = useToast();
   const { t } = useTranslation();
   const queryClient = useQueryClient();
@@ -66,7 +67,7 @@ export default function CreateIdeaModal({ isOpen, onClose, user, apiBaseUrl = ''
 
   const createIdeaMutation = useMutation({
     mutationFn: async (data: InsertIdea) => {
-      const response = await apiRequest("POST", `${apiBaseUrl}/api/ideas`, data);
+      const response = await apiRequest("POST", `${apiBaseUrl}/api/ideas`, data, authToken);
       return response.json();
     },
     onSuccess: () => {

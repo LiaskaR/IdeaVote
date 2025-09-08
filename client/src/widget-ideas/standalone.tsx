@@ -15,12 +15,12 @@ const defaultUser: UserData = {
 
 // Standalone wrapper component for the Ideas Widget
 // This component includes all necessary providers and setup
-export const StandaloneIdeasWidget: React.FC<IdeasWidgetProps> = ({ user = defaultUser, apiBaseUrl = '' }) => {
+export const StandaloneIdeasWidget: React.FC<IdeasWidgetProps> = ({ user = defaultUser, apiBaseUrl = '', authToken }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <div className="standalone-ideas-widget">
-          <IdeasWidget user={user} apiBaseUrl={apiBaseUrl} />
+          <IdeasWidget user={user} apiBaseUrl={apiBaseUrl} authToken={authToken} />
           <Toaster />
         </div>
       </TooltipProvider>
