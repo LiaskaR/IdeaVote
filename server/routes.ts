@@ -2,7 +2,6 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertIdeaSchema, insertVoteSchema, insertCommentSchema } from "@shared/schema";
-import { authenticateKeycloak, optionalAuth, type AuthenticatedRequest } from "./keycloak-auth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Get all ideas with optional filtering and sorting
@@ -31,12 +30,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create a new idea
-  app.post("/api/ideas", authenticateKeycloak, async (req: AuthenticatedRequest, res) => {
+  app.post("/api/ideas", async (req, res) => {
     try {
-      const validatedData = insertIdeaSchema.parse({
-        ...req.body,
-        authorId: req.userId // Use authenticated user ID
-      });
+      const validatedData = insertIdeaSchema.parse(req.body);
       const idea = await storage.createIdea(validatedData);
       res.status(201).json(idea);
     } catch (error) {
@@ -74,14 +70,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Vote on an idea
-  app.post("/api/ideas/:id/vote", authenticateKeycloak, async (req: AuthenticatedRequest, res) => {
+  app.post("/api/ideas/:id/vote", async (req, res) => {
     try {
       const ideaId = parseInt(req.params.id);
-      const { type } = req.body;
-      const userId = req.userId!; // Get from authenticated user
+      const { userId, type } = req.body;
       
-      if (!type || !['up', 'down'].includes(type)) {
-        return res.status(400).json({ message: "Invalid vote type" });
+      if (!userId || !type || !['up', 'down'].includes(type)) {
+        return res.status(400).json({ message: "Invalid vote data" });
       }
 
       const existingVote = await storage.getUserVote(ideaId, userId);
@@ -114,14 +109,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Add a comment to an idea
-  app.post("/api/ideas/:id/comments", authenticateKeycloak, async (req: AuthenticatedRequest, res) => {
+  app.post("/api/ideas/:id/comments", async (req, res) => {
     try {
       const ideaId = parseInt(req.params.id);
-      const { content } = req.body;
-      const userId = req.userId!; // Get from authenticated user
+      const { userId, content } = req.body;
       
-      if (!content) {
-        return res.status(400).json({ message: "Comment content is required" });
+      if (!userId || !content) {
+        return res.status(400).json({ message: "Missing required fields" });
       }
 
       const commentData = { ideaId, userId, content };
