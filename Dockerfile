@@ -7,7 +7,8 @@ WORKDIR /app
 
 # Install ALL dependencies (production + dev) as the bundled server references dev dependencies
 COPY package.json package-lock.json* ./
-RUN npm ci && npm cache clean --force
+# Remove package-lock.json and install fresh to handle optional dependencies correctly
+RUN rm -f package-lock.json && npm install && npm cache clean --force
 
 # Rebuild the source code only when needed  
 FROM base AS builder
