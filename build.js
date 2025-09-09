@@ -4,10 +4,10 @@ import { execSync } from 'child_process';
 import { readFileSync, writeFileSync } from 'fs';
 
 console.log('🏗️  Building frontend...');
-execSync('vite build', { stdio: 'inherit' });
+execSync('npx vite build', { stdio: 'inherit' });
 
 console.log('📦 Building backend...');
-execSync('esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist', { stdio: 'inherit' });
+execSync('npx esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist', { stdio: 'inherit' });
 
 console.log('🔧 Fixing import.meta.dirname references...');
 // Read the bundled server file
