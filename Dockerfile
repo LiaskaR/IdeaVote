@@ -14,8 +14,7 @@ RUN npm ci --only=production=false
 COPY . .
 
 # Build the application
-# This runs: vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
-RUN npm run build
+RUN node build.js
 
 # Production stage
 FROM node:18-alpine AS production
@@ -38,6 +37,9 @@ RUN npm ci --only=production && \
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/shared ./shared
+
+# Fix for import.meta.dirname issue: Copy public files to where the bundled server expects them
+RUN mkdir -p public && cp -r dist/public/* public/
 
 # Create logs directory and set permissions
 RUN mkdir -p logs && \
