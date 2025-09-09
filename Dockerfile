@@ -7,18 +7,15 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
+# Install ALL dependencies (production + dev) as the bundled server references dev dependencies
 COPY package.json package-lock.json* ./
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci && npm cache clean --force
 
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-
-# Install all dependencies (including devDependencies) for building
-RUN npm ci
 
 # Build the application
 RUN npm run build
@@ -36,7 +33,7 @@ RUN adduser --system --uid 1001 expressjs
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package.json ./package.json
 
-# Copy production node_modules
+# Copy ALL node_modules (including devDependencies) as the bundled code references them
 COPY --from=deps /app/node_modules ./node_modules
 
 # Copy shared schema and other necessary files
