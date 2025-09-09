@@ -1,5 +1,5 @@
-# Use Node.js 20 LTS (Debian-based) for better compatibility with esbuild
-FROM node:20-slim AS base
+# Use full Node.js 20 LTS for better compatibility
+FROM node:20 AS base
 
 # Install dependencies only when needed
 FROM base AS deps
@@ -7,13 +7,17 @@ WORKDIR /app
 
 # Install ALL dependencies (production + dev) as the bundled server references dev dependencies
 COPY package.json package-lock.json* ./
-RUN npm ci && npm cache clean --force
+# Force reinstall esbuild with correct platform binary
+RUN npm ci && npm rebuild esbuild && npm cache clean --force
 
-# Rebuild the source code only when needed
+# Rebuild the source code only when needed  
 FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+# Verify esbuild works before building
+RUN ./node_modules/.bin/esbuild --version
 
 # Build the application
 RUN npm run build
