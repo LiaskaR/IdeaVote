@@ -7,8 +7,7 @@ WORKDIR /app
 
 # Install ALL dependencies (production + dev) as the bundled server references dev dependencies
 COPY package.json package-lock.json* ./
-# Force reinstall esbuild with correct platform binary
-RUN npm ci && npm rebuild esbuild && npm cache clean --force
+RUN npm ci && npm cache clean --force
 
 # Rebuild the source code only when needed  
 FROM base AS builder
@@ -16,10 +15,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Verify esbuild works before building
-RUN ./node_modules/.bin/esbuild --version
-
-# Build the application
+# Build the application using npm script (avoids direct binary calls)
 RUN npm run build
 
 # Production image, copy all the files and run the application
