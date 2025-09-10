@@ -8,7 +8,8 @@
     "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "start": "NODE_ENV=production node dist/index.js",
     "check": "tsc",
-    "db:push": "drizzle-kit push"
+    "db:push": "NODE_OPTIONS=--use-openssl-ca drizzle-kit push",
+    "db:generate": "NODE_OPTIONS=--use-openssl-ca drizzle-kit generate"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -82,6 +83,7 @@
     "openid-client": "^6.6.1",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
+    "pg-pool": "^3.10.1",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18.3.1",
@@ -110,6 +112,7 @@
     "@types/node": "20.16.11",
     "@types/passport": "^1.0.16",
     "@types/passport-local": "^1.0.38",
+    "@types/pg-pool": "^2.0.6",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.1",
     "@types/ws": "^8.5.13",

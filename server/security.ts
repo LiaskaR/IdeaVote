@@ -123,7 +123,7 @@ export const getCSPDirectives = (env: string) => {
   };
   
   if (env === 'development') {
-    baseDirectives.connectSrc.push('ws://localhost:*', 'http://localhost:*');
+    baseDirectives.connectSrc.push('http://localhost:*');
     baseDirectives.scriptSrc = ["'self'", "'unsafe-inline'", "'unsafe-eval'"];
   } else {
     baseDirectives.scriptSrc = ["'self'"];
@@ -134,10 +134,10 @@ export const getCSPDirectives = (env: string) => {
 
 // Rate limiting configurations for different endpoints
 export const rateLimitConfigs = {
-  auth: { windowMs: 15 * 60 * 1000, max: 5 }, // 5 attempts per 15 minutes
-  api: { windowMs: 15 * 60 * 1000, max: 1000 }, // 1000 requests per 15 minutes
-  upload: { windowMs: 60 * 60 * 1000, max: 10 }, // 10 uploads per hour
-  general: { windowMs: 15 * 60 * 1000, max: 100 }, // 100 requests per 15 minutes
+  auth: { windowMs: 15 * 60 * 1000, max: 500 }, // 5 attempts per 15 minutes
+  api: { windowMs: 15 * 60 * 1000, max: 10000 }, // 1000 requests per 15 minutes
+  upload: { windowMs: 60 * 60 * 1000, max: 1000 }, // 10 uploads per hour
+  general: { windowMs: 15 * 60 * 1000, max: 1000 }, // 100 requests per 15 minutes
 };
 
 // Security headers configuration

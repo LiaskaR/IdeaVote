@@ -83,7 +83,6 @@ export class DatabaseStorage implements IStorage {
 
     const baseQuery = query;
 
-    // Apply sorting
     let result;
     switch (sortBy) {
       case 'newest':
@@ -99,19 +98,7 @@ export class DatabaseStorage implements IStorage {
         result = await baseQuery.orderBy(desc(sql`(SELECT COUNT(*) FROM votes WHERE idea_id = ${ideas.id} AND type = 'up') - (SELECT COUNT(*) FROM votes WHERE idea_id = ${ideas.id} AND type = 'down')`));
     }
 
-    return result.map(row => ({
-      id: row.id,
-      title: row.title,
-      description: row.description,
-      tags: row.tags,
-      images: row.images,
-      authorId: row.authorId,
-      createdAt: row.createdAt,
-      author: row.author,
-      upvotes: row.upvotes,
-      downvotes: row.downvotes,
-      commentCount: row.commentCount
-    }));
+    return result
   }
 
   async getIdea(id: number): Promise<IdeaWithDetails | undefined> {

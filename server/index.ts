@@ -106,7 +106,7 @@ app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 
 // Input sanitization middleware
 app.use(sanitizeInput({
-  maxStringLength: 5000, // Banking-grade input limits
+  maxStringLength: 50000, // Banking-grade input limits
   maxArrayLength: 50,
   allowedHTMLTags: ['b', 'i', 'em', 'strong', 'p', 'br'],
 }));

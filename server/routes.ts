@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertIdeaSchema, insertVoteSchema, insertCommentSchema } from "@shared/schema";
+import { insertIdeaSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Get all ideas with optional filtering and sorting
@@ -31,11 +31,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Create a new idea
   app.post("/api/ideas", async (req, res) => {
+    console.log(req.body,'req');
+
     try {
       const validatedData = insertIdeaSchema.parse(req.body);
+      console.log(validatedData,'validatedData')
       const idea = await storage.createIdea(validatedData);
+      console.log(idea,'idea')
       res.status(201).json(idea);
     } catch (error) {
+      console.log(error)
       res.status(400).json({ message: "Invalid idea data" });
     }
   });
