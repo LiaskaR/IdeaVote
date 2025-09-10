@@ -30,6 +30,7 @@ class AuditLogger {
   private logDirectory = path.join(process.cwd(), 'logs', 'audit');
   private maxLogFiles = 365; // Keep logs for 1 year (banking requirement)
   private maxFileSize = 100 * 1024 * 1024; // 100MB per file
+  private logDirectoryCreated = false;
 
   constructor() {
     this.ensureLogDirectory();
@@ -38,8 +39,12 @@ class AuditLogger {
   private async ensureLogDirectory() {
     try {
       await fs.mkdir(this.logDirectory, { recursive: true });
+      this.logDirectoryCreated = true;
+      console.log(`Audit log directory created: ${this.logDirectory}`);
     } catch (error) {
       console.error('Failed to create audit log directory:', error);
+      console.warn('Audit logging will continue with console output only');
+      this.logDirectoryCreated = false;
     }
   }
 
@@ -88,19 +93,26 @@ class AuditLogger {
     };
 
     const logEntry = JSON.stringify(auditEvent) + '\n';
-    const logFile = this.getLogFileName();
 
-    try {
-      await this.rotateLogIfNeeded(logFile);
-      await fs.appendFile(logFile, logEntry, 'utf8');
-      
-      // Log critical events to console as well
-      if (event.riskLevel === 'CRITICAL') {
-        console.error('CRITICAL AUDIT EVENT:', auditEvent);
+    // Always log critical events to console
+    if (event.riskLevel === 'CRITICAL') {
+      console.error('CRITICAL AUDIT EVENT:', auditEvent);
+    }
+
+    // Try to write to file if directory was created successfully
+    if (this.logDirectoryCreated) {
+      const logFile = this.getLogFileName();
+      try {
+        await this.rotateLogIfNeeded(logFile);
+        await fs.appendFile(logFile, logEntry, 'utf8');
+      } catch (error) {
+        console.error('Failed to write audit log to file:', error);
+        // Fallback to console logging
+        console.log('AUDIT LOG (file write failed):', logEntry.trim());
       }
-    } catch (error) {
-      console.error('Failed to write audit log:', error);
-      // In production, this should trigger an alert
+    } else {
+      // Fallback to console logging when directory creation failed
+      console.log('AUDIT LOG (no file directory):', logEntry.trim());
     }
   }
 

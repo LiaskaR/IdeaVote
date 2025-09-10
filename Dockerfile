@@ -51,6 +51,9 @@ COPY --from=builder --chown=nodejs:nodejs /app/shared ./shared
 # Copy only production node_modules (optional dependencies included)
 COPY --from=deps --chown=nodejs:nodejs /app/node_modules ./node_modules
 
+# Create logs directory with proper permissions
+RUN mkdir -p /app/logs && chown -R nodejs:nodejs /app/logs
+
 # Switch to non-root user
 USER nodejs
 
