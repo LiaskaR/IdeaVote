@@ -1,48 +1,69 @@
-# Use full Node.js 20 LTS for better compatibility
-FROM node:20 AS base
+# Dockerfile optimized for macOS (ARM64/x64) builds
+FROM node:20-alpine AS base
 
-# Install dependencies only when needed
+# Install build dependencies for macOS compatibility
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    libc6-compat
+
+# Dependencies stage
 FROM base AS deps
 WORKDIR /app
 
-# Install ALL dependencies (production + dev) as the bundled server references dev dependencies
+# Copy package files
 COPY package.json package-lock.json* ./
-# Remove package-lock.json and install fresh to handle optional dependencies correctly
-RUN rm -f package-lock.json && npm install && npm cache clean --force
 
-# Rebuild the source code only when needed  
+# Install dependencies with native architecture detection
+# Let npm automatically detect and install correct binaries for the host platform
+RUN npm ci --include=optional && npm cache clean --force
+
+# Build stage
 FROM base AS builder
 WORKDIR /app
+
+# Copy dependencies
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build the application using npm script (avoids direct binary calls)
+# Build for production
+ENV NODE_ENV=production
 RUN npm run build
 
-# Production image, copy all the files and run the application
-FROM base AS runner
+# Production stage
+FROM node:20-alpine AS runner
 WORKDIR /app
 
-ENV NODE_ENV=production
+# Install runtime dependencies
+RUN apk add --no-cache \
+    dumb-init
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 expressjs
+# Create app user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
 
-# Copy the built application
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package.json ./package.json
+# Copy built application
+COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
+COPY --from=builder --chown=nodejs:nodejs /app/package.json ./
+COPY --from=builder --chown=nodejs:nodejs /app/shared ./shared
 
-# Copy ALL node_modules (including devDependencies) as the bundled code references them
-COPY --from=deps /app/node_modules ./node_modules
+# Copy only production node_modules (optional dependencies included)
+COPY --from=deps --chown=nodejs:nodejs /app/node_modules ./node_modules
 
-# Copy shared schema and other necessary files
-COPY --from=builder /app/shared ./shared
+# Switch to non-root user
+USER nodejs
 
-USER expressjs
-
+# Expose port
 EXPOSE 5000
 
-ENV PORT=5000
-ENV HOSTNAME="0.0.0.0"
+# Set environment
+ENV NODE_ENV=production \
+    PORT=5000 \
+    HOSTNAME=0.0.0.0
 
+# Use dumb-init for proper signal handling
+ENTRYPOINT ["dumb-init", "--"]
+
+# Start application
 CMD ["node", "dist/index.js"]
