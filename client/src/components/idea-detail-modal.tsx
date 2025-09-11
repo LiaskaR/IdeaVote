@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
+import { useIntl, FormattedMessage } from 'react-intl';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -23,6 +24,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
   const [commentText, setCommentText] = useState("");
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const intl = useIntl();
   const currentUserId = 7; // Default to current user (Andrey Zakharov)
 
   const { data: idea, isLoading } = useQuery<IdeaWithDetails>({
@@ -59,8 +61,8 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to process vote. Please try again.",
+        title: intl.formatMessage({ id: 'common.error', defaultMessage: 'Error' }),
+        description: intl.formatMessage({ id: 'vote.error', defaultMessage: 'Failed to vote. Please try again.' }),
         variant: "destructive",
       });
     },
@@ -79,14 +81,14 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
       queryClient.invalidateQueries({ queryKey: ["/api/ideas", ideaId] });
       setCommentText("");
       toast({
-        title: "Success",
-        description: "Your comment has been posted!",
+        title: intl.formatMessage({ id: 'common.success', defaultMessage: 'Success!' }),
+        description: intl.formatMessage({ id: 'comments.success', defaultMessage: 'Comment posted successfully!' }),
       });
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to post comment. Please try again.",
+        title: intl.formatMessage({ id: 'common.error', defaultMessage: 'Error' }),
+        description: intl.formatMessage({ id: 'comments.error', defaultMessage: 'Failed to post comment. Please try again.' }),
         variant: "destructive",
       });
     },
@@ -128,7 +130,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
           <div className="p-6">
             <div className="mb-6">
               <span className="text-sm text-gray-500">
-                Опубликовано {formatDistanceToNow(new Date(idea.createdAt!), { addSuffix: true })}
+                <FormattedMessage id="idea.published" defaultMessage="Published" /> {formatDistanceToNow(new Date(idea.createdAt!), { addSuffix: true })}
               </span>
             </div>
             
@@ -153,13 +155,13 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
             {/* Images Section */}
             {idea.images && idea.images.length > 0 && (
               <div className="mb-6">
-                <h4 className="text-sm font-medium text-gray-900 mb-3">Приложенные изображения</h4>
+                <h4 className="text-sm font-medium text-gray-900 mb-3"><FormattedMessage id="idea.attachedImages" defaultMessage="Attached Images" /></h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {idea.images.map((image, index) => (
                     <div key={index} className="relative group">
                       <img
                         src={image}
-                        alt={`Изображение ${index + 1} для идеи "${idea.title}"`}
+                        alt={intl.formatMessage({ id: 'idea.imageAlt' }, { index: index + 1, title: idea.title })}
                         className="w-full h-48 object-cover rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                         onClick={() => {
                           // Open image in new tab for full view
@@ -192,8 +194,8 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
                 </div>
               </div>
               <div className="text-sm text-gray-600">
-                <span className="font-medium">{idea.upvotes - idea.downvotes}</span> общий рейтинг • 
-                <span className="font-medium ml-1">{comments.length}</span> комментариев
+                <span className="font-medium">{idea.upvotes - idea.downvotes}</span> <FormattedMessage id="idea.rating.overall" defaultMessage="overall rating" /> • 
+                <span className="font-medium ml-1">{comments.length}</span> <FormattedMessage id="idea.comments" defaultMessage="comments" />
               </div>
             </div>
             
@@ -207,7 +209,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
               {/* Comments List */}
               <div className="space-y-4 mb-6">
                 {comments.length === 0 ? (
-                  <p className="text-gray-500 text-center py-4">No comments yet. Be the first!</p>
+                  <p className="text-gray-500 text-center py-4"><FormattedMessage id="comments.empty" defaultMessage="No comments yet. Be the first to share your thoughts!" /></p>
                 ) : (
                   comments.map((comment) => (
                     <div key={comment.id} className="flex space-x-3">
@@ -236,21 +238,24 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
                   rows={3}
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
-                  placeholder="Write a comment..."
+                  placeholder={intl.formatMessage({ id: 'comments.placeholder', defaultMessage: 'Add a comment' })}
                   className="mb-3"
                 />
                 <Button
                   type="submit"
                   disabled={!commentText.trim() || commentMutation.isPending}
                 >
-                  {commentMutation.isPending ? "Posting..." : "Add Comment"}
+                  {commentMutation.isPending ? 
+                    <FormattedMessage id="comments.posting" defaultMessage="Posting..." /> : 
+                    <FormattedMessage id="comments.add" defaultMessage="Add Comment" />
+                  }
                 </Button>
               </form>
             </div>
           </div>
         ) : (
           <div className="p-6 text-center">
-            <p className="text-gray-500">Идея не найдена</p>
+            <p className="text-gray-500"><FormattedMessage id="idea.notFound" defaultMessage="Idea not found" /></p>
           </div>
         )}
       </DialogContent>
