@@ -4,7 +4,7 @@ import App from "./App";
 import "./index.css";
 
 // This function will be called by the host application
-export const mount = (container: HTMLElement, props: { locale: string }) => {
+export const mount = (container: HTMLElement, props: { locale: string; token?: string }) => {
   const root = createRoot(container);
   root.render(<App {...props} />);
   return root;
@@ -18,9 +18,9 @@ export const unmount = (root: any) => {
 };
 
 // For standalone development
-if (process.env.NODE_ENV === 'development' && !window.__webpack_require__) {
+if (process.env.NODE_ENV === 'development' && !(window as any).__webpack_require__) {
   const container = document.getElementById("root");
   if (container) {
-    mount(container);
+    mount(container, { locale: 'ru' }); // Default locale for standalone mode
   }
 }

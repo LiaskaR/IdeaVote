@@ -54,7 +54,22 @@ export const auth = {
     return getCurrentToken();
   },
 
-  // Mock login
+  // Set external token from host application
+  setExternalToken(token: string, user?: User) {
+    if (user) {
+      setUserData(user, token);
+    } else {
+      // If no user provided, create a basic user object
+      const basicUser: User = {
+        id: "external-user",
+        username: "External User",
+        email: "user@host-app.com",
+      };
+      setUserData(basicUser, token);
+    }
+  },
+
+  // Mock login (kept for backward compatibility)
   async login(): Promise<User> {
     // Simulate login process
     const user: User = {
