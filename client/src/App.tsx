@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Switch, Route } from "wouter";
 import { IntlProvider, FormattedMessage } from 'react-intl';
 import { queryClient } from "./lib/queryClient";
@@ -6,7 +6,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
-import { LOCALES, defaultLocale, getMessages } from "@/i18n";
+import { getMessages } from "@/i18n";
 import Home from "@/pages/home";
 import Login from "@/pages/login";
 import NotFound from "@/pages/not-found";
@@ -37,21 +37,15 @@ function Router() {
   );
 }
 
-function App() {
-  const [locale, setLocale] = useState(defaultLocale);
+interface AppProps {
+  locale: string;
+}
 
-  useEffect(() => {
-    const savedLocale = localStorage.getItem('locale');
-    if (savedLocale && Object.values(LOCALES).includes(savedLocale as any)) {
-      setLocale(savedLocale);
-    }
-  }, []);
-
+function App({ locale }: AppProps) {
   return (
     <IntlProvider
       locale={locale}
       messages={getMessages(locale)}
-      defaultLocale={LOCALES.ENGLISH}
     >
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>

@@ -4,9 +4,9 @@ import App from "./App";
 import "./index.css";
 
 // This function will be called by the host application
-export const mount = (container: HTMLElement) => {
+export const mount = (container: HTMLElement, props: { locale: string }) => {
   const root = createRoot(container);
-  root.render(<App />);
+  root.render(<App {...props} />);
   return root;
 };
 
