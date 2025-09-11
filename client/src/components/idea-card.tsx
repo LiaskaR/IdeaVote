@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
+import { useIntl, FormattedMessage } from 'react-intl';
 import { apiRequest } from "@/lib/queryClient";
 
 import type { IdeaWithDetails } from "@shared/schema";
@@ -16,6 +17,7 @@ interface IdeaCardProps {
 export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const intl = useIntl();
   const currentUserId = 7; // Default to current user (Andrey Zakharov)
 
   const voteMutation = useMutation({
@@ -33,8 +35,8 @@ export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
     },
     onError: () => {
       toast({
-        title: "Ошибка",
-        description: "Не удалось проголосовать. Попробуйте снова.",
+        title: intl.formatMessage({ id: 'common.error', defaultMessage: 'Error' }),
+        description: intl.formatMessage({ id: 'voting.error', defaultMessage: 'Failed to vote. Please try again.' }),
         variant: "destructive",
       });
     },
