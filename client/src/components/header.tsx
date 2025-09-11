@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
+import { useIntl } from 'react-intl';
 import Sidebar from "./sidebar";
 
 interface HeaderProps {}
@@ -12,6 +13,7 @@ interface HeaderProps {}
 export default function Header() {
   const { user, logout } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const intl = useIntl();
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -28,7 +30,7 @@ export default function Header() {
             </Button>
             <img 
               src={logoPath} 
-              alt="IdeaHub Logo" 
+              alt={intl.formatMessage({ id: 'header.logo.alt', defaultMessage: 'IdeaHub Logo' })} 
               className="w-10 h-10 rounded-lg"
             />
           </div>
@@ -41,7 +43,7 @@ export default function Header() {
               </div>
               <Input
                 type="text"
-                placeholder="Search ideas..."
+                placeholder={intl.formatMessage({ id: 'header.search.placeholder', defaultMessage: 'Search ideas...' })}
                 className="pl-10"
               />
             </div>
@@ -57,11 +59,11 @@ export default function Header() {
               <Avatar className="w-8 h-8">
                 <AvatarImage src={user?.profileImageUrl} />
                 <AvatarFallback>
-                  {user?.username?.charAt(0).toUpperCase() || "U"}
+                  {user?.username?.charAt(0).toUpperCase() || intl.formatMessage({ id: 'header.user.fallback', defaultMessage: 'U' })}
                 </AvatarFallback>
               </Avatar>
               <span className="text-sm font-medium text-gray-700">
-                {user?.username || "User"}
+                {user?.username || intl.formatMessage({ id: 'common.user', defaultMessage: 'User' })}
               </span>
             </div>
             
