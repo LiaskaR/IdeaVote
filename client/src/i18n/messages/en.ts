@@ -21,6 +21,16 @@ export const en = {
   // Navigation
   'nav.ideas': 'Ideas',
   'nav.search': 'Search',
+  'nav.clients': 'Clients',
+  'nav.pipeline': 'Pipeline',
+  'nav.contacts': 'Contacts',
+  'nav.dashboard': 'Dashboard',
+  'nav.recommendations': 'Recommendations',
+  'nav.products': 'Products',
+  'nav.tasks': 'Tasks',
+  'nav.calendar': 'Calendar',
+  'nav.rates': 'Rates',
+  'nav.calculator': 'Calculator',
 
   // Hero Section
   'hero.title': 'IdeaHub',
@@ -102,6 +112,13 @@ export const en = {
   // Language Switching
   'language.switch': 'Switch to {language}',
   'language.current': 'Current language: {language}',
+
+  // Sidebar
+  'sidebar.description': 'Navigate through idea management system',
+  'sidebar.mobile.title': 'Mobile Version',
+  'sidebar.mobile.description': 'Manage ideas anywhere',
+  'sidebar.mobile.tryNow': 'Try Now',
+  'sidebar.languages': 'RU EN',
 
   // Messages & Notifications
   'message.success.ideaCreated': 'Your idea has been successfully created!',

@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { Search, Bell, Plus, LogOut, Menu } from "lucide-react";
+import { Search, Bell, Plus, LogOut, Menu, Globe } from "lucide-react";
 import logoPath from "@assets/4 оп_1751020306764.png";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
 import { useIntl } from 'react-intl';
+import { switchLanguage, LOCALES } from '@/i18n';
 import Sidebar from "./sidebar";
 
 interface HeaderProps {}
@@ -53,6 +54,16 @@ export default function Header() {
           <div className="flex items-center space-x-4">
             <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 bg-transparent">
               <Bell className="w-5 h-5" />
+            </Button>
+
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => switchLanguage(intl.locale === LOCALES.ENGLISH ? LOCALES.RUSSIAN : LOCALES.ENGLISH)}
+              className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 bg-transparent"
+              title={intl.formatMessage({ id: 'language.switch', defaultMessage: 'Switch to {language}' }, { language: intl.locale === LOCALES.ENGLISH ? 'Русский' : 'English' })}
+            >
+              <Globe className="w-5 h-5" />
             </Button>
 
             <div className="flex items-center space-x-2">

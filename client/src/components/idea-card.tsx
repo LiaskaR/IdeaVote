@@ -36,7 +36,7 @@ export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
     onError: () => {
       toast({
         title: intl.formatMessage({ id: 'common.error', defaultMessage: 'Error' }),
-        description: intl.formatMessage({ id: 'voting.error', defaultMessage: 'Failed to vote. Please try again.' }),
+        description: intl.formatMessage({ id: 'vote.error', defaultMessage: 'Failed to vote. Please try again.' }),
         variant: "destructive",
       });
     },

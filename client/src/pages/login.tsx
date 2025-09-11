@@ -1,4 +1,5 @@
 import React from "react";
+import { FormattedMessage } from 'react-intl';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
@@ -14,9 +15,11 @@ export default function Login() {
           <div className="flex justify-center mb-4">
             <img src={logoPath} alt="IdeaHub" className="h-16 w-auto" />
           </div>
-          <CardTitle className="text-2xl">Добро пожаловать в IdeaHub</CardTitle>
+          <CardTitle className="text-2xl">
+            <FormattedMessage id="login.title" defaultMessage="Welcome to IdeaHub" />
+          </CardTitle>
           <CardDescription>
-            Платформа для совместного управления идеями
+            <FormattedMessage id="login.description" defaultMessage="Collaborative idea management platform" />
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -26,12 +29,17 @@ export default function Login() {
               disabled={isLoading}
               className="w-full bg-[#fee600] hover:bg-[#fdd600] text-black"
             >
-              {isLoading ? "Входим..." : "Войти в систему"}
+              {isLoading ? 
+                <FormattedMessage id="login.buttonLoading" defaultMessage="Logging in..." /> : 
+                <FormattedMessage id="login.button" defaultMessage="Login to System" />
+              }
             </Button>
             <div className="text-center text-sm text-gray-600">
-              <p>Java backend с Keycloak авторизацией</p>
+              <p>
+                <FormattedMessage id="login.backendInfo" defaultMessage="Java backend with Keycloak authentication" />
+              </p>
               <p className="mt-2 text-xs">
-                Временная заглушка для демонстрации
+                <FormattedMessage id="login.tempNote" defaultMessage="Temporary placeholder for demonstration" />
               </p>
             </div>
           </div>

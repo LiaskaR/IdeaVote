@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
+import { ru, enUS } from 'date-fns/locale';
 import { apiRequest } from "@/lib/queryClient";
 import type { IdeaWithDetails, CommentWithAuthor } from "@shared/schema";
 
@@ -26,6 +27,11 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
   const queryClient = useQueryClient();
   const intl = useIntl();
   const currentUserId = 7; // Default to current user (Andrey Zakharov)
+
+  // Get the correct date-fns locale based on current intl locale
+  const getDateLocale = () => {
+    return intl.locale === 'ru' ? ru : enUS;
+  };
 
   const { data: idea, isLoading } = useQuery<IdeaWithDetails>({
     queryKey: ["/api/ideas", ideaId],
@@ -130,7 +136,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
           <div className="p-6">
             <div className="mb-6">
               <span className="text-sm text-gray-500">
-                <FormattedMessage id="idea.published" defaultMessage="Published" /> {formatDistanceToNow(new Date(idea.createdAt!), { addSuffix: true })}
+                <FormattedMessage id="idea.published" defaultMessage="Published" /> {formatDistanceToNow(new Date(idea.createdAt!), { addSuffix: true, locale: getDateLocale() })}
               </span>
             </div>
             
@@ -203,7 +209,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
             <div className="border-t border-gray-200 pt-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
                 <MessageCircle className="w-5 h-5 mr-2" />
-                Comments
+                <FormattedMessage id="idea.comments" defaultMessage="Comments" />
               </h3>
               
               {/* Comments List */}
@@ -222,7 +228,7 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
                         <div className="flex items-center space-x-2 mb-1">
                           <span className="font-medium text-gray-900">{comment.author.username}</span>
                           <span className="text-sm text-gray-500">
-                            {formatDistanceToNow(new Date(comment.createdAt!), { addSuffix: true })}
+                            {formatDistanceToNow(new Date(comment.createdAt!), { addSuffix: true, locale: getDateLocale() })}
                           </span>
                         </div>
                         <p className="text-gray-700 text-sm">{comment.content}</p>

@@ -21,6 +21,16 @@ export const ru = {
   // Navigation
   'nav.ideas': 'Идеи',
   'nav.search': 'Поиск',
+  'nav.clients': 'Клиенты',
+  'nav.pipeline': 'Воронка',
+  'nav.contacts': 'Контакты',
+  'nav.dashboard': 'Панель',
+  'nav.recommendations': 'Рекомендации',
+  'nav.products': 'Продукты',
+  'nav.tasks': 'Задачи',
+  'nav.calendar': 'Календарь',
+  'nav.rates': 'Тарифы',
+  'nav.calculator': 'Калькулятор',
 
   // Hero Section
   'hero.title': 'IdeaHub',
@@ -102,6 +112,13 @@ export const ru = {
   // Language Switching
   'language.switch': 'Переключить на {language}',
   'language.current': 'Текущий язык: {language}',
+
+  // Sidebar
+  'sidebar.description': 'Навигация по системе управления идеями',
+  'sidebar.mobile.title': 'Мобильная версия',
+  'sidebar.mobile.description': 'Управляйте идеями где угодно',
+  'sidebar.mobile.tryNow': 'Попробовать',
+  'sidebar.languages': 'РУ EN',
 
   // Messages & Notifications
   'message.success.ideaCreated': 'Ваша идея была успешно создана!',

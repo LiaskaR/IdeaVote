@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useIntl, FormattedMessage } from 'react-intl';
 import Header from "@/components/header";
 import HeroSection from "@/components/hero-section";
 import FiltersBar from "@/components/filters-bar";
@@ -12,6 +13,7 @@ import { Plus, ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
 import type { IdeaWithDetails } from "@shared/schema";
 
 export default function Home() {
+  const intl = useIntl();
   const [sortBy, setSortBy] = useState("popular");
   const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -36,12 +38,12 @@ export default function Home() {
         {/* Page Title and Stats */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-4">
-            <h1 className="text-2xl font-semibold text-gray-900">Great ideas</h1>
+            <h1 className="text-2xl font-semibold text-gray-900"><FormattedMessage id="home.title" defaultMessage="Great ideas" /></h1>
 
           </div>
           <Button onClick={() => setIsCreateModalOpen(true)}>
             <Plus className="w-4 h-4 mr-2" />
-            Add Idea
+            <FormattedMessage id="home.addIdea" defaultMessage="Add Idea" />
           </Button>
         </div>
 
@@ -76,10 +78,10 @@ export default function Home() {
           </div>
         ) : ideas.length === 0 ? (
           <div className="text-center py-12">
-            <div className="text-gray-500 text-lg mb-4">No ideas found</div>
-            <p className="text-gray-400 mb-6">Be the first to suggest an idea!</p>
+            <div className="text-gray-500 text-lg mb-4"><FormattedMessage id="home.noIdeas.title" defaultMessage="No ideas found" /></div>
+            <p className="text-gray-400 mb-6"><FormattedMessage id="home.noIdeas.description" defaultMessage="Be the first to suggest an idea!" /></p>
             <Button onClick={() => setIsCreateModalOpen(true)}>
-              Suggest Idea
+              <FormattedMessage id="home.noIdeas.button" defaultMessage="Suggest Idea" />
             </Button>
           </div>
         ) : (
