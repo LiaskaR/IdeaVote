@@ -1,6 +1,11 @@
 # Dockerfile optimized for macOS (ARM64/x64) builds
 FROM node:20-alpine AS base
 
+RUN sed -i 's/https/http/' /etc/apk/repositories && \
+    apk update && \
+    apk add --no-cache ca-certificates && \
+    update-ca-certificates \
+
 # Install build dependencies for macOS compatibility
 RUN apk add --no-cache \
     python3 \
@@ -14,7 +19,6 @@ WORKDIR /app
 
 # Copy package files
 COPY package.json package-lock.json* ./
-
 # Install dependencies with native architecture detection
 # Let npm automatically detect and install correct binaries for the host platform
 RUN npm ci --include=optional && npm cache clean --force
@@ -35,8 +39,13 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 
 # Install runtime dependencies
-RUN apk add --no-cache \
-    dumb-init
+RUN sed -i 's/https/http/' /etc/apk/repositories && \
+    apk update && \
+    apk upgrade --no-cache && \
+    apk add --no-cache \
+    dumb-init \
+    ca-certificates \
+    openssl-dev
 
 # Create app user
 RUN addgroup -g 1001 -S nodejs && \
@@ -46,6 +55,7 @@ RUN addgroup -g 1001 -S nodejs && \
 COPY --from=builder --chown=nodejs:nodejs /app/dist ./dist
 COPY --from=builder --chown=nodejs:nodejs /app/package.json ./
 COPY --from=builder --chown=nodejs:nodejs /app/shared ./shared
+COPY --from=builder --chown=nodejs:nodejs /app/drizzle.config.ts ./shared
 
 # Copy only production node_modules (optional dependencies included)
 COPY --from=deps --chown=nodejs:nodejs /app/node_modules ./node_modules
@@ -62,7 +72,8 @@ EXPOSE 5000
 # Set environment
 ENV NODE_ENV=production \
     PORT=5000 \
-    HOSTNAME=0.0.0.0
+    HOSTNAME=0.0.0.0 \
+    NODE_TLS_REJECT_UNAUTHORIZED=0
 
 # Use dumb-init for proper signal handling
 ENTRYPOINT ["dumb-init", "--"]
