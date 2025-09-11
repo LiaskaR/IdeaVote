@@ -50,6 +50,7 @@ export const ru = {
   'createIdea.form.images.add': 'Добавить изображения',
   'createIdea.form.images.remove': 'Удалить изображение',
   'createIdea.form.images.max': 'Максимум 5 изображений',
+  'createIdea.form.images.uploadAlt': 'Загрузка {index}',
   'createIdea.submit': 'Отправить вашу идею',
   'createIdea.submitting': 'Создание...',
   'createIdea.success': 'Ваша идея была успешно создана!',

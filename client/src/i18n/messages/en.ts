@@ -50,6 +50,7 @@ export const en = {
   'createIdea.form.images.add': 'Add Images',
   'createIdea.form.images.remove': 'Remove Image',
   'createIdea.form.images.max': 'Maximum 5 images allowed',
+  'createIdea.form.images.uploadAlt': 'Upload {index}',
   'createIdea.submit': 'Submit Your Idea',
   'createIdea.submitting': 'Creating...',
   'createIdea.success': 'Your idea has been successfully created!',

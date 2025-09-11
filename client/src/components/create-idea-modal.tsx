@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useIntl, FormattedMessage } from 'react-intl';
 import { Upload, Image as ImageIcon, Trash2 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -23,6 +24,7 @@ interface CreateIdeaModalProps {
 export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProps) {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const intl = useIntl();
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -71,8 +73,8 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
       queryClient.invalidateQueries({ queryKey: ["/api/ideas"] });
       queryClient.invalidateQueries({ queryKey: ["/api/stats"] });
       toast({
-        title: "Задача создана!",
-        description: "Ваша задача успешно добавлена.",
+        title: intl.formatMessage({ id: 'common.success', defaultMessage: 'Success!' }),
+        description: intl.formatMessage({ id: 'createIdea.success', defaultMessage: 'Your idea has been successfully created!' }),
       });
       form.reset();
       setUploadedImages([]);
@@ -80,8 +82,8 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
     },
     onError: () => {
       toast({
-        title: "Ошибка",
-        description: "Не удалось создать идею. Попробуйте снова.",
+        title: intl.formatMessage({ id: 'common.error', defaultMessage: 'Error' }),
+        description: intl.formatMessage({ id: 'createIdea.error', defaultMessage: 'Failed to create idea. Please try again.' }),
         variant: "destructive",
       });
     },
@@ -101,10 +103,10 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>
-            Add New Idea
+            <FormattedMessage id="createIdea.title" defaultMessage="Add New Idea" />
           </DialogTitle>
           <DialogDescription>
-            Share your idea with the team. Add description, images and tags for better understanding.
+            <FormattedMessage id="createIdea.description" defaultMessage="Share your idea with the team. Add description, images and tags for better understanding." />
           </DialogDescription>
         </DialogHeader>
 
@@ -115,9 +117,9 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Title *</FormLabel>
+                  <FormLabel><FormattedMessage id="createIdea.form.title.label" defaultMessage="Title *" /></FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter idea title" {...field} />
+                    <Input placeholder={intl.formatMessage({ id: 'createIdea.form.title.placeholder', defaultMessage: 'Enter idea title' })} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -129,11 +131,11 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Description *</FormLabel>
+                  <FormLabel><FormattedMessage id="createIdea.form.description.label" defaultMessage="Description *" /></FormLabel>
                   <FormControl>
                     <Textarea
                       rows={4}
-                      placeholder="Describe your idea in detail..."
+                      placeholder={intl.formatMessage({ id: 'createIdea.form.description.placeholder', defaultMessage: 'Describe your idea in detail...' })}
                       {...field}
                     />
                   </FormControl>
@@ -144,7 +146,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
 
             {/* Image Upload Section */}
             <div className="space-y-4">
-              <FormLabel>Images</FormLabel>
+              <FormLabel><FormattedMessage id="createIdea.form.images.label" defaultMessage="Images" /></FormLabel>
               
               {/* File Input */}
               <input
@@ -164,7 +166,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
                 className="w-full border-dashed border-2 border-gray-300 hover:border-gray-400 py-6 bg-transparent hover:bg-gray-100 hover:text-gray-700"
               >
                 <Upload className="w-5 h-5 mr-2" />
-                Add Images
+                <FormattedMessage id="createIdea.form.images.add" defaultMessage="Add Images" />
               </Button>
               
               {/* Uploaded Images Preview */}
@@ -174,7 +176,7 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
                     <div key={index} className="relative group">
                       <img
                         src={image}
-                        alt={`Upload ${index + 1}`}
+                        alt={intl.formatMessage({ id: 'createIdea.form.images.uploadAlt' }, { index: index + 1 })}
                         className="w-full h-24 object-cover rounded-lg border border-gray-200"
                       />
                       <button
@@ -192,13 +194,16 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
 
             <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
               <Button type="button" variant="outline" onClick={onClose} className="hover:bg-gray-50 hover:text-gray-900">
-                Cancel
+                <FormattedMessage id="common.cancel" defaultMessage="Cancel" />
               </Button>
               <Button 
                 type="submit" 
                 disabled={createIdeaMutation.isPending}
               >
-                {createIdeaMutation.isPending ? "Creating..." : "Add Idea"}
+                {createIdeaMutation.isPending ? 
+                  <FormattedMessage id="createIdea.submitting" defaultMessage="Creating..." /> : 
+                  <FormattedMessage id="createIdea.submit" defaultMessage="Submit Your Idea" />
+                }
               </Button>
             </div>
           </form>
