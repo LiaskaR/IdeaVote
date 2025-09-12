@@ -34,14 +34,23 @@ app.use(helmet({
   contentSecurityPolicy: process.env.NODE_ENV === 'production' ? {
     directives: getCSPDirectives(process.env.NODE_ENV || 'development'),
   } : false, // Disable CSP in development for Vite
-  hsts: {
+  hsts: process.env.NODE_ENV === 'production' ? {
     maxAge: 31536000,
     includeSubDomains: true,
     preload: true
-  },
-  crossOriginEmbedderPolicy: { policy: "require-corp" },
-  crossOriginOpenerPolicy: { policy: "same-origin" },
-  crossOriginResourcePolicy: { policy: "cross-origin" },
+  } : false, // Disable HSTS in development
+  crossOriginEmbedderPolicy: process.env.NODE_ENV === 'production' ? { policy: "require-corp" } : false,
+  crossOriginOpenerPolicy: process.env.NODE_ENV === 'production' ? { policy: "same-origin" } : false,
+  crossOriginResourcePolicy: process.env.NODE_ENV === 'production' ? { policy: "cross-origin" } : false,
+}));
+
+// CORS must be set early to handle preflight requests
+app.use(cors({
+  origin: process.env.NODE_ENV === 'production' 
+    ? [process.env.PRODUCTION_DOMAIN || 'https://ideahub.replit.app']
+    : ['http://localhost:5000', 'http://127.0.0.1:5000', 'http://localhost:3000', 'http://127.0.0.1:3000'],
+  credentials: true,
+  optionsSuccessStatus: 200,
 }));
 
 // Set additional security headers
@@ -51,14 +60,6 @@ app.use((req, res, next) => {
   });
   next();
 });
-
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? [process.env.PRODUCTION_DOMAIN || 'https://ideahub.replit.app']
-    : ['http://localhost:5000', 'http://127.0.0.1:5000'],
-  credentials: true,
-  optionsSuccessStatus: 200,
-}));
 
 // Enhanced rate limiting with different tiers
 const generalLimiter = rateLimit({
