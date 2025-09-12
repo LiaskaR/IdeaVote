@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "NODE_ENV=development tsx server/index.ts",
-    "dev:mf": "npm run build:mf && npx serve dist/public -p 5000 --cors",
+    "dev:mf": "npm run build:mf && NODE_ENV=production tsx server/index.ts",
     "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "build:mf": "vite build --mode production",
     "start": "NODE_ENV=production NODE_OPTIONS=--use-openssl-ca node dist/index.js",
