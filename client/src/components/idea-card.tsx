@@ -1,10 +1,9 @@
 import React from "react";
 import { ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
-import { useIntl, FormattedMessage } from 'react-intl';
+import { useIntl } from 'react-intl';
 import { apiRequest } from "@/lib/queryClient";
 
 import type { IdeaWithDetails } from "@shared/schema";
@@ -22,7 +21,7 @@ export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
 
   const voteMutation = useMutation({
     mutationFn: async ({ type }: { type: 'up' | 'down' }) => {
-      const response = await apiRequest("POST", `/api/ideas/${idea.id}/vote`, {
+      const response = await apiRequest("POST", `/vote/ideas/${idea.id}/vote`, {
         userId: currentUserId,
         type
       });
@@ -30,8 +29,8 @@ export default function IdeaCard({ idea, onClick }: IdeaCardProps) {
     },
     onSuccess: () => {
       // Invalidate and refetch ideas list to get updated vote counts
-      queryClient.invalidateQueries({ queryKey: ["/api/ideas"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/ideas", idea.id] });
+      queryClient.invalidateQueries({ queryKey: ["/vote/ideas"] });
+      queryClient.invalidateQueries({ queryKey: ["/vote/ideas", idea.id] });
     },
     onError: () => {
       toast({

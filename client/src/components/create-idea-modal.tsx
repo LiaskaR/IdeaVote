@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useIntl, FormattedMessage } from 'react-intl';
-import { Upload, Image as ImageIcon, Trash2 } from "lucide-react";
+import { Upload, Trash2 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -66,12 +66,12 @@ export default function CreateIdeaModal({ isOpen, onClose }: CreateIdeaModalProp
 
   const createIdeaMutation = useMutation({
     mutationFn: async (data: InsertIdea) => {
-      const response = await apiRequest("POST", "/api/ideas", data);
+      const response = await apiRequest("POST", "/vote/ideas", data);
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/ideas"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/stats"] });
+      queryClient.invalidateQueries({ queryKey: ["/vote/ideas"] });
+      queryClient.invalidateQueries({ queryKey: ["/vote/stats"] });
       toast({
         title: intl.formatMessage({ id: 'common.success', defaultMessage: 'Success!' }),
         description: intl.formatMessage({ id: 'createIdea.success', defaultMessage: 'Your idea has been successfully created!' }),

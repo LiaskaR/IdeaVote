@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useIntl, FormattedMessage } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
 import FiltersBar from "@/components/filters-bar";
 import IdeaCard from "@/components/idea-card";
 import CreateIdeaModal from "@/components/create-idea-modal";
@@ -11,19 +11,18 @@ import { Plus, ArrowUp, ArrowDown, MessageCircle } from "lucide-react";
 import type { IdeaWithDetails } from "@shared/schema";
 
 export default function Home() {
-  const intl = useIntl();
   const [sortBy, setSortBy] = useState("popular");
   const [viewMode, setViewMode] = useState<'card' | 'list'>('card');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [selectedIdeaId, setSelectedIdeaId] = useState<number | null>(null);
 
   const { data: ideas = [], isLoading } = useQuery<IdeaWithDetails[]>({
-    queryKey: ["/api/ideas", sortBy],
+    queryKey: ["/vote/ideas", sortBy],
     queryFn: async () => {
       const params = new URLSearchParams();
       if (sortBy !== "popular") params.append("sortBy", sortBy);
       
-      const response = await fetch(`/api/ideas?${params}`);
+      const response = await fetch(`/vote/ideas?${params}`);
       if (!response.ok) throw new Error("Failed to fetch ideas");
       return response.json();
     },

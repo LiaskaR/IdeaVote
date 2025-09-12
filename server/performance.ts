@@ -33,7 +33,7 @@ class PerformanceMonitor {
   }
 
   private normalizeEndpoint(endpoint: string): string {
-    // Normalize dynamic endpoints like /api/ideas/123 to /api/ideas/:id
+    // Normalize dynamic endpoints like /vote/ideas/123 to /vote/ideas/:id
     return endpoint
       .replace(/\/\d+/g, '/:id')
       .replace(/\/[a-f0-9]{24}/g, '/:id') // MongoDB ObjectIds

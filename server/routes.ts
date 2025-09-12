@@ -5,7 +5,7 @@ import { insertIdeaSchema } from "@shared/schema";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Get all ideas with optional filtering and sorting
-  app.get("/api/ideas", async (req, res) => {
+  app.get("/vote/ideas", async (req, res) => {
     try {
       const { sortBy } = req.query;
       const ideas = await storage.getIdeas(sortBy as string);
@@ -16,7 +16,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get a single idea by ID
-  app.get("/api/ideas/:id", async (req, res) => {
+  app.get("/vote/ideas/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const idea = await storage.getIdea(id);
@@ -30,7 +30,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Create a new idea
-  app.post("/api/ideas", async (req, res) => {
+  app.post("/vote/ideas", async (req, res) => {
     console.log(req.body,'req');
 
     try {
@@ -46,7 +46,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Update an idea
-  app.patch("/api/ideas/:id", async (req, res) => {
+  app.patch("/vote/ideas/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const validatedData = insertIdeaSchema.partial().parse(req.body);
@@ -61,7 +61,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Delete an idea
-  app.delete("/api/ideas/:id", async (req, res) => {
+  app.delete("/vote/ideas/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const deleted = await storage.deleteIdea(id);
@@ -75,7 +75,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Vote on an idea
-  app.post("/api/ideas/:id/vote", async (req, res) => {
+  app.post("/vote/ideas/:id/vote", async (req, res) => {
     try {
       const ideaId = parseInt(req.params.id);
       const { userId, type } = req.body;
@@ -103,7 +103,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get comments for an idea
-  app.get("/api/ideas/:id/comments", async (req, res) => {
+  app.get("/vote/ideas/:id/comments", async (req, res) => {
     try {
       const ideaId = parseInt(req.params.id);
       const comments = await storage.getIdeaComments(ideaId);
@@ -114,7 +114,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Add a comment to an idea
-  app.post("/api/ideas/:id/comments", async (req, res) => {
+  app.post("/vote/ideas/:id/comments", async (req, res) => {
     try {
       const ideaId = parseInt(req.params.id);
       const { userId, content } = req.body;
@@ -132,7 +132,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Get platform stats
-  app.get("/api/stats", async (req, res) => {
+  app.get("/vote/stats", async (req, res) => {
     try {
       const stats = await storage.getStats();
       res.json(stats);

@@ -49,12 +49,12 @@ The application uses a PostgreSQL database with the following main entities:
 - **IdeaDetailModal**: Detailed view with comments and voting
 
 ### API Endpoints
-- `GET /api/ideas` - Fetch ideas with optional filtering and sorting
-- `GET /api/ideas/:id` - Get specific idea details
-- `POST /api/ideas` - Create new idea
-- `PATCH /api/ideas/:id` - Update idea
-- `DELETE /api/ideas/:id` - Delete idea
-- `GET /api/stats` - Get platform statistics
+- `GET /vote/ideas` - Fetch ideas with optional filtering and sorting
+- `GET /vote/ideas/:id` - Get specific idea details
+- `POST /vote/ideas` - Create new idea
+- `PATCH /vote/ideas/:id` - Update idea
+- `DELETE /vote/ideas/:id` - Delete idea
+- `GET /vote/stats` - Get platform statistics
 
 ## Data Flow
 

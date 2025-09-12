@@ -9,7 +9,7 @@ import { registerAuthRoutes } from "./authRoutes";
 import { setupVite, serveStatic, log } from "./vite";
 import { sanitizeInput, getCSPDirectives, securityHeaders, rateLimitConfigs } from "./security";
 import { securityMiddleware, authThreatDetection, getSecurityMetrics } from "./monitoring";
-import { auditMiddleware, auditLogger } from "./audit";
+import { auditMiddleware } from "./audit";
 import { performanceMiddleware, healthCheck, getPerformanceMetrics } from "./performance";
 
 const app = express();
@@ -97,8 +97,8 @@ app.use(performanceMiddleware);
 app.use(securityMiddleware);
 
 // Enhanced rate limiting with threat detection
-app.use('/api/auth', authThreatDetection, authLimiter);
-app.use('/api', apiLimiter);
+app.use('/vote/auth', authThreatDetection, authLimiter);
+app.use('/vote', apiLimiter);
 app.use(generalLimiter);
 
 app.use(express.json({ limit: '10mb' })); // Limit payload size
@@ -116,9 +116,9 @@ app.use(auditMiddleware);
 
 // Monitoring and health endpoints
 app.get('/health', healthCheck);
-app.get('/api/health', healthCheck);
-app.get('/api/security/metrics', getSecurityMetrics);
-app.get('/api/performance/metrics', getPerformanceMetrics);
+app.get('/vote/health', healthCheck);
+app.get('/vote/security/metrics', getSecurityMetrics);
+app.get('/vote/performance/metrics', getPerformanceMetrics);
 
 // Basic request logging
 app.use((req, res, next) => {
@@ -126,7 +126,7 @@ app.use((req, res, next) => {
   
   res.on("finish", () => {
     const duration = Date.now() - start;
-    if (req.path.startsWith("/api")) {
+    if (req.path.startsWith("/vote")) {
       log(`${req.method} ${req.path} ${res.statusCode} in ${duration}ms`);
     }
   });

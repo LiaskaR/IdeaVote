@@ -67,27 +67,27 @@ PRODUCTION_DOMAIN=https://your-app.replit.app
 ## 📊 API Endpoints
 
 ### Идеи
-- `GET /api/ideas` - Получить все идеи
-- `GET /api/ideas/:id` - Получить конкретную идею
-- `POST /api/ideas` - Создать новую идею
-- `PATCH /api/ideas/:id` - Обновить идею
-- `DELETE /api/ideas/:id` - Удалить идею
+- `GET /vote/ideas` - Получить все идеи
+- `GET /vote/ideas/:id` - Получить конкретную идею
+- `POST /vote/ideas` - Создать новую идею
+- `PATCH /vote/ideas/:id` - Обновить идею
+- `DELETE /vote/ideas/:id` - Удалить идею
 
 ### Аутентификация
-- `POST /api/auth/register` - Регистрация
-- `POST /api/auth/login` - Вход
-- `POST /api/auth/refresh` - Обновление токена
-- `GET /api/auth/profile` - Профиль пользователя
-- `POST /api/auth/logout` - Выход
+- `POST /vote/auth/register` - Регистрация
+- `POST /vote/auth/login` - Вход
+- `POST /vote/auth/refresh` - Обновление токена
+- `GET /vote/auth/profile` - Профиль пользователя
+- `POST /vote/auth/logout` - Выход
 
 ### Голосование
-- `POST /api/ideas/:id/vote` - Голосовать за идею
-- `DELETE /api/ideas/:id/vote` - Отменить голос
+- `POST /vote/ideas/:id/vote` - Голосовать за идею
+- `DELETE /vote/ideas/:id/vote` - Отменить голос
 
 ### Комментарии
-- `GET /api/ideas/:id/comments` - Комментарии к идее
-- `POST /api/ideas/:id/comments` - Добавить комментарий
-- `DELETE /api/comments/:id` - Удалить комментарий
+- `GET /vote/ideas/:id/comments` - Комментарии к идее
+- `POST /vote/ideas/:id/comments` - Добавить комментарий
+- `DELETE /vote/comments/:id` - Удалить комментарий
 
 ## 🎨 Дизайн
 

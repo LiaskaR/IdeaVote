@@ -43,7 +43,7 @@ export async function setupVite(app: Express, server: Server) {
   app.use(vite.middlewares);
   app.use("*", async (req, res, next) => {
     // Skip API routes - let them be handled by the API middleware
-    if (req.path.startsWith('/api/')) {
+    if (req.path.startsWith('/vote/')) {
       return next();
     }
     
@@ -86,7 +86,7 @@ export function serveStatic(app: Express) {
   // fall through to index.html if the file doesn't exist (but skip API routes)
   app.use("*", (req, res, next) => {
     // Skip API routes - let them be handled by the API middleware
-    if (req.path.startsWith('/api/')) {
+    if (req.path.startsWith('/vote/')) {
       return next();
     }
     res.sendFile(path.resolve(distPath, "index.html"));

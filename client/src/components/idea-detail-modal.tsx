@@ -5,7 +5,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
@@ -34,9 +34,9 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
   };
 
   const { data: idea, isLoading } = useQuery<IdeaWithDetails>({
-    queryKey: ["/api/ideas", ideaId],
+    queryKey: ["/vote/ideas", ideaId],
     queryFn: async () => {
-      const response = await fetch(`/api/ideas/${ideaId}`);
+      const response = await fetch(`/vote/ideas/${ideaId}`);
       if (!response.ok) throw new Error("Failed to fetch idea");
       return response.json();
     },
@@ -44,9 +44,9 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
   });
 
   const { data: comments = [] } = useQuery<CommentWithAuthor[]>({
-    queryKey: ["/api/ideas", ideaId, "comments"],
+    queryKey: ["/vote/ideas", ideaId, "comments"],
     queryFn: async () => {
-      const response = await fetch(`/api/ideas/${ideaId}/comments`);
+      const response = await fetch(`/vote/ideas/${ideaId}/comments`);
       if (!response.ok) throw new Error("Failed to fetch comments");
       return response.json();
     },
@@ -55,15 +55,15 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
 
   const voteMutation = useMutation({
     mutationFn: async ({ type }: { type: 'up' | 'down' }) => {
-      const response = await apiRequest("POST", `/api/ideas/${ideaId}/vote`, {
+      const response = await apiRequest("POST", `/vote/ideas/${ideaId}/vote`, {
         userId: currentUserId,
         type,
       });
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/ideas", ideaId] });
-      queryClient.invalidateQueries({ queryKey: ["/api/ideas"] });
+      queryClient.invalidateQueries({ queryKey: ["/vote/ideas", ideaId] });
+      queryClient.invalidateQueries({ queryKey: ["/vote/ideas"] });
     },
     onError: () => {
       toast({
@@ -76,15 +76,15 @@ export default function IdeaDetailModal({ ideaId, isOpen, onClose }: IdeaDetailM
 
   const commentMutation = useMutation({
     mutationFn: async (content: string) => {
-      const response = await apiRequest("POST", `/api/ideas/${ideaId}/comments`, {
+      const response = await apiRequest("POST", `/vote/ideas/${ideaId}/comments`, {
         userId: currentUserId,
         content,
       });
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/ideas", ideaId, "comments"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/ideas", ideaId] });
+      queryClient.invalidateQueries({ queryKey: ["/vote/ideas", ideaId, "comments"] });
+      queryClient.invalidateQueries({ queryKey: ["/vote/ideas", ideaId] });
       setCommentText("");
       toast({
         title: intl.formatMessage({ id: 'common.success', defaultMessage: 'Success!' }),

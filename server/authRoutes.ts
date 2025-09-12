@@ -54,7 +54,7 @@ const loginValidation = [
 
 export function registerAuthRoutes(app: Express) {
   // User registration
-  app.post('/api/auth/register', registrationLimiter, registerValidation, async (req: AuthRequest, res: Response) => {
+  app.post('/vote/auth/register', registrationLimiter, registerValidation, async (req: AuthRequest, res: Response) => {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -117,7 +117,7 @@ export function registerAuthRoutes(app: Express) {
   });
 
   // User login
-  app.post('/api/auth/login', authLimiter, loginValidation, async (req: AuthRequest, res: Response) => {
+  app.post('/vote/auth/login', authLimiter, loginValidation, async (req: AuthRequest, res: Response) => {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -174,7 +174,7 @@ export function registerAuthRoutes(app: Express) {
   });
 
   // Token refresh
-  app.post('/api/auth/refresh', authLimiter, async (req, res) => {
+  app.post('/vote/auth/refresh', authLimiter, async (req, res) => {
     try {
       const { refreshToken } = req.body;
 
@@ -220,7 +220,7 @@ export function registerAuthRoutes(app: Express) {
   });
 
   // Get current user profile
-  app.get('/api/auth/profile', authenticate, async (req: AuthRequest, res) => {
+  app.get('/vote/auth/profile', authenticate, async (req: AuthRequest, res) => {
     try {
       const user = await storage.getUser(req.user!.userId);
       if (!user) {
@@ -243,7 +243,7 @@ export function registerAuthRoutes(app: Express) {
   });
 
   // Logout (client-side token invalidation)
-  app.post('/api/auth/logout', authenticate, async (req, res) => {
+  app.post('/vote/auth/logout', authenticate, async (req, res) => {
     // In a production system, you might want to maintain a blacklist of tokens
     // For now, we'll just return success and let the client handle token removal
     res.json({
